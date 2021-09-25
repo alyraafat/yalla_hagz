@@ -438,13 +438,27 @@ class SchoolScreen extends StatelessWidget {
                                 child: Container(
                                   width: double.infinity,
                                   color: const Color(0xff388E3C),
-                                  child: defaultTextButton(
-                                    color: Colors.white,
-                                    backGroundColor: const Color(0xff388E3C),
-                                    function: () {
-                                      navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField,count));
+                                  child: ConditionalBuilder(
+                                    builder: (context) {
+                                      return defaultTextButton(
+                                        color: Colors.white,
+                                        backGroundColor: const Color(0xff388E3C),
+                                        function: () {
+                                          navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField,count));
+                                        },
+                                        text: 'YALA',
+                                      );
                                     },
-                                    text: 'YALA',
+                                    condition: count != 0,
+                                    fallback: (context) {
+                                      return defaultTextButton(
+                                        color: Colors.white,
+                                        backGroundColor: Colors.grey[300],
+                                        function: () {
+                                        },
+                                        text: 'YALA',
+                                      );
+                                    }
                                   ),
                                 ),
                               ),

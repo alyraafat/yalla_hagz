@@ -93,23 +93,23 @@ class MyProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    MaterialButton(
-                      onPressed: (){
-                        navigateTo(context, MyFriends());
-                      },
-                      child: Row(
-                        children: [
-                          Icon(Icons.people_outline),
-                          SizedBox(width:10),
-                          Text('My Friends'),
-                          Spacer(),
-                          Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            size: 15,
-                          )
-                        ],
-                      ),
-                    ),
+                    // MaterialButton(
+                    //   onPressed: (){
+                    //     navigateTo(context, MyFriends());
+                    //   },
+                    //   child: Row(
+                    //     children: [
+                    //       Icon(Icons.people_outline),
+                    //       SizedBox(width:10),
+                    //       Text('My Friends'),
+                    //       Spacer(),
+                    //       Icon(
+                    //         Icons.arrow_forward_ios_outlined,
+                    //         size: 15,
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     MaterialButton(
                       onPressed: (){
                         navigateTo(context, WalletScreen());

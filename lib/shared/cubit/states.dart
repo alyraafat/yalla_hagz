@@ -141,6 +141,11 @@ class AppUpdateBookingTimeErrorState extends AppStates
   final String error;
   AppUpdateBookingTimeErrorState(this.error);
 }
+//FriendsScreen:
+
+class CashState extends AppStates {}
+
+class InitialState extends AppStates {}
 
 //FriendsScreen:
 

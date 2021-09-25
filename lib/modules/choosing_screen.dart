@@ -36,7 +36,7 @@ class ChoosingScreen extends StatelessWidget {
                                 child: TextButton(
                                   onPressed:() {
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     'Mala3eb',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -45,7 +45,7 @@ class ChoosingScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
@@ -69,11 +69,11 @@ class ChoosingScreen extends StatelessWidget {
                           ),
                         ),
                         ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context , index) => Padding(
                                 padding: const EdgeInsets.all(12.0),
-                                child: Container(
+                                child: SizedBox(
                                   height: 140,
                                   width: double.infinity,
                                   child:   Row(
@@ -102,7 +102,7 @@ class ChoosingScreen extends StatelessWidget {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start ,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   'Egyptian Language School',
                                                   maxLines: 1,
                                                   style: TextStyle(
@@ -112,7 +112,7 @@ class ChoosingScreen extends StatelessWidget {
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
-                                                SizedBox(height: 10,),
+                                                const SizedBox(height: 10,),
                                                 Text(
                                                   '4/7/2002',
                                                   maxLines: 1,

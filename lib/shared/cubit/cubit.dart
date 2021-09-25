@@ -465,7 +465,10 @@ class AppCubit extends Cubit<AppStates> {
   void search(){
     emit(AppMala3ebSearchState());
   }
-
+  //PaymentScreen:
+  void cashSelection(){
+    emit(CashState());
+  }
   //FriendsScreen:
 
   void changeToMyFriends() {
