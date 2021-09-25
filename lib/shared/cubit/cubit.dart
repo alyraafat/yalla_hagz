@@ -275,10 +275,11 @@ class AppCubit extends Cubit<AppStates> {
         .doc(field)
         .collection("bookingDay")
         .doc(date)
+        .collection("bookingTime")
         .get()
         .then((value) {
-          print(value.data());
-          if(value.exists) {
+          print(value.docs.isNotEmpty);
+          if(value.docs.isNotEmpty) {
             getBookingTimeModel(
               cityId: cityId,
               schoolId: schoolId,
