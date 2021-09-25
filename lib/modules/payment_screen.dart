@@ -236,14 +236,11 @@ class PaymentScreen extends StatelessWidget {
                       },
                       text: 'YALA',
                     ),
-                  ),],
+                  ),
+                ],
               ),
               fallback: (context) => const SizedBox(height:10),
             ),
-
-
-
-
           ],
         ),
       ),

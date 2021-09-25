@@ -435,31 +435,36 @@ class SchoolScreen extends StatelessWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: double.infinity,
-                                  color: const Color(0xff388E3C),
-                                  child: ConditionalBuilder(
-                                    builder: (context) {
-                                      return defaultTextButton(
+                                child: ConditionalBuilder(
+                                  builder: (context) {
+                                    return Container(
+                                      width: double.infinity,
+                                      color: const Color(0xff388E3C),
+                                      child: defaultTextButton(
                                         color: Colors.white,
                                         backGroundColor: const Color(0xff388E3C),
                                         function: () {
                                           navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField,count));
                                         },
                                         text: 'YALA',
-                                      );
-                                    },
-                                    condition: count != 0,
-                                    fallback: (context) {
-                                      return defaultTextButton(
-                                        color: Colors.white,
+                                      ),
+                                    );
+                                  },
+                                  condition: count != 0,
+                                  fallback: (context) {
+                                    return Container(
+                                      width: double.infinity,
+                                      color: Colors.grey[300],
+                                      child: defaultTextButton(
+                                        color: defaultColor,
                                         backGroundColor: Colors.grey[300],
                                         function: () {
+                                          showToast(text:"Please choose a reservation",state:ToastStates.WARNING);
                                         },
                                         text: 'YALA',
-                                      );
-                                    }
-                                  ),
+                                      ),
+                                    );
+                                  }
                                 ),
                               ),
                             ],
