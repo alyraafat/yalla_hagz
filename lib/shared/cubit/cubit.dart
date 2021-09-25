@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:yalla_hagz/Network/local/cache_helper.dart';
 import 'package:yalla_hagz/models/booking_time_model.dart';
 import 'package:yalla_hagz/models/school_model.dart';
@@ -256,6 +257,8 @@ class AppCubit extends Cubit<AppStates> {
     print(timeTable);
     return timeTable;
   }
+  var startTimes =[];
+  var selected = [];
 
   void checkDateInDataBase({
     required String date,
@@ -276,15 +279,15 @@ class AppCubit extends Cubit<AppStates> {
         .collection("bookingDay")
         .doc(date)
         .collection("bookingTime")
+        .orderBy("from")
         .get()
         .then((value) {
-          print(value.docs.isNotEmpty);
           if(value.docs.isNotEmpty) {
             getBookingTimeModel(
-              cityId: cityId,
-              schoolId: schoolId,
-              date: date,
-              field: field,
+                cityId: cityId,
+                date: date,
+                schoolId: schoolId,
+                field: field
             );
           }
           else {
@@ -312,8 +315,8 @@ class AppCubit extends Cubit<AppStates> {
     required String field,
     required List<dynamic> intervals
   }){
+
     timeTable = createTimeTable(intervals: intervals);
-    var array = [];
     timeTable.forEach((list){
       BookingTimeModel bookingTimeModel = BookingTimeModel(
         to: list[1],
@@ -323,7 +326,6 @@ class AppCubit extends Cubit<AppStates> {
         fees: fees,
         isBooked: false,
       );
-      array.add(bookingTimeModel.toMap());
       emit(AppCreateBookingTimeLoadingState());
       FirebaseFirestore.instance
           .collection("cities")
@@ -346,16 +348,14 @@ class AppCubit extends Cubit<AppStates> {
       });
     });
     getBookingTimeModel(
-      schoolId: schoolId,
-      field: field,
-      date: date,
-      cityId: cityId
+        cityId: cityId,
+        field: field,
+        schoolId: schoolId,
+        date: date
     );
 
   }
 
-  var startTimes =[];
-  var selected = [];
   void getBookingTimeModel({
     required String cityId,
     required String schoolId,
@@ -379,18 +379,24 @@ class AppCubit extends Cubit<AppStates> {
         .get()
         .then((value) {
           value.docs.forEach((startTime){
+            if(date==DateFormat.yMMMd().format(DateTime.now())){
+              if(TimeOfDay.now().hour>=startTime.data()["from"]){
+                updateBookingTimeModel(cityId: cityId, schoolId: schoolId, date: date, field: field, from: startTime.data()["from"].toString(), data: {
+                  "isDone": true
+                });
+              }
+            }
             if(!startTime.data()["isBooked"]&&!startTime.data()["isDone"]) {
-              startTimes.add(startTime);
+              startTimes.add(startTime.data());
               selected.add(false);
+            }
+          });
+          emit(AppGetBookingTimeSuccessState());
+        }).catchError((error) {
+            print(error.toString());
+            emit(AppGetBookingTimeErrorState(error));
           }
-      });
-      emit(AppGetBookingTimeSuccessState());
-    }
-    ).catchError((error) {
-      print(error.toString());
-      emit(AppGetBookingTimeErrorState(error));
-    }
-    );
+          );
   }
 
   void updateBookingTimeModel({

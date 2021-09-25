@@ -24,6 +24,7 @@ class SchoolScreen extends StatelessWidget {
   List<List<int>> timeTable = [];
   SchoolScreen(this.school);
   List<int> choose = [];
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
@@ -133,7 +134,7 @@ class SchoolScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                            "Policy: ${school["policy"]}"
+                            "Policy: ${school["policyStr"]}"
                         ),
                       ],
                     ),
@@ -159,8 +160,6 @@ class SchoolScreen extends StatelessWidget {
                                         cubit.changeField();
                                         if(school["calendar$currentField"][day].length != 1) {
                                           AppCubit.get(context).checkDateInDataBase(date: dateController.text, cityId: AppCubit.get(context).currentCity, schoolId: school["schoolId"], field: currentField.toString(), fees: school["fees"],intervals:school["calendar$currentField"][day]);
-                                        }else{
-                                          showToast(text: 'No reservations on $day ${dateController.text}', state: ToastStates.WARNING);
                                         }
                                       },
                                       child: Text(
@@ -309,8 +308,6 @@ class SchoolScreen extends StatelessWidget {
                                 // timeTable = AppCubit.get(context).createTimeTable(startTime: school["calendar"][day][0], endTime: school["calendar"][day][1]);
                                 if(school["calendar$currentField"][day].length != 1) {
                                   AppCubit.get(context).checkDateInDataBase(date: dateController.text, cityId: AppCubit.get(context).currentCity, schoolId: school["schoolId"], field: currentField.toString(), fees: school["fees"],intervals:school["calendar$currentField"][day]);
-                                }else{
-                                  showToast(text: 'No reservations on $day ${dateController.text}', state: ToastStates.WARNING);
                                 }
                                 AppCubit.get(context).changeDate();
                               });
@@ -322,131 +319,145 @@ class SchoolScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     ConditionalBuilder(
-                      condition: dateController.text.isNotEmpty&&school["calendar$currentField"][day].length != 1,
-                      builder: (context) => Column(
-                        children: [
-                          const Text('Times:'),
-                          ConditionalBuilder(
-                            condition: state is! AppGetBookingTimeLoadingState&&state is! AppCreateBookingTimeLoadingState&&AppCubit.get(context).startTimes.isNotEmpty,
-                            builder: (context) {
-                              return ListView.separated(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) => ConditionalBuilder(
-                                    condition:true ,
-                                    builder: (context) {
-                                      int from  = AppCubit.get(context).startTimes[index].data()["from"];
-                                      int to = AppCubit.get(context).startTimes[index].data()["to"];
-                                      String strFrom = "";
-                                      String strTo = "";
-                                      if(from>12){
-                                        strFrom = "${from - 12} pm";
-                                      }else if(from == 0){
-                                        strFrom = "12 am";
-                                      }else if(from == 12){
-                                        strFrom = "12 pm";
-                                      }
-                                      else{
-                                        strFrom = "$from am";
-                                      }
-                                      if(to>12){
-                                        strTo = "${to - 12} pm";
-                                      }else if(to == 0){
-                                        strTo= "12 am";
-                                      }else if(to == 12){
-                                        strTo = "12 pm";
-                                      }
-                                      else{
-                                        strTo = "$to am";
-                                      }
-                                      return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: InkWell(
-                                              onTap: () {
-                                                  cubit.selected[index] = !cubit.selected[index];
-                                                  cubit.changeCardColor();
-                                                  if (cubit.selected[index]) choose.add(index);
-                                                  else
-                                                    for(int i = 0 ; i < choose.length ; i++){
-                                                      if (choose[i] == index) {
-                                                        choose.removeAt(i);
+                      condition: dateController.text.isNotEmpty,
+                      builder: (context) => ConditionalBuilder(
+                        condition:school["calendar$currentField"][day].length != 1&&AppCubit.get(context).startTimes.isNotEmpty,
+                        builder: (context) {
+                          return Column(
+                            children: [
+                              const Text('Times:'),
+                              ConditionalBuilder(
+                                condition: state is! AppGetBookingTimeLoadingState&&state is! AppCreateBookingTimeLoadingState,
+                                builder: (context) {
+                                  return ListView.separated(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) => ConditionalBuilder(
+                                        condition:true ,
+                                        builder: (context) {
+                                          int from  = AppCubit.get(context).startTimes[index]["from"];
+                                          int to = AppCubit.get(context).startTimes[index]["to"];
+                                          String strFrom = "";
+                                          String strTo = "";
+                                          if(from>12){
+                                            strFrom = "${from - 12} pm";
+                                          }else if(from == 0){
+                                            strFrom = "12 am";
+                                          }else if(from == 12){
+                                            strFrom = "12 pm";
+                                          }
+                                          else{
+                                            strFrom = "$from am";
+                                          }
+                                          if(to>12){
+                                            strTo = "${to - 12} pm";
+                                          }else if(to == 0){
+                                            strTo= "12 am";
+                                          }else if(to == 12){
+                                            strTo = "12 pm";
+                                          }
+                                          else{
+                                            strTo = "$to am";
+                                          }
+                                          return Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                      cubit.selected[index] = !cubit.selected[index];
+                                                      cubit.changeCardColor();
+                                                      if (cubit.selected[index]) {
+                                                        choose.add(index);
+                                                        count++;
+                                                      } else {
+                                                        for (int i = 0; i < choose.length; i++) {
+                                                          if (choose[i] == index) {
+                                                            choose.removeAt(i);
+                                                            count--;
+                                                          }
+                                                        }
                                                       }
-                                                    }
-                                              },
-                                              child: Card(
-                                                color: cubit.selected[index] ? defaultColor.withOpacity(0.8) : Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(30),
-                                                ),
-                                                elevation: 2,
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                        '$day ${dateController.text}, from: $strFrom to: $strTo'
+                                                    },
+                                                  child: Card(
+                                                    color: cubit.selected[index] ? defaultColor.withOpacity(0.8) : Colors.white,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(30),
                                                     ),
-                                                    Row(
+                                                    elevation: 2,
+                                                    child: Column(
                                                       children: [
-                                                        Container(
-                                                          height: 50,
-                                                          width: 50,
-                                                          child: const Image(
-                                                              image: AssetImage(
-                                                                  'assets/images/empty_ball.png'
-                                                              )
-                                                          ),
+                                                        Text(
+                                                            '$day ${dateController.text}, from: $strFrom to: $strTo'
                                                         ),
-                                                        const SizedBox(width: 10),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment.start,
+                                                        Row(
                                                           children: [
-                                                            Text(
-                                                                school["name"]
+                                                            Container(
+                                                              height: 50,
+                                                              width: 50,
+                                                              child: const Image(
+                                                                  image: AssetImage(
+                                                                      'assets/images/empty_ball.png'
+                                                                  )
+                                                              ),
                                                             ),
-                                                            Text(
-                                                                'Field $currentField'
+                                                            const SizedBox(width: 10),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                    school["name"]
+                                                                ),
+                                                                Text(
+                                                                    'Field $currentField'
+                                                                ),
+                                                              ],
                                                             ),
                                                           ],
                                                         ),
                                                       ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          );
-                                    },
-                                    fallback: (context) => Container(),
-                                  ),
-                                  separatorBuilder: (context, index) => myDivider(),
-                                  itemCount: AppCubit.get(context).startTimes.length
-                              );
-                            },
-                            fallback:(context) => Center(child:CircularProgressIndicator(
-                              color: defaultColor,
-                            ))
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: double.infinity,
-                              color: const Color(0xff388E3C),
-                              child: defaultTextButton(
-                                color: Colors.white,
-                                backGroundColor: const Color(0xff388E3C),
-                                function: () {
-                                  navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField));
+                                              );
+                                        },
+                                        fallback: (context) => Container(),
+                                      ),
+                                      separatorBuilder: (context, index) => myDivider(),
+                                      itemCount: AppCubit.get(context).startTimes.length
+                                  );
                                 },
-                                text: 'YALA',
+                                fallback:(context) => Center(child:CircularProgressIndicator(
+                                  color: defaultColor,
+                                ))
                               ),
-                            ),
-                          ),
-                        ],
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  color: const Color(0xff388E3C),
+                                  child: defaultTextButton(
+                                    color: Colors.white,
+                                    backGroundColor: const Color(0xff388E3C),
+                                    function: () {
+                                      navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField,count));
+                                    },
+                                    text: 'YALA',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        fallback: (context)=>Container(
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          child: Text("No reservations on $day ${dateController.text}"),
+                        ),
                       ),
-                      fallback: (context) => Container(),
+                      fallback: (context) => Container()
                     ),
                   ],
                 ),

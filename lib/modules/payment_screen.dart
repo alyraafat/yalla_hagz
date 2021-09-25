@@ -12,7 +12,8 @@ class PaymentScreen extends StatelessWidget {
   var school;
   var date;
   var field;
-  PaymentScreen(this.choose,this.school,this.date,this.field);
+  var count;
+  PaymentScreen(this.choose,this.school,this.date,this.field,this.count);
 
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
@@ -157,15 +158,15 @@ class PaymentScreen extends StatelessWidget {
                 backGroundColor: Color(0xff388E3C),
                 function: () {
                   for(int i=0; i<choose.length ; i++){
-                    cubit.updateBookingTimeModel(cityId: cubit.currentCity, schoolId: school["schoolId"], date: date, field: field.toString(), from: cubit.startTimes[choose[i]].data()["from"].toString(), data: {
+                    cubit.updateBookingTimeModel(cityId: cubit.currentCity, schoolId: school["schoolId"], date: date, field: field.toString(), from: cubit.startTimes[choose[i]]["from"].toString(), data: {
                       "isBooked": true,
                       "userId":uId
                     });
                   }
                   cubit.userModel["mala3eb"].add({
                     "schoolId":school["schoolId"],
-                    "from":cubit.startTimes[choose[0]].data()["from"],
-                    "to":cubit.startTimes[choose[choose.length-1]].data()["to"],
+                    "from":cubit.startTimes[choose[0]]["from"],
+                    "to":cubit.startTimes[choose[choose.length-1]]["to"],
                     "schoolName":school["name"],
                     "fees":school["fees"],
                     "city":cubit.currentCity,
@@ -176,7 +177,14 @@ class PaymentScreen extends StatelessWidget {
                   cubit.updateUserData(data: {
                     "mala3eb": cubit.userModel["mala3eb"]
                   });
-                  showToast(text:"You have successfully booked",state:ToastStates.SUCCESS);
+                  if(count>school["policy"]){
+                    showToast(
+                        text: "You have successfully booked but Ta3ala 2df3 ya 7iwan ya nasab ya beheema",
+                        state: ToastStates.WARNING
+                    );
+                  }else {
+                    showToast(text:"You have successfully booked",state:ToastStates.SUCCESS);
+                  }
                 },
                 text: 'YALA',
               ),
