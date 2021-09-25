@@ -9,7 +9,6 @@ import 'rating_screen.dart';
 
 
 class PaymentScreen extends StatelessWidget {
-  @override
   var choose;
   var school;
   var date;
@@ -18,6 +17,7 @@ class PaymentScreen extends StatelessWidget {
   bool isCash = true;
   PaymentScreen(this.choose,this.school,this.date,this.field,this.count);
 
+  @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
     return Scaffold(
@@ -137,9 +137,7 @@ class PaymentScreen extends StatelessWidget {
 
             ),
             const SizedBox(height: 20,),
-            ConditionalBuilder(
-              condition: isCash,
-              builder: (context) => Column(
+              Column(
                 children: [ const Text(
                   'Payment Summary',
                   style: TextStyle(
@@ -238,8 +236,7 @@ class PaymentScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              fallback: (context) => const SizedBox(height:10),
-            ),
+
           ],
         ),
       ),
