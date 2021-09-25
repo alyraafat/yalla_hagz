@@ -438,7 +438,7 @@ class SchoolScreen extends StatelessWidget {
                                 color: Colors.white,
                                 backGroundColor: const Color(0xff388E3C),
                                 function: () {
-                                  navigateTo(context, PaymentScreen(choose));
+                                  navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField));
                                 },
                                 text: 'YALA',
                               ),

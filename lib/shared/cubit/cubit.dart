@@ -111,6 +111,7 @@ class AppCubit extends Cubit<AppStates> {
         .collection("schools")
         .get()
         .then((value) {
+          print("schools; ${value.docs}");
           schools.add(value.docs);
           emit(AppGetSchoolsSuccessState());
     }).catchError((error){
@@ -273,29 +274,29 @@ class AppCubit extends Cubit<AppStates> {
         .collection("fields")
         .doc(field)
         .collection("bookingDay")
+        .doc(date)
         .get()
         .then((value) {
-          for (var element in value.docs) {
-            if(element.id == date){
-              getBookingTimeModel(
-                  cityId: cityId,
-                  schoolId: schoolId,
-                  date: date,
-                  field: field,
-              );
-              emit(AppCheckDataInDatabaseSuccessState());
-              return;
-            }
+          print(value.data());
+          if(value.exists) {
+            getBookingTimeModel(
+              cityId: cityId,
+              schoolId: schoolId,
+              date: date,
+              field: field,
+            );
           }
-          createBookingTimeModel(
-            fees: fees,
-            schoolId: schoolId,
-            field: field,
-            cityId: cityId,
-            date: date,
-            intervals: intervals
-          );
-
+          else {
+            createBookingTimeModel(
+              fees: fees,
+              schoolId: schoolId,
+              field: field,
+              cityId: cityId,
+              date: date,
+              intervals: intervals
+            );
+          }
+          emit(AppCheckDataInDatabaseSuccessState());
     }).catchError((error){
       print(error.toString);
       emit(AppCheckDataInDatabaseErrorState(error));
@@ -311,6 +312,7 @@ class AppCubit extends Cubit<AppStates> {
     required List<dynamic> intervals
   }){
     timeTable = createTimeTable(intervals: intervals);
+    var array = [];
     timeTable.forEach((list){
       BookingTimeModel bookingTimeModel = BookingTimeModel(
         to: list[1],
@@ -320,6 +322,7 @@ class AppCubit extends Cubit<AppStates> {
         fees: fees,
         isBooked: false,
       );
+      array.add(bookingTimeModel.toMap());
       emit(AppCreateBookingTimeLoadingState());
       FirebaseFirestore.instance
           .collection("cities")
@@ -375,9 +378,11 @@ class AppCubit extends Cubit<AppStates> {
         .get()
         .then((value) {
           value.docs.forEach((startTime){
-            startTimes.add(startTime);
-            selected.add(false);
-          });
+            if(!startTime.data()["isBooked"]&&!startTime.data()["isDone"]) {
+              startTimes.add(startTime);
+              selected.add(false);
+          }
+      });
       emit(AppGetBookingTimeSuccessState());
     }
     ).catchError((error) {
@@ -387,6 +392,34 @@ class AppCubit extends Cubit<AppStates> {
     );
   }
 
+  void updateBookingTimeModel({
+    required String cityId,
+    required String schoolId,
+    required String date,
+    required String field,
+    required String from,
+    required Map<String,dynamic> data,
+  }){
+    emit(AppUpdateBookingTimeLoadingState());
+    FirebaseFirestore.instance
+        .collection("cities")
+        .doc(cityId)
+        .collection("schools")
+        .doc(schoolId)
+        .collection("fields")
+        .doc(field)
+        .collection("bookingDay")
+        .doc(date)
+        .collection("bookingTime")
+        .doc(from)
+        .update(data)
+        .then((value) {
+          emit(AppUpdateBookingTimeSuccessState());
+        }).catchError((error){
+          print(error.toString());
+          emit(AppUpdateBookingTimeErrorState(error));
+        });
+  }
   var offers = [];
   void getOffersData(){
     emit(AppGetOffersLoadingState());

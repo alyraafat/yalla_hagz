@@ -131,6 +131,17 @@ class AppGetBookingTimeErrorState extends AppStates
   AppGetBookingTimeErrorState(this.error);
 }
 
+//Update BookingTimeModel:
+class AppUpdateBookingTimeLoadingState extends AppStates {}
+
+class AppUpdateBookingTimeSuccessState extends AppStates {}
+
+class AppUpdateBookingTimeErrorState extends AppStates
+{
+  final String error;
+  AppUpdateBookingTimeErrorState(this.error);
+}
+
 //FriendsScreen:
 
 class MyFriendsState extends AppStates {}

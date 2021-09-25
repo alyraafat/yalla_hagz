@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yalla_hagz/shared/components.dart';
+import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
 
 import 'rating_screen.dart';
@@ -8,13 +9,16 @@ import 'rating_screen.dart';
 class PaymentScreen extends StatelessWidget {
   @override
   var choose;
-  PaymentScreen(this.choose);
+  var school;
+  var date;
+  var field;
+  PaymentScreen(this.choose,this.school,this.date,this.field);
 
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Payment',
           style: TextStyle(
               color: Color(0xff388E3C),
@@ -28,7 +32,7 @@ class PaymentScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Your Credit',
               style: TextStyle(
                 fontSize: 20,
@@ -38,7 +42,7 @@ class PaymentScreen extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '0',
+                  '${cubit.userModel["balance"]}',
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -114,7 +118,7 @@ class PaymentScreen extends StatelessWidget {
               children: [
                 Text('Hourly Rate'),
                 Spacer(),
-                Text('EGP 225'),
+                Text('EGP ${school["fees"]}'),
 
               ],
             ),
@@ -123,7 +127,7 @@ class PaymentScreen extends StatelessWidget {
               children: [
                 Text('Number of Hours'),
                 Spacer(),
-                Text('2'),
+                Text('${choose.length}'),
 
               ],
             ),
@@ -132,7 +136,7 @@ class PaymentScreen extends StatelessWidget {
               children: [
                 Text('Wallet'),
                 Spacer(),
-                Text('(-)0'),
+                Text('(-)${cubit.userModel["balance"]}'),
 
               ],
             ),
@@ -141,8 +145,7 @@ class PaymentScreen extends StatelessWidget {
               children: [
                 Text('Total'),
                 Spacer(),
-                Text('EGP 450'),
-
+                Text('EGP ${choose.length*school["fees"]}'),
               ],
             ),
             Spacer(),
@@ -153,10 +156,27 @@ class PaymentScreen extends StatelessWidget {
                 color: Colors.white,
                 backGroundColor: Color(0xff388E3C),
                 function: () {
-                  for(int i = 0; i <choose.length ; i++){
-                    
+                  for(int i=0; i<choose.length ; i++){
+                    cubit.updateBookingTimeModel(cityId: cubit.currentCity, schoolId: school["schoolId"], date: date, field: field.toString(), from: cubit.startTimes[choose[i]].data()["from"].toString(), data: {
+                      "isBooked": true,
+                      "userId":uId
+                    });
                   }
-
+                  cubit.userModel["mala3eb"].add({
+                    "schoolId":school["schoolId"],
+                    "from":cubit.startTimes[choose[0]].data()["from"],
+                    "to":cubit.startTimes[choose[choose.length-1]].data()["to"],
+                    "schoolName":school["name"],
+                    "fees":school["fees"],
+                    "city":cubit.currentCity,
+                    "date": date,
+                    "field": field,
+                    "location":school["mapLocation"]
+                  });
+                  cubit.updateUserData(data: {
+                    "mala3eb": cubit.userModel["mala3eb"]
+                  });
+                  showToast(text:"You have successfully booked",state:ToastStates.SUCCESS);
                 },
                 text: 'YALA',
               ),
