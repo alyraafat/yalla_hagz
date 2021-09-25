@@ -59,6 +59,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
       userId: userId,
       friendIds: [],
       mala3eb: [],
+      teamNames: []
 
     );
 

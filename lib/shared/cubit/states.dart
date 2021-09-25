@@ -43,6 +43,17 @@ class AppGetTournamentsErrorState extends AppStates
   AppGetTournamentsErrorState(this.error);
 }
 
+// Get User Tournaments:
+class AppGetUserTournamentsLoadingState extends AppStates {}
+
+class AppGetUserTournamentsSuccessState extends AppStates {}
+
+class AppGetUserTournamentsErrorState extends AppStates
+{
+  final String error;
+  AppGetUserTournamentsErrorState(this.error);
+}
+
 //Update User:
 class AppUpdateTournamentsLoadingState extends AppStates {}
 
@@ -141,11 +152,10 @@ class AppUpdateBookingTimeErrorState extends AppStates
   final String error;
   AppUpdateBookingTimeErrorState(this.error);
 }
-//FriendsScreen:
+//PaymentScreen:
 
 class CashState extends AppStates {}
 
-class InitialState extends AppStates {}
 
 //FriendsScreen:
 

@@ -16,6 +16,9 @@ class ChoosingScreen extends StatelessWidget {
         builder: (context, state)  {
           AppCubit cubit = AppCubit.get(context);
           var userModel = cubit.userModel;
+          int mala3ebLastIndex = userModel["mala3eb"].length-1;
+          var userTournaments = cubit.userTournaments;
+          int userTournamentsLastIndex = userTournaments.length-1;
           return Scaffold(
               key: scaffoldKey,
               body: ConditionalBuilder(
@@ -102,8 +105,8 @@ class ChoosingScreen extends StatelessWidget {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start ,
                                               children: [
-                                                const Text(
-                                                  'Egyptian Language School',
+                                                 Text(
+                                                  '${userModel["mala3eb"][mala3ebLastIndex-index]["schoolName"]}',
                                                   maxLines: 1,
                                                   style: TextStyle(
                                                     fontSize: 15,
@@ -114,7 +117,7 @@ class ChoosingScreen extends StatelessWidget {
                                                 ),
                                                 const SizedBox(height: 10,),
                                                 Text(
-                                                  '4/7/2002',
+                                                  '${userModel["mala3eb"][mala3ebLastIndex-index]["date"]}',
                                                   maxLines: 1,
                                                   style: TextStyle(
 
@@ -122,22 +125,21 @@ class ChoosingScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  'from: 10pm to: 4pm',
+                                                  'from: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["from"])} to: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["to"])}',
                                                   maxLines: 1,
                                                   style: TextStyle(
-
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Field 1',
+                                                  'Field: ${userModel["mala3eb"][mala3ebLastIndex-index]["field"]}',
                                                   maxLines: 1,
                                                   style: TextStyle(
 
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
-                                                Text('300'),
+                                                Text('${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]} EGP/hr'),
                                                 Spacer(),
                                                 Row(
                                                   children: [
@@ -153,7 +155,7 @@ class ChoosingScreen extends StatelessWidget {
                                                                 mainAxisSize: MainAxisSize.min,
                                                                 children: [
                                                                   Text(
-                                                                    'Egyptian Language School',
+                                                                    '${userModel["mala3eb"][mala3ebLastIndex-index]["schoolName"]}',
                                                                     maxLines: 2,
                                                                     overflow: TextOverflow.ellipsis,
                                                                     style: TextStyle(
@@ -169,28 +171,28 @@ class ChoosingScreen extends StatelessWidget {
                                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                                       children: [
                                                                         Text(
-                                                                          'Location',
+                                                                          '${userModel["mala3eb"][mala3ebLastIndex-index]["location"]}',
                                                                           style: TextStyle(
                                                                               fontSize: 16,
                                                                               color: Colors.black
                                                                           ),
                                                                         ),
                                                                         Text(
-                                                                          'Date',
+                                                                          '${userModel["mala3eb"][mala3ebLastIndex-index]["date"]}',
                                                                           style: TextStyle(
                                                                               fontSize: 16,
                                                                               color: Colors.black
                                                                           ),
                                                                         ),
                                                                         Text(
-                                                                          'Time',
+                                                                          'from: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["from"])} to: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["to"])}',
                                                                           style: TextStyle(
                                                                               fontSize: 16,
                                                                               color: Colors.black
                                                                           ),
                                                                         ),
                                                                         Text(
-                                                                          '300 LE',
+                                                                          '${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]} EGP/hr',
                                                                           style: TextStyle(
                                                                               fontSize: 16,
                                                                               color: Colors.black
@@ -214,7 +216,6 @@ class ChoosingScreen extends StatelessWidget {
                                                                               Navigator.pop(context);
 
                                                                             },
-
                                                                             child: Text(
                                                                                 'CANCEL',
                                                                                 style: TextStyle(
@@ -256,7 +257,8 @@ class ChoosingScreen extends StatelessWidget {
                                                           children: [
                                                             Icon(Icons.location_on ,
                                                               color: Colors.white,),
-                                                            Text('Location',
+                                                            Text(
+                                                                'Location',
                                                                 style: TextStyle(
                                                                   color:Colors.white,
                                                                 ))
@@ -279,7 +281,7 @@ class ChoosingScreen extends StatelessWidget {
                                 )
                             ),
                             separatorBuilder: (context , index) => myDivider(),
-                            itemCount: 5
+                            itemCount: userModel["mala3eb"].length
                         ),
                       ],
                     ),
@@ -367,7 +369,7 @@ class ChoosingScreen extends StatelessWidget {
                                             crossAxisAlignment: CrossAxisAlignment.start ,
                                             children: [
                                               Text(
-                                                'Champions League',
+                                                '${userTournaments[userTournamentsLastIndex-index]["name"]}',
                                                 maxLines: 1,
                                                 style: TextStyle(
                                                   fontSize: 20,
@@ -377,9 +379,16 @@ class ChoosingScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               SizedBox(height: 10,),
-                                              Text('Egyptian Language School'),
                                               Text(
-                                                '4/7/2002',
+                                                'Your Team name: ${userModel["teamNames"][userTournamentsLastIndex-index]}',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text('${userTournaments[userTournamentsLastIndex-index]["schoolName"]}'),
+                                              Text(
+                                                '${userTournaments[userTournamentsLastIndex-index]["date"]}',
                                                 maxLines: 1,
                                                 style: TextStyle(
 
@@ -387,22 +396,12 @@ class ChoosingScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                'from: 10pm to: 4pm',
+                                                'from: ${userTournaments[userTournamentsLastIndex-index]["from"]} to: ${userTournaments[userTournamentsLastIndex-index]["to"]}',
                                                 maxLines: 1,
                                                 style: TextStyle(
-
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
-                                              Text(
-                                                'Field 1',
-                                                maxLines: 1,
-                                                style: TextStyle(
-
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ),
-
                                               Spacer(),
                                               Row(
                                                 children: [
@@ -418,7 +417,7 @@ class ChoosingScreen extends StatelessWidget {
                                                               mainAxisSize: MainAxisSize.min,
                                                               children: [
                                                                 Text(
-                                                                  'Champions League',
+                                                                  '${userTournaments[userTournamentsLastIndex-index]["name"]}',
                                                                   style: TextStyle(
                                                                     fontSize: 30,
                                                                     color: Colors.black,
@@ -432,21 +431,21 @@ class ChoosingScreen extends StatelessWidget {
                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                     children: [
                                                                       Text(
-                                                                        'School: Egyptain Language School',
+                                                                        'School: ${userTournaments[userTournamentsLastIndex-index]["schoolName"]}',
                                                                         style: TextStyle(
                                                                             fontSize: 16,
                                                                             color: Colors.black
                                                                         ),
                                                                       ),
                                                                       Text(
-                                                                        'Date',
+                                                                        '${userTournaments[userTournamentsLastIndex-index]["date"]}',
                                                                         style: TextStyle(
                                                                             fontSize: 16,
                                                                             color: Colors.black
                                                                         ),
                                                                       ),
                                                                       Text(
-                                                                        'Time',
+                                                                        'from: ${userTournaments[userTournamentsLastIndex-index]["from"]} to: ${userTournaments[userTournamentsLastIndex-index]["to"]}',
                                                                         style: TextStyle(
                                                                             fontSize: 16,
                                                                             color: Colors.black
@@ -541,7 +540,7 @@ class ChoosingScreen extends StatelessWidget {
                               ,
                             ),
                             separatorBuilder: (context , index) => myDivider() ,
-                            itemCount: 10,
+                            itemCount: userTournaments.length,
                           ),
                         ],
                       ),

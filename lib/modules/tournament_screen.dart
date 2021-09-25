@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
@@ -10,7 +11,7 @@ import 'package:yalla_hagz/shared/cubit/states.dart';
 class TournamentScreen extends StatelessWidget {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
-  var teamName = TextEditingController();
+  var teamNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -188,6 +189,7 @@ class TournamentScreen extends StatelessWidget {
                                                                               return "This name is already taken";
                                                                             }
                                                                           }
+                                                                          teamNameController.text = value;
                                                                           tournaments[index]["Participants"][value] = AppCubit.get(context).userModel["userId"];
                                                                         }
                                                                       }
@@ -206,11 +208,13 @@ class TournamentScreen extends StatelessWidget {
                                                                               "Participants":tournaments[index]["Participants"]
                                                                             });
                                                                             AppCubit.get(context).userModel["tournamentIds"].add(tournaments[index]["tournamentId"]);
+                                                                            AppCubit.get(context).userModel["teamNames"].add(teamNameController.text);
                                                                             AppCubit.get(context).updateUserData(data: {
-                                                                              "tournamentIds": AppCubit.get(context).userModel["tournamentIds"]
+                                                                              "tournamentIds": AppCubit.get(context).userModel["tournamentIds"],
+                                                                              "teamNames": AppCubit.get(context).userModel["teamNames"]
                                                                             });
-                                                                            Navigator.pop(context);
                                                                             showToast(state: ToastStates.SUCCESS, text: 'Congratulations! You have entered the tournament.');
+                                                                            Navigator.pop(context);
                                                                           }
                                                                         },
                                                                         child: const Text(

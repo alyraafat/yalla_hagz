@@ -337,28 +337,8 @@ class SchoolScreen extends StatelessWidget {
                                         builder: (context) {
                                           int from  = AppCubit.get(context).startTimes[index]["from"];
                                           int to = AppCubit.get(context).startTimes[index]["to"];
-                                          String strFrom = "";
-                                          String strTo = "";
-                                          if(from>12){
-                                            strFrom = "${from - 12} pm";
-                                          }else if(from == 0){
-                                            strFrom = "12 am";
-                                          }else if(from == 12){
-                                            strFrom = "12 pm";
-                                          }
-                                          else{
-                                            strFrom = "$from am";
-                                          }
-                                          if(to>12){
-                                            strTo = "${to - 12} pm";
-                                          }else if(to == 0){
-                                            strTo= "12 am";
-                                          }else if(to == 12){
-                                            strTo = "12 pm";
-                                          }
-                                          else{
-                                            strTo = "$to am";
-                                          }
+                                          String strFrom = formatTime(num: from);
+                                          String strTo = formatTime(num: to);
                                           return Padding(
                                                 padding: const EdgeInsets.all(8.0),
                                                 child: InkWell(

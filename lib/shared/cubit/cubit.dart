@@ -43,6 +43,7 @@ class AppCubit extends Cubit<AppStates> {
         .then((value) {
       userModel = value.data();
       emit(AppGetUserSuccessState());
+      getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
     }).catchError((error){
       print(error.toString());
       emit(AppGetUserErrorState(error));
@@ -81,6 +82,27 @@ class AppCubit extends Cubit<AppStates> {
     }).catchError((error){
       print(error.toString());
       emit(AppGetTournamentsErrorState(error));
+    });
+  }
+
+  // Get One Tournament:
+  var userTournaments = [];
+  void getUserTournamentsData({
+    required List<dynamic> tournamentIds
+  }){
+    emit(AppGetUserTournamentsLoadingState());
+    tournamentIds.forEach((tournamentId) {
+      FirebaseFirestore.instance
+          .collection("tournaments")
+          .doc(tournamentId)
+          .get()
+          .then((value) {
+        userTournaments.add(value.data());
+        emit(AppGetUserTournamentsSuccessState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(AppGetUserTournamentsErrorState(error));
+      });
     });
   }
 
@@ -466,7 +488,9 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppMala3ebSearchState());
   }
   //PaymentScreen:
+  bool isCash = false;
   void cashSelection(){
+    isCash = !isCash;
     emit(CashState());
   }
   //FriendsScreen:
