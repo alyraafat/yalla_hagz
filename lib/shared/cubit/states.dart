@@ -1,0 +1,179 @@
+abstract class AppStates {}
+
+class AppInitialState extends AppStates {}
+
+class AppChangeBottomNavBarState extends AppStates {}
+
+class AppChangeSearchTextColorState extends AppStates {}
+
+class AppChangeModeState extends AppStates {}
+
+class AppMala3ebSearchState extends AppStates {}
+
+// Get User:
+class AppGetUserLoadingState extends AppStates {}
+
+class AppGetUserSuccessState extends AppStates {}
+
+class AppGetUserErrorState extends AppStates
+{
+  final String error;
+  AppGetUserErrorState(this.error);
+}
+
+//Update User:
+class AppUpdateUserLoadingState extends AppStates {}
+
+class AppUpdateUserSuccessState extends AppStates {}
+
+class AppUpdateUserErrorState extends AppStates
+{
+  final String error;
+  AppUpdateUserErrorState(this.error);
+}
+
+// Get Tournaments:
+class AppGetTournamentsLoadingState extends AppStates {}
+
+class AppGetTournamentsSuccessState extends AppStates {}
+
+class AppGetTournamentsErrorState extends AppStates
+{
+  final String error;
+  AppGetTournamentsErrorState(this.error);
+}
+
+//Update User:
+class AppUpdateTournamentsLoadingState extends AppStates {}
+
+class AppUpdateTournamentsSuccessState extends AppStates {}
+
+class AppUpdateTournamentsErrorState extends AppStates
+{
+  final String error;
+  AppUpdateTournamentsErrorState(this.error);
+}
+
+// Get Cities:
+class AppGetCitiesLoadingState extends AppStates {}
+
+class AppGetCitiesSuccessState extends AppStates {}
+
+class AppGetCitiesErrorState extends AppStates
+{
+  final String error;
+  AppGetCitiesErrorState(this.error);
+}
+
+// Get Schools:
+class AppGetSchoolsLoadingState extends AppStates {}
+
+class AppGetSchoolsSuccessState extends AppStates {}
+
+class AppGetSchoolsErrorState extends AppStates
+{
+  final String error;
+  AppGetSchoolsErrorState(this.error);
+}
+
+// Get One School:
+class AppGetOneSchoolLoadingState extends AppStates {}
+
+class AppGetOneSchoolSuccessState extends AppStates {}
+
+class AppGetOneSchoolErrorState extends AppStates
+{
+  final String error;
+  AppGetOneSchoolErrorState(this.error);
+}
+
+// Get Offers:
+class AppGetOffersLoadingState extends AppStates {}
+
+class AppGetOffersSuccessState extends AppStates {}
+
+class AppGetOffersErrorState extends AppStates
+{
+  final String error;
+  AppGetOffersErrorState(this.error);
+}
+
+// Check Data in database:
+class AppCheckDataInDatabaseLoadingState extends AppStates {}
+
+class AppCheckDataInDatabaseSuccessState extends AppStates {}
+
+class AppCheckDataInDatabaseErrorState extends AppStates
+{
+  final String error;
+  AppCheckDataInDatabaseErrorState(this.error);
+}
+
+// Create BookingTimeModel:
+class AppCreateBookingTimeLoadingState extends AppStates {}
+
+class AppCreateBookingTimeSuccessState extends AppStates {}
+
+class AppCreateBookingTimeErrorState extends AppStates
+{
+  final String error;
+  AppCreateBookingTimeErrorState(this.error);
+}
+
+// Get BookingTimeModel:
+class AppGetBookingTimeLoadingState extends AppStates {}
+
+class AppGetBookingTimeSuccessState extends AppStates {}
+
+class AppGetBookingTimeErrorState extends AppStates
+{
+  final String error;
+  AppGetBookingTimeErrorState(this.error);
+}
+
+//FriendsScreen:
+
+class MyFriendsState extends AppStates {}
+
+class MyFriendRequestsState extends AppStates {}
+
+class MyFriendsLoadingState extends AppStates {}
+
+class MyFriendsSearchState extends AppStates {}
+
+//SchoolScreen:
+
+class SchoolScreenInitialState extends AppStates {}
+
+class SchoolScreenChangeState extends AppStates {}
+
+class SchoolScreenLoadingState extends AppStates {}
+
+class SchoolScreenNotifyState extends AppStates {}
+
+class SchoolScreenBookedState extends AppStates {}
+
+class SchoolScreenCancelState extends AppStates {}
+
+class SchoolScreenFieldChangeState extends AppStates {}
+
+class SchoolScreenChangeDateState extends AppStates {}
+
+class SchoolScreenChangeCardColorState extends AppStates {}
+
+
+
+//ChoosingScreenState:
+
+class ChoosingScreenInitialState extends AppStates {}
+
+class ChoosingScreenTournamentsState extends AppStates {}
+
+class ChoosingScreenLoadingState extends AppStates {}
+
+// Mala3ebScreen:
+
+class Mala3ebScreenChangeCityState extends AppStates {}
+
+class Mala3ebScreenLoadingState extends AppStates {}
+
