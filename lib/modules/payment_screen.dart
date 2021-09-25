@@ -91,10 +91,7 @@ class PaymentScreen extends StatelessWidget {
                 isCash = true;
                 cubit.cashSelection();
               },
-              child: ConditionalBuilder(
-                condition: isCash,
-                builder: (context) {
-                  return Row(
+              child: isCash? Row(
                     children: [
                       Icon(
                           Icons.circle,
@@ -104,20 +101,22 @@ class PaymentScreen extends StatelessWidget {
                       const SizedBox(width: 5),
                       const Text('Cash'),
                     ],
-                  );
-                },
-                fallback: (context) {
-                  return Row(
-                    children: [
-                      Icon(Icons.circle_outlined),
-                      SizedBox(width: 5,),
-                      Icon(Icons.money),
-                      SizedBox(width: 5),
-                      Text('Cash'),
-                    ],
-                  );
-                },
-              ),
+
+
+              ) :
+              Row(
+                children: [
+                  Icon(
+                    Icons.circle,
+                    color: defaultColor,),
+                  const SizedBox(width: 5,),
+                  const Icon(Icons.money),
+                  const SizedBox(width: 5),
+                  const Text('Cash'),
+                ],
+
+
+              )
 
             ),
             MaterialButton(
@@ -152,7 +151,7 @@ class PaymentScreen extends StatelessWidget {
 
                   Row(
                     children: [
-                      Text('Hourly Rate'),
+                      const Text('Hourly Rate'),
                       Spacer(),
                       Text('EGP ${school["fees"]}'),
 
