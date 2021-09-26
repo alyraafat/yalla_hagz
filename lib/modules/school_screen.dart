@@ -21,7 +21,6 @@ class SchoolScreen extends StatelessWidget {
   bool notify = false;
   bool buildListView = false;
   String day = "";
-  List<List<int>> timeTable = [];
   SchoolScreen(this.school);
   List<int> choose = [];
   int count = 0;
@@ -301,11 +300,6 @@ class SchoolScreen extends StatelessWidget {
                                   )).then((value) {
                                 day = AppCubit.get(context).dateToDay(date: value.toString());
                                 dateController.text = DateFormat.yMMMd().format(value!);
-                                // print(TimeOfDay.now().hour);
-                                // if(value==DateTime.now()&&school["calendar"][day][0]<TimeOfDay.now())
-                                //   timeTable = AppCubit.get(context).createTimeTable(startTime: TimeOfDay.now().hour+1, endTime: school["calendar"][day][1]);
-                                // else
-                                // timeTable = AppCubit.get(context).createTimeTable(startTime: school["calendar"][day][0], endTime: school["calendar"][day][1]);
                                 if(school["calendar$currentField"][day].length != 1) {
                                   AppCubit.get(context).checkDateInDataBase(date: dateController.text, cityId: AppCubit.get(context).currentCity, schoolId: school["schoolId"], field: currentField.toString(), fees: school["fees"],intervals:school["calendar$currentField"][day]);
                                 }

@@ -180,7 +180,8 @@ class ChoosingScreen extends StatelessWidget {
                                                                   onPressed: (){
                                                                     for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
                                                                       cubit.updateBookingTimeModel(cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"], schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"], date: userModel["mala3eb"][mala3ebLastIndex - index]["date"], field: userModel["mala3eb"][mala3ebLastIndex - index]["field"].toString(), from: i.toString(), data: {
-                                                                        "isBooked": false
+                                                                        "isBooked": false,
+                                                                        "userId": ""
                                                                       });
                                                                     }
                                                                     userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
