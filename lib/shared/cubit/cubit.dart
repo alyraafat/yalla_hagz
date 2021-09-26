@@ -60,7 +60,7 @@ class AppCubit extends Cubit<AppStates> {
         .update(data)
         .then((value) {
       emit(AppUpdateUserSuccessState());
-      // getUserData();
+      getUserData();
     }).catchError((error){
       print(error.toString());
       emit(AppUpdateUserErrorState(error));
@@ -70,6 +70,7 @@ class AppCubit extends Cubit<AppStates> {
 
   List<dynamic> tournaments = [];
   void getTournamentsData(){
+    tournaments = [];
     emit(AppGetTournamentsLoadingState());
     FirebaseFirestore.instance
         .collection("tournaments")
@@ -90,6 +91,7 @@ class AppCubit extends Cubit<AppStates> {
   void getUserTournamentsData({
     required List<dynamic> tournamentIds
   }){
+    userTournaments = [];
     emit(AppGetUserTournamentsLoadingState());
     tournamentIds.forEach((tournamentId) {
       FirebaseFirestore.instance
@@ -117,7 +119,7 @@ class AppCubit extends Cubit<AppStates> {
         .update(data)
         .then((value){
       emit(AppUpdateTournamentsSuccessState());
-      getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
+      getTournamentsData();
     }).catchError((error){
       emit(AppUpdateTournamentsErrorState(error));
     });
@@ -507,11 +509,23 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppMala3ebSearchState());
   }
   //PaymentScreen:
+  bool isCash = false;
   void cashSelection(){
+    isCash = !isCash;
+    vodaCash = false;
     emit(CashState());
   }
+  bool vodaCash = false;
   void vodaCashSelection(){
+    isCash = false;
+    vodaCash = !vodaCash;
     emit(vodaCashState());
+  }
+  bool isWallet = false;
+  void walletSelection(){
+    isWallet = !isWallet;
+    emit(walletState());
+
   }
   //FriendsScreen:
 
@@ -544,10 +558,13 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   //ChoosingScreen:
-  void changeToInitial() {
-    emit(ChoosingScreenInitialState());
+  bool isMala3eb = true;
+  void changeToMala3eb() {
+    isMala3eb = true;
+    emit(ChoosingScreenMala3ebState());
   }
   void changeToTournaments() {
+    isMala3eb = false;
     emit(ChoosingScreenTournamentsState());
   }
   void changeTo() {

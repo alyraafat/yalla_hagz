@@ -126,14 +126,14 @@ class MyProfileScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
-                            color: Colors.greenAccent,
+                            color: userModel!['balance']>=0?defaultColor:Colors.red,
                             child: Row(
                               children: [
                                 SizedBox(width: 5,),
                                 Text(
                                   '${userModel!['balance']} EGP',
                                   style: TextStyle(
-                                    color: defaultColor,
+                                    color: Colors.white,
                                   ) ,
                                 ),
                                 SizedBox(width: 5,),

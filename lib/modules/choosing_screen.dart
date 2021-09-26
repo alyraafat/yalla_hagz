@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
@@ -8,7 +9,6 @@ import 'package:yalla_hagz/shared/cubit/states.dart';
 
 
 class ChoosingScreen extends StatelessWidget {
-  var scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -18,10 +18,8 @@ class ChoosingScreen extends StatelessWidget {
           var userModel = cubit.userModel;
           int mala3ebLastIndex = userModel["mala3eb"].length-1;
           int userTournamentsLastIndex = cubit.userTournaments.length-1;
-          return Scaffold(
-              key: scaffoldKey,
-              body: ConditionalBuilder(
-                  condition: state is ChoosingScreenInitialState  ,
+          return ConditionalBuilder(
+                  condition: cubit.isMala3eb  ,
                   builder: (context) => SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
                     child: Column(
@@ -36,7 +34,9 @@ class ChoosingScreen extends StatelessWidget {
                                 ),
                                 color: defaultColor,
                                 child: TextButton(
-                                  onPressed:() {},
+                                  onPressed:() {
+                                    cubit.changeToMala3eb();
+                                  },
                                   child: const Text(
                                     'Mala3eb',
                                     style: TextStyle(
@@ -142,29 +142,6 @@ class ChoosingScreen extends StatelessWidget {
                                                 Row(
                                                   children: [
                                                     Container(
-                                                      color: Colors.red,
-                                                      height: 35,
-                                                      child: TextButton(
-                                                        onPressed: () {
-                                                          for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
-                                                            cubit.updateBookingTimeModel(cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"], schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"], date: userModel["mala3eb"][mala3ebLastIndex - index]["date"], field: userModel["mala3eb"][mala3ebLastIndex - index]["field"].toString(), from: i.toString(), data: {
-                                                              "isBooked": false
-                                                            });
-                                                          }
-                                                          userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
-                                                          cubit.updateUserData(data: {
-                                                            "mala3eb":userModel["mala3eb"]
-                                                          });
-                                                        },
-
-                                                        child: Text('Cancel',
-                                                            style: TextStyle(
-                                                              color:Colors.white,
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    SizedBox(width:10),
-                                                    Container(
                                                       color: defaultColor,
                                                       height: 35,
                                                       child: TextButton(
@@ -183,14 +160,53 @@ class ChoosingScreen extends StatelessWidget {
                                                         ),
                                                       ),
                                                     ),
+                                                    SizedBox(width:10),
+                                                    Container(
+                                                      color: Colors.red,
+                                                      height: 35,
+                                                      child: TextButton(
+                                                        onPressed: () {
+                                                          Alert(
+                                                              context: context,
+                                                              title: "Are you sure you want to cancel?",
+                                                              content: Text("Cancellation Policy"),
+                                                              buttons: [
+                                                                DialogButton(
+                                                                  child: const Text(
+                                                                      'Cancel',
+                                                                      style: TextStyle(
+                                                                        color:Colors.white,
+                                                                      )),
+                                                                  onPressed: (){
+                                                                    for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
+                                                                      cubit.updateBookingTimeModel(cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"], schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"], date: userModel["mala3eb"][mala3ebLastIndex - index]["date"], field: userModel["mala3eb"][mala3ebLastIndex - index]["field"].toString(), from: i.toString(), data: {
+                                                                        "isBooked": false
+                                                                      });
+                                                                    }
+                                                                    userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
+                                                                    cubit.updateUserData(data: {
+                                                                      "mala3eb":userModel["mala3eb"]
+                                                                    });
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                  width: 120,
+                                                                  color: Colors.red,
+                                                                ),
+                                                              ]
+                                                          ).show();
+                                                        },
+
+                                                        child: Text('Cancel',
+                                                            style: TextStyle(
+                                                              color:Colors.white,
+                                                            )),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
-
                                               ],
                                             ),
                                           ),
-
-
                                         ],
                                       ),
                                     ],
@@ -219,7 +235,7 @@ class ChoosingScreen extends StatelessWidget {
                                   color: Colors.grey[300],
                                   child: TextButton(
                                     onPressed:() {
-                                      cubit.changeToInitial();
+                                      cubit.changeToMala3eb();
                                     },
                                     child: Text(
                                       'Mala3eb',
@@ -238,6 +254,7 @@ class ChoosingScreen extends StatelessWidget {
                                   color: defaultColor,
                                   child: TextButton(
                                     onPressed:() {
+                                      cubit.changeToTournaments();
                                     },
                                     child: Text(
                                       'Tournaments',
@@ -291,7 +308,6 @@ class ChoosingScreen extends StatelessWidget {
                                                 style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold,
-
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
@@ -327,114 +343,83 @@ class ChoosingScreen extends StatelessWidget {
                                                     height: 35,
                                                     child: TextButton(
                                                       onPressed: () {
-                                                        isBottomSheetOpen = true;
-                                                        scaffoldKey.currentState!.showBottomSheet((context) => Container(
-                                                            width: double.infinity,
-                                                            child: Column(
-                                                              mainAxisSize: MainAxisSize.min,
-                                                              children: [
-                                                                Text(
-                                                                  '${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}',
+                                                        Alert(
+                                                          context: context,
+                                                          title: "${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}",
+                                                          content: Container(
+                                                              width: double.infinity,
+                                                              child: Column(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                children: [
+                                                                  const SizedBox(height:10),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.all(12.0),
+                                                                    child: Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Text(
+                                                                          'Entry requirements',
+                                                                          style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              color: Colors.black
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          'Canceling Policy',
+                                                                          style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              color: Colors.black
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+
+                                                              ),
+                                                          ),
+                                                          buttons: [
+                                                            DialogButton(
+                                                              child:  const Text(
+                                                                  'Cancel',
                                                                   style: TextStyle(
-                                                                    fontSize: 30,
-                                                                    color: Colors.black,
-                                                                    fontWeight: FontWeight.bold,
-                                                                  ),
-                                                                ),
-                                                                SizedBox(height:10),
-                                                                Padding(
-                                                                  padding: const EdgeInsets.all(12.0),
-                                                                  child: Column(
-                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                    children: [
-                                                                      Text(
-                                                                        'School: ${cubit.userTournaments[userTournamentsLastIndex-index]["schoolName"]}',
-                                                                        style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        '${cubit.userTournaments[userTournamentsLastIndex-index]["date"]}',
-                                                                        style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'from: ${cubit.userTournaments[userTournamentsLastIndex-index]["from"]} to: ${cubit.userTournaments[userTournamentsLastIndex-index]["to"]}',
-                                                                        style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'Entry requirements',
-                                                                        style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        'Canceling Policy',
-                                                                        style: TextStyle(
-                                                                            fontSize: 16,
-                                                                            color: Colors.black
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        height: 40,
-                                                                        width: double.infinity,
-                                                                        color: Colors.red,
-                                                                        child: TextButton(
-                                                                          onPressed: () {
-                                                                            cubit.userTournaments[userTournamentsLastIndex-index]["Participants"].remove(userModel["teamNames"][userTournamentsLastIndex-index]);
-                                                                            cubit.updateTournamentsData(tournamentId: userModel["tournamentIds"][userTournamentsLastIndex-index], data: {
-                                                                              "Participants": cubit.userTournaments[userTournamentsLastIndex-index]["Participants"],
-                                                                            });
-                                                                            userModel["tournamentIds"].removeAt(userTournamentsLastIndex-index);
-                                                                            userModel["teamNames"].removeAt(userTournamentsLastIndex-index);
-                                                                            cubit.userTournaments.removeAt(userTournamentsLastIndex-index);
-                                                                            cubit.updateUserData(data: {
-                                                                              "teamNames":userModel["teamNames"],
-                                                                              "tournamentIds": userModel["tournamentsIds"]
-                                                                            });
-
-                                                                            Navigator.pop(context);
-
-                                                                          },
-
-                                                                          child: Text(
-                                                                              'Cancel',
-                                                                              style: TextStyle(
-                                                                                color:Colors.white,
-                                                                              )),
-                                                                        ),
-                                                                      )
-
-                                                                    ],
-                                                                  ),
-                                                                ),
-
-
-                                                              ],
-
-                                                            ),
-                                                            decoration: BoxDecoration(
-                                                              color: Colors.grey[300],
-                                                              borderRadius: BorderRadius.only(
-                                                                  topRight: Radius.circular(50), topLeft: Radius.circular(50)),
+                                                                    color:Colors.white,
+                                                                  )),
+                                                              onPressed: () {
+                                                                cubit.userTournaments[userTournamentsLastIndex-index]["Participants"].remove(userModel["teamNames"][userTournamentsLastIndex-index]);
+                                                                cubit.updateTournamentsData(tournamentId: userModel["tournamentIds"][userTournamentsLastIndex-index], data: {
+                                                                  "Participants": cubit.userTournaments[userTournamentsLastIndex-index]["Participants"],
+                                                                });
+                                                                userModel["teamNames"].removeAt(userTournamentsLastIndex-index);
+                                                                cubit.userTournaments.removeAt(userTournamentsLastIndex-index);
+                                                                if(userModel["tournamentIds"].length==1) {
+                                                                  userModel["tournamentIds"].removeAt(0);
+                                                                  cubit.updateUserData(data: {
+                                                                    "teamNames":userModel["teamNames"],
+                                                                    "tournamentIds": []
+                                                                  });
+                                                                }else{
+                                                                  userModel["tournamentIds"].removeAt(userTournamentsLastIndex - index);
+                                                                  cubit.updateUserData(data: {
+                                                                    "teamNames":userModel["teamNames"],
+                                                                    "tournamentIds": userModel["tournamentsIds"]
+                                                                  });
+                                                                }
+                                                                Navigator.pop(context);
+                                                              },
+                                                              width: 120,
+                                                              color: Colors.red,
                                                             )
-                                                        ));
+                                                          ],
+                                                        ).show();
                                                       },
-
                                                       child: Text('Details',
                                                           style: TextStyle(
                                                             color:Colors.white,
                                                           )),
                                                     ),
                                                   ),
-                                                  SizedBox(width: 10,),
+                                                  const SizedBox(width: 10,),
                                                   Container(
                                                     color: defaultColor,
                                                     height: 35,
@@ -459,8 +444,6 @@ class ChoosingScreen extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-
-
                                       ],
                                     ),
                                   ],
@@ -469,14 +452,14 @@ class ChoosingScreen extends StatelessWidget {
                               ,
                             ),
                             separatorBuilder: (context , index) => myDivider() ,
-                            itemCount: cubit.userTournaments.length,
+                            itemCount: userModel["teamNames"].length,
                           ),
                         ],
                       ),
                     ),
                   )
-              )
-          );
+              );
+
 
         });
 

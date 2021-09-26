@@ -158,7 +158,7 @@ class CashState extends AppStates {}
 
 class vodaCashState extends AppStates {}
 
-
+class walletState extends AppStates {}
 
 //FriendsScreen:
 
@@ -194,7 +194,7 @@ class SchoolScreenChangeCardColorState extends AppStates {}
 
 //ChoosingScreenState:
 
-class ChoosingScreenInitialState extends AppStates {}
+class ChoosingScreenMala3ebState extends AppStates {}
 
 class ChoosingScreenTournamentsState extends AppStates {}
 
