@@ -156,6 +156,9 @@ class AppUpdateBookingTimeErrorState extends AppStates
 
 class CashState extends AppStates {}
 
+class vodaCashState extends AppStates {}
+
+
 
 //FriendsScreen:
 

@@ -507,10 +507,11 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppMala3ebSearchState());
   }
   //PaymentScreen:
-  bool isCash = false;
   void cashSelection(){
-    isCash = !isCash;
     emit(CashState());
+  }
+  void vodaCashSelection(){
+    emit(vodaCashState());
   }
   //FriendsScreen:
 
