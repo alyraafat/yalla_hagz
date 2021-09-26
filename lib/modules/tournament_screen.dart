@@ -204,7 +204,7 @@ class TournamentScreen extends StatelessWidget {
                                                                       child: TextButton(
                                                                         onPressed: () {
                                                                           if(formKey.currentState!.validate()){
-                                                                            AppCubit.get(context).addTeamsToDatabase(tournamentId: tournaments[index]["tournamentId"], data: {
+                                                                            AppCubit.get(context).updateTournamentsData(tournamentId: tournaments[index]["tournamentId"], data: {
                                                                               "Participants":tournaments[index]["Participants"]
                                                                             });
                                                                             AppCubit.get(context).userModel["tournamentIds"].add(tournaments[index]["tournamentId"]);

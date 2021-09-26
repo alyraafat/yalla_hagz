@@ -7,7 +7,6 @@ import 'package:yalla_hagz/shared/cubit/cubit.dart';
 import 'package:yalla_hagz/shared/cubit/states.dart';
 
 class BottomNavScreen extends StatelessWidget {
-  var scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
 
   @override

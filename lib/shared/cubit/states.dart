@@ -54,7 +54,7 @@ class AppGetUserTournamentsErrorState extends AppStates
   AppGetUserTournamentsErrorState(this.error);
 }
 
-//Update User:
+//Update Tournaments:
 class AppUpdateTournamentsLoadingState extends AppStates {}
 
 class AppUpdateTournamentsSuccessState extends AppStates {}

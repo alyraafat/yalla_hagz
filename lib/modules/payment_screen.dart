@@ -171,7 +171,15 @@ class PaymentScreen extends StatelessWidget {
                     color: Colors.white,
                     backGroundColor: Color(0xff388E3C),
                     function: () {
+                      int from = 10000000000000;
+                      int to = -1000000000000;
                       for(int i=0; i<choose.length ; i++){
+                        if(cubit.startTimes[choose[i]]["from"]<from){
+                          from = cubit.startTimes[choose[i]]["from"];
+                        }
+                        if(cubit.startTimes[choose[i]]["to"]>to){
+                          to = cubit.startTimes[choose[i]]["to"];
+                        }
                         cubit.updateBookingTimeModel(cityId: cubit.currentCity, schoolId: school["schoolId"], date: date, field: field.toString(), from: cubit.startTimes[choose[i]]["from"].toString(), data: {
                           "isBooked": true,
                           "userId":uId
@@ -179,8 +187,8 @@ class PaymentScreen extends StatelessWidget {
                       }
                       cubit.userModel["mala3eb"].add({
                         "schoolId":school["schoolId"],
-                        "from":cubit.startTimes[choose[0]]["from"],
-                        "to":cubit.startTimes[choose[choose.length-1]]["to"],
+                        "from":from,
+                        "to":to,
                         "schoolName":school["name"],
                         "fees":school["fees"],
                         "city":cubit.currentCity,

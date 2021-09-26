@@ -17,8 +17,7 @@ class ChoosingScreen extends StatelessWidget {
           AppCubit cubit = AppCubit.get(context);
           var userModel = cubit.userModel;
           int mala3ebLastIndex = userModel["mala3eb"].length-1;
-          var userTournaments = cubit.userTournaments;
-          int userTournamentsLastIndex = userTournaments.length-1;
+          int userTournamentsLastIndex = cubit.userTournaments.length-1;
           return Scaffold(
               key: scaffoldKey,
               body: ConditionalBuilder(
@@ -37,8 +36,7 @@ class ChoosingScreen extends StatelessWidget {
                                 ),
                                 color: defaultColor,
                                 child: TextButton(
-                                  onPressed:() {
-                                  },
+                                  onPressed:() {},
                                   child: const Text(
                                     'Mala3eb',
                                     style: TextStyle(
@@ -144,103 +142,22 @@ class ChoosingScreen extends StatelessWidget {
                                                 Row(
                                                   children: [
                                                     Container(
-                                                      color: defaultColor,
+                                                      color: Colors.red,
                                                       height: 35,
                                                       child: TextButton(
                                                         onPressed: () {
-                                                          isBottomSheetOpen = true;
-                                                          scaffoldKey.currentState!.showBottomSheet((context) => Container(
-                                                              width: double.infinity,
-                                                              child: Column(
-                                                                mainAxisSize: MainAxisSize.min,
-                                                                children: [
-                                                                  Text(
-                                                                    '${userModel["mala3eb"][mala3ebLastIndex-index]["schoolName"]}',
-                                                                    maxLines: 2,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    style: TextStyle(
-                                                                      fontSize: 25,
-                                                                      color: Colors.black,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(height:10),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.all(12.0),
-                                                                    child: Column(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      children: [
-                                                                        Text(
-                                                                          '${userModel["mala3eb"][mala3ebLastIndex-index]["location"]}',
-                                                                          style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        Text(
-                                                                          '${userModel["mala3eb"][mala3ebLastIndex-index]["date"]}',
-                                                                          style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        Text(
-                                                                          'from: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["from"])} to: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["to"])}',
-                                                                          style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        Text(
-                                                                          '${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]} EGP/hr',
-                                                                          style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        Text(
-                                                                          'Canceling Policy',
-                                                                          style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(height: 10,),
-                                                                        Container(
-                                                                          height: 40,
-                                                                          width: double.infinity,
-                                                                          color: Colors.red,
-                                                                          child: TextButton(
-                                                                            onPressed: () {
-                                                                              // cubit.cancelCourt();
-                                                                              Navigator.pop(context);
-
-                                                                            },
-                                                                            child: Text(
-                                                                                'CANCEL',
-                                                                                style: TextStyle(
-                                                                                  color:Colors.white,
-                                                                                )),
-                                                                          ),
-                                                                        )
-
-                                                                      ],
-                                                                    ),
-                                                                  ),
-
-
-                                                                ],
-
-                                                              ),
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.grey[300],
-                                                                borderRadius: BorderRadius.only(
-                                                                    topRight: Radius.circular(50), topLeft: Radius.circular(50)),
-                                                              )
-                                                          ));
+                                                          for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
+                                                            cubit.updateBookingTimeModel(cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"], schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"], date: userModel["mala3eb"][mala3ebLastIndex - index]["date"], field: userModel["mala3eb"][mala3ebLastIndex - index]["field"].toString(), from: i.toString(), data: {
+                                                              "isBooked": false
+                                                            });
+                                                          }
+                                                          userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
+                                                          cubit.updateUserData(data: {
+                                                            "mala3eb":userModel["mala3eb"]
+                                                          });
                                                         },
 
-                                                        child: Text('Details',
+                                                        child: Text('Cancel',
                                                             style: TextStyle(
                                                               color:Colors.white,
                                                             )),
@@ -369,7 +286,7 @@ class ChoosingScreen extends StatelessWidget {
                                             crossAxisAlignment: CrossAxisAlignment.start ,
                                             children: [
                                               Text(
-                                                '${userTournaments[userTournamentsLastIndex-index]["name"]}',
+                                                '${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}',
                                                 maxLines: 1,
                                                 style: TextStyle(
                                                   fontSize: 20,
@@ -386,9 +303,9 @@ class ChoosingScreen extends StatelessWidget {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              Text('${userTournaments[userTournamentsLastIndex-index]["schoolName"]}'),
+                                              Text('${cubit.userTournaments[userTournamentsLastIndex-index]["schoolName"]}'),
                                               Text(
-                                                '${userTournaments[userTournamentsLastIndex-index]["date"]}',
+                                                '${cubit.userTournaments[userTournamentsLastIndex-index]["date"]}',
                                                 maxLines: 1,
                                                 style: TextStyle(
 
@@ -396,7 +313,7 @@ class ChoosingScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                'from: ${userTournaments[userTournamentsLastIndex-index]["from"]} to: ${userTournaments[userTournamentsLastIndex-index]["to"]}',
+                                                'from: ${cubit.userTournaments[userTournamentsLastIndex-index]["from"]} to: ${cubit.userTournaments[userTournamentsLastIndex-index]["to"]}',
                                                 maxLines: 1,
                                                 style: TextStyle(
                                                   overflow: TextOverflow.ellipsis,
@@ -417,7 +334,7 @@ class ChoosingScreen extends StatelessWidget {
                                                               mainAxisSize: MainAxisSize.min,
                                                               children: [
                                                                 Text(
-                                                                  '${userTournaments[userTournamentsLastIndex-index]["name"]}',
+                                                                  '${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}',
                                                                   style: TextStyle(
                                                                     fontSize: 30,
                                                                     color: Colors.black,
@@ -431,21 +348,21 @@ class ChoosingScreen extends StatelessWidget {
                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                     children: [
                                                                       Text(
-                                                                        'School: ${userTournaments[userTournamentsLastIndex-index]["schoolName"]}',
+                                                                        'School: ${cubit.userTournaments[userTournamentsLastIndex-index]["schoolName"]}',
                                                                         style: TextStyle(
                                                                             fontSize: 16,
                                                                             color: Colors.black
                                                                         ),
                                                                       ),
                                                                       Text(
-                                                                        '${userTournaments[userTournamentsLastIndex-index]["date"]}',
+                                                                        '${cubit.userTournaments[userTournamentsLastIndex-index]["date"]}',
                                                                         style: TextStyle(
                                                                             fontSize: 16,
                                                                             color: Colors.black
                                                                         ),
                                                                       ),
                                                                       Text(
-                                                                        'from: ${userTournaments[userTournamentsLastIndex-index]["from"]} to: ${userTournaments[userTournamentsLastIndex-index]["to"]}',
+                                                                        'from: ${cubit.userTournaments[userTournamentsLastIndex-index]["from"]} to: ${cubit.userTournaments[userTournamentsLastIndex-index]["to"]}',
                                                                         style: TextStyle(
                                                                             fontSize: 16,
                                                                             color: Colors.black
@@ -471,6 +388,18 @@ class ChoosingScreen extends StatelessWidget {
                                                                         color: Colors.red,
                                                                         child: TextButton(
                                                                           onPressed: () {
+                                                                            cubit.userTournaments[userTournamentsLastIndex-index]["Participants"].remove(userModel["teamNames"][userTournamentsLastIndex-index]);
+                                                                            cubit.updateTournamentsData(tournamentId: userModel["tournamentIds"][userTournamentsLastIndex-index], data: {
+                                                                              "Participants": cubit.userTournaments[userTournamentsLastIndex-index]["Participants"],
+                                                                            });
+                                                                            userModel["tournamentIds"].removeAt(userTournamentsLastIndex-index);
+                                                                            userModel["teamNames"].removeAt(userTournamentsLastIndex-index);
+                                                                            cubit.userTournaments.removeAt(userTournamentsLastIndex-index);
+                                                                            cubit.updateUserData(data: {
+                                                                              "teamNames":userModel["teamNames"],
+                                                                              "tournamentIds": userModel["tournamentsIds"]
+                                                                            });
+
                                                                             Navigator.pop(context);
 
                                                                           },
@@ -540,7 +469,7 @@ class ChoosingScreen extends StatelessWidget {
                               ,
                             ),
                             separatorBuilder: (context , index) => myDivider() ,
-                            itemCount: userTournaments.length,
+                            itemCount: cubit.userTournaments.length,
                           ),
                         ],
                       ),

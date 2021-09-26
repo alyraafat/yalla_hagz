@@ -60,7 +60,7 @@ class AppCubit extends Cubit<AppStates> {
         .update(data)
         .then((value) {
       emit(AppUpdateUserSuccessState());
-      getUserData();
+      // getUserData();
     }).catchError((error){
       print(error.toString());
       emit(AppUpdateUserErrorState(error));
@@ -105,6 +105,25 @@ class AppCubit extends Cubit<AppStates> {
       });
     });
   }
+
+  void updateTournamentsData({
+    required String tournamentId,
+    required Map<String,dynamic> data
+  }){
+    emit(AppUpdateTournamentsLoadingState());
+    FirebaseFirestore.instance
+        .collection("tournaments")
+        .doc(tournamentId)
+        .update(data)
+        .then((value){
+      emit(AppUpdateTournamentsSuccessState());
+      getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
+    }).catchError((error){
+      emit(AppUpdateTournamentsErrorState(error));
+    });
+
+  }
+
 
   List<String> cities = [];
   void getCitiesData(){
@@ -540,24 +559,6 @@ class AppCubit extends Cubit<AppStates> {
   }
   void cityLoading() {
     emit(Mala3ebScreenLoadingState());
-  }
-
-  // TournamentsScreen:
-  void addTeamsToDatabase({
-    required String tournamentId,
-    required Map<String,dynamic> data
-  }){
-    emit(AppUpdateTournamentsLoadingState());
-    FirebaseFirestore.instance
-        .collection("tournaments")
-        .doc(tournamentId)
-        .update(data)
-        .then((value){
-          emit(AppUpdateTournamentsSuccessState());
-    }).catchError((error){
-      emit(AppUpdateTournamentsErrorState(error));
-    });
-
   }
 
 }
