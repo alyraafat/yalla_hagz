@@ -213,7 +213,9 @@ class PaymentScreen extends StatelessWidget {
                             }
                             cubit.updateBookingTimeModel(cityId: cubit.currentCity, schoolId: school["schoolId"], date: date, field: field.toString(), from: cubit.startTimes[choose[i]]["from"].toString(), data: {
                               "isBooked": true,
-                              "userId":uId
+                              "userId":uId,
+                              "userName": cubit.userModel["name"],
+                              "userPhone": cubit.userModel["phone"],
                             });
                           }
                           cubit.userModel["mala3eb"].add({

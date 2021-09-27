@@ -368,6 +368,8 @@ class AppCubit extends Cubit<AppStates> {
         isDone: false,
         fees: fees,
         isBooked: false,
+        userPhone: "",
+        userName: ""
       );
       emit(AppCreateBookingTimeLoadingState());
       FirebaseFirestore.instance
