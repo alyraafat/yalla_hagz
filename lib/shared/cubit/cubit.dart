@@ -39,15 +39,20 @@ class AppCubit extends Cubit<AppStates> {
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
-        .get()
-        .then((value) {
-      userModel = value.data();
+        .snapshots()
+    .listen((event) {
+      userModel = event.data();
       emit(AppGetUserSuccessState());
       getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
-    }).catchError((error){
-      print(error.toString());
-      emit(AppGetUserErrorState(error));
     });
+    //     .then((value) {
+    //   userModel = value.data();
+    //   emit(AppGetUserSuccessState());
+    //   getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
+    // }).catchError((error){
+    //   print(error.toString());
+    //   emit(AppGetUserErrorState(error));
+    // });
   }
 
   void updateUserData({
@@ -186,74 +191,26 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  // void createTimeTable({
-  //   // required String schoolId,
-  //   required int courts,
-  //   required int startTime,
-  //   required int endTime,
-  //   // required String dateOfToday,
-  // }){
-  //
-  //    var dateOfToday = DateTime.now();
-  //    int month = dateOfToday.month;
-  //    int year = dateOfToday.year;
-  //    int day=dateOfToday.day;
-  //
-  //     for(int i=1;i<=courts;i++){
-  //       // schoolModel.timeTable.addAll({i:{}});
-  //       for(int j=0;j<31;j++){
-  //         // month = dateOfToday.month;
-  //         // day = dateOfToday.day;
-  //         if(j!=0) day+=1;
-  //         switch(month){
-  //           case 12:
-  //             if(day>31) {
-  //               month = 1;
-  //               year+=1;
-  //               day -= 31;
-  //             }
-  //             break;
-  //           case 2:
-  //             if(year!=2024||year!=2028||year!=2032||year!=2036){
-  //               if(day > 28){
-  //                 month = 3;
-  //                 day -= 28;
-  //               }
-  //             }else {
-  //               if (day > 29) {
-  //                 month = 3;
-  //                 day -= 29;
-  //               }
-  //             }
-  //             break;
-  //           case 4:case 6:case 9:case 11:
-  //           if(day > 30){
-  //             month++;
-  //             day -= 30;
-  //           }
-  //           break;
-  //           default:
-  //             if(day > 31){
-  //               month++;
-  //               day -= 31;
-  //             }
-  //             break;
-  //         }
-  //         String strDay = day.toString();
-  //         String strMonth = month.toString();
-  //         if(day<10) strDay = "0"+strDay;
-  //         if(month<10) strMonth = "0"+strMonth;
-  //         // schoolModel.timeTable[i]!.addEntries();
-  //         for(int z=0;z<(endTime-startTime);z++){
-  //           // schoolModel.timeTable.addAll(
-  //           //     {i: {DateTime.parse("$year-$strMonth-$strDay").toString():{"${startTime+z} to ${startTime+z+1}":""}}}
-  //           // );
-  //         }
-  //       }
-  //     }
-  //
-  //
-  // }
+  DateTime createLastDate(){
+    var dateOfToday = DateTime.now();
+    int month = dateOfToday.month;
+    int year = dateOfToday.year;
+    int day=dateOfToday.day;
+    if(month==12) {
+      month = 1;
+      year++;
+    } else {
+      month += 1;
+    }
+    String strDay = day.toString();
+    String strMonth = month.toString();
+    if(day<10) strDay = "0"+strDay;
+    if(month<10) strMonth = "0"+strMonth;
+    DateTime date = DateTime.parse("$year-$strMonth-$strDay");
+    return date;
+
+  }
+
   String dateToDay({
     required String date
   }){
@@ -421,9 +378,11 @@ class AppCubit extends Cubit<AppStates> {
         .doc(date)
         .collection("bookingTime")
         .orderBy("from")
-        .get()
-        .then((value) {
-          value.docs.forEach((startTime){
+        .snapshots()
+        .listen((event) {
+          startTimes = [];
+          selected = [];
+          event.docs.forEach((startTime){
             if(date==DateFormat.yMMMd().format(DateTime.now())){
               if(TimeOfDay.now().hour>=startTime.data()["from"]){
                 updateBookingTimeModel(cityId: cityId, schoolId: schoolId, date: date, field: field, from: startTime.data()["from"].toString(), data: {
@@ -437,11 +396,7 @@ class AppCubit extends Cubit<AppStates> {
             }
           });
           emit(AppGetBookingTimeSuccessState());
-        }).catchError((error) {
-            print(error.toString());
-            emit(AppGetBookingTimeErrorState(error));
-          }
-          );
+        });
   }
 
   void updateBookingTimeModel({

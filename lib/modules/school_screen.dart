@@ -231,6 +231,8 @@ class SchoolScreen extends StatelessWidget {
                               //   dateController.text =
                               //       DateFormat.yMMMd().format(value!);
                               showRoundedDatePicker(
+                                  firstDate: DateTime.now(),
+                                  lastDate: AppCubit.get(context).createLastDate(),
                                   context: context,
                                   // theme: ThemeData(primarySwatch: Colors.deepPurple),
                                   styleDatePicker: MaterialRoundedDatePickerStyle(
