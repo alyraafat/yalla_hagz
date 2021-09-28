@@ -93,7 +93,11 @@ class SchoolScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    defaultRatingBar(school["rating"]),
+                    defaultRatingBar(
+                        rating: school["rating"],
+                        gestures: true,
+                        context: context
+                    ),
                     const SizedBox(height: 10),
                     SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),

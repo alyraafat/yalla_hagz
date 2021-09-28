@@ -102,13 +102,13 @@ class PaymentScreen extends StatelessWidget {
                         cubit.isCash?Icon(
                             Icons.circle,
                             color:defaultColor
-                        ):Icon(
+                        ):const Icon(
                           Icons.circle_outlined,
                         ),
-                        SizedBox(width: 5,),
-                        Icon(Icons.money),
-                        SizedBox(width: 5),
-                        Text('Cash'),
+                        const SizedBox(width: 5,),
+                        const Icon(Icons.money),
+                        const SizedBox(width: 5),
+                        const Text('Cash'),
                       ],
                     )
                 ),
@@ -121,16 +121,16 @@ class PaymentScreen extends StatelessWidget {
                       cubit.vodaCash?Icon(
                           Icons.circle,
                           color:defaultColor
-                      ):Icon(Icons.circle_outlined),
-                      SizedBox(width: 5,),
-                      Icon(Icons.money),
-                      SizedBox(width: 5),
-                      Text('Vodafone Cash'),
+                      ):const Icon(Icons.circle_outlined),
+                      const SizedBox(width: 5,),
+                      const Icon(Icons.money),
+                      const SizedBox(width: 5),
+                      const Text('Vodafone Cash'),
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
-                Text(
+                const SizedBox(height: 20,),
+                const Text(
                   'Payment Summary',
                   style: TextStyle(
                       fontSize: 18,
@@ -150,18 +150,18 @@ class PaymentScreen extends StatelessWidget {
                       cubit.isWallet?Icon(
                           Icons.circle,
                           color:defaultColor
-                      ):Icon(Icons.circle_outlined),
-                      SizedBox(width: 5,),
-                      Icon(Icons.account_balance_wallet_outlined),
-                      SizedBox(width: 5),
-                      Text('Use Wallet'),
+                      ):const Icon(Icons.circle_outlined),
+                      const SizedBox(width: 5,),
+                      const Icon(Icons.account_balance_wallet_outlined),
+                      const SizedBox(width: 5),
+                      const Text('Use Wallet'),
                     ],
                   ),
                 ),
                 Row(
                   children: [
-                    Text('Hourly Rate'),
-                    Spacer(),
+                    const Text('Hourly Rate'),
+                    const Spacer(),
                     Text('EGP ${school["fees"]}'),
 
                   ],
@@ -169,8 +169,8 @@ class PaymentScreen extends StatelessWidget {
                 SizedBox(height: 5,),
                 Row(
                   children: [
-                    Text('Number of Hours'),
-                    Spacer(),
+                    const Text('Number of Hours'),
+                    const Spacer(),
                     Text('${choose.length}'),
 
                   ],
@@ -178,20 +178,20 @@ class PaymentScreen extends StatelessWidget {
                 SizedBox(height: 5,),
                 Row(
                   children: [
-                    Text('Wallet'),
-                    Spacer(),
+                    const Text('Wallet'),
+                    const Spacer(),
                     Text('(-)${cubit.isWallet? fromWallet:0}'),
                   ],
                 ),
                 SizedBox(height: 5,),
                 Row(
                   children: [
-                    Text('Total'),
-                    Spacer(),
+                    const Text('Total'),
+                    const Spacer(),
                     Text('EGP ${choose.length*school["fees"]-(cubit.isWallet? fromWallet:0)}'),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 ConditionalBuilder(
                   condition: cubit.isCash||cubit.vodaCash,
                   builder: (context) {
@@ -229,6 +229,8 @@ class PaymentScreen extends StatelessWidget {
                             "field": field,
                             "location":school["mapLocation"],
                             "isDone":false,
+                            "hasRated":false,
+                            "rating":0,
                           });
                           if(cubit.isWallet) {
                               cubit.userModel["balance"] -= fromWallet;
@@ -263,4 +265,5 @@ class PaymentScreen extends StatelessWidget {
     );
 
   }
+
 }

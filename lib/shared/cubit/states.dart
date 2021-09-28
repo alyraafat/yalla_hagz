@@ -97,6 +97,16 @@ class AppGetOneSchoolErrorState extends AppStates
   final String error;
   AppGetOneSchoolErrorState(this.error);
 }
+// Update School
+class AppUpdateSchoolLoadingState extends AppStates {}
+
+class AppUpdateSchoolSuccessState extends AppStates {}
+
+class AppUpdateSchoolErrorState extends AppStates
+{
+  final String error;
+  AppUpdateSchoolErrorState(this.error);
+}
 
 // Get Offers:
 class AppGetOffersLoadingState extends AppStates {}

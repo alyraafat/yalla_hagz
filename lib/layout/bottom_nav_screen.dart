@@ -1,6 +1,9 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:yalla_hagz/modules/after_7agz_rate_screen.dart';
 import 'package:yalla_hagz/modules/my_profile_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
@@ -10,10 +13,10 @@ class BottomNavScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppCubit cubit = AppCubit.get(context);
     return BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          AppCubit cubit = AppCubit.get(context);
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -21,7 +24,7 @@ class BottomNavScreen extends StatelessWidget {
               elevation: 0,
               title: Text(
                 cubit.titles[cubit.currentIndex],
-                style: TextStyle(
+                style: const TextStyle(
                     color: Color(0xff388E3C),
                     fontWeight: FontWeight.bold,
                     fontSize: 30
@@ -29,11 +32,11 @@ class BottomNavScreen extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                       Icons.date_range
                   ),
                   onPressed: () {
-                    navigateTo(context ,  MyProfileScreen());
+                    navigateTo(context , MyProfileScreen());
                   },
                 ),
               ],
@@ -42,17 +45,15 @@ class BottomNavScreen extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
               onTap: (index) {
                 cubit.changeIndex(index);
-
               },
               currentIndex: cubit.currentIndex,
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   icon: Icon(
                       Icons.book
                   ),
                   label: '7ogozaty',
                 ),
-
                 BottomNavigationBarItem(
                   icon: Icon(
                       Icons.sports_soccer

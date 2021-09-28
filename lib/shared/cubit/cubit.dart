@@ -21,6 +21,7 @@ class AppCubit extends Cubit<AppStates> {
   static AppCubit get(context) => BlocProvider.of(context);
   // bool isDark = false;
   String currentCity = "";
+  double num = 0;
   int currentIndex = 1;
   List<String> titles = [
     '7ogozaty',
@@ -34,6 +35,8 @@ class AppCubit extends Cubit<AppStates> {
   ];
 
   var userModel;
+  var reservation;
+  int mal3ab = 0;
   void getUserData(){
     emit(AppGetUserLoadingState());
     FirebaseFirestore.instance
@@ -43,15 +46,26 @@ class AppCubit extends Cubit<AppStates> {
     .listen((event) {
       userModel = event.data();
       emit(AppGetUserSuccessState());
+      for(int i=0;i<userModel["mala3eb"].length;i++){
+        if(userModel["mala3eb"][i]["date"]==DateFormat.yMMMd().format(DateTime.now())){
+          reservation = userModel["mala3eb"][i];
+          mal3ab = i;
+          if(TimeOfDay.now().hour>=userModel["mala3eb"][i]["to"]&&!userModel["mala3eb"][i]["hasRated"]){
+            userModel["mala3eb"][i]["isDone"] = true;
+            reservation["isDone"] = true;
+            updateUserData(data: {
+              "mala3eb": userModel["mala3eb"]
+            });
+          }
+        }
+      };
       getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
     });
     //     .then((value) {
-    //   userModel = value.data();
-    //   emit(AppGetUserSuccessState());
-    //   getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
-    // }).catchError((error){
-    //   print(error.toString());
-    //   emit(AppGetUserErrorState(error));
+    //
+    //     }).catchError((error){
+    //       print(error.toString());
+    //       emit(AppGetUserErrorState(error));
     // });
   }
 
@@ -65,7 +79,7 @@ class AppCubit extends Cubit<AppStates> {
         .update(data)
         .then((value) {
       emit(AppUpdateUserSuccessState());
-      getUserData();
+      // getUserData();
     }).catchError((error){
       print(error.toString());
       emit(AppUpdateUserErrorState(error));
@@ -170,7 +184,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   // Get One School
-  var oneSchool = {};
+  var oneSchool;
   void getOneSchoolData({
     required String cityId,
     required String schoolId
@@ -181,13 +195,40 @@ class AppCubit extends Cubit<AppStates> {
         .doc(cityId)
         .collection("schools")
         .doc(schoolId)
-        .get()
-        .then((value) {
-      oneSchool = value.data()!;
+        .snapshots()
+    .listen((event) {
+      oneSchool = event.data()!;
       emit(AppGetOneSchoolSuccessState());
+    });
+    //     .then((value) {
+    //
+    // }).catchError((error){
+    //   print(error.toString());
+    //   emit(AppGetOneSchoolErrorState(error));
+    // });
+  }
+
+
+  void updateSchoolData({
+    required String cityId,
+    required String schoolId,
+    required Map<String,dynamic> data
+  }){
+    emit(AppUpdateSchoolLoadingState());
+    FirebaseFirestore.instance
+        .collection("cities")
+        .doc(cityId)
+        .collection("schools")
+        .doc(schoolId)
+        .update(data)
+        .then((value){
+      emit(AppUpdateSchoolSuccessState());
+      getOneSchoolData(
+          cityId: cityId,
+          schoolId:schoolId
+      );
     }).catchError((error){
-      print(error.toString());
-      emit(AppGetOneSchoolErrorState(error));
+      emit(AppUpdateSchoolErrorState(error));
     });
   }
 

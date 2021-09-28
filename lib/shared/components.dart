@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yalla_hagz/modules/school_screen.dart';
+import 'package:yalla_hagz/shared/cubit/cubit.dart';
 
 import 'constants.dart';
 
@@ -65,7 +66,11 @@ Widget buildSchool(context,school) => Container(
                                     ),
                                   ),
                                   SizedBox(height:10),
-                                  defaultRatingBar(school["rating"]),
+                                  defaultRatingBar(
+                                      rating: school["rating"],
+                                      gestures: true,
+                                      context: context
+                                  ),
                                   // RatingBar(
                                   //   itemSize: 25,
                                   //   initialRating: 0,
@@ -302,25 +307,34 @@ Color chooseToastColor(ToastStates state) {
   return color;
 }
 
-Widget defaultRatingBar(double rating) =>  RatingBar.builder(
-  ignoreGestures: true,
-  glowRadius: 10,
-  glowColor: defaultColor,
-  itemSize: 25,
-  initialRating: rating,
-  minRating: 1,
-  direction: Axis.horizontal,
-  allowHalfRating: true,
-  itemCount: 5,
-  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-  itemBuilder: (context, _) => Icon(
-    Icons.sports_soccer,
-    color: defaultColor,
-  ),
-  onRatingUpdate: (rating) {
-    print(rating);
-  },
-);
+Widget defaultRatingBar({
+  required  double rating,
+  required bool gestures,
+  required BuildContext context
+}) {
+return RatingBar.builder(
+      ignoreGestures: gestures,
+      glowRadius: 10,
+      glowColor: defaultColor,
+      itemSize: 25,
+      initialRating: rating,
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+      itemBuilder: (context, _) => Icon(
+        Icons.sports_soccer,
+        color: defaultColor,
+      ),
+      tapOnlyMode: true,
+      onRatingUpdate: (ratingNum) {
+        AppCubit.get(context).num = ratingNum;
+      },
+  );
+
+}
+
 
 Widget defaultCarouselSlider() => Container(
   clipBehavior: Clip.antiAliasWithSaveLayer,

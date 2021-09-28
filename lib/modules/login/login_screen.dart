@@ -7,6 +7,7 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:yalla_hagz/Network/local/cache_helper.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
+import 'package:yalla_hagz/modules/first_screen.dart';
 import 'package:yalla_hagz/modules/register/register_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
@@ -41,7 +42,7 @@ class LoginScreen extends StatelessWidget
           {
             navigateAndFinish(
               context,
-              BottomNavScreen(),
+              FirstScreen(),
             );
           }
           );
