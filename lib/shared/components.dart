@@ -259,6 +259,20 @@ String formatTime({
   return strNum;
 }
 
+int formatTimeInt({
+  required dynamic num,
+}) {
+  int time = 0;
+  if (num > 12) {
+    time = num - 12;
+  } else if (num == 0) {
+    time = 12;
+  } else {
+    time = num;
+  }
+  return time;
+}
+
 void navigateAndFinish(
     context, widget,
     ) =>

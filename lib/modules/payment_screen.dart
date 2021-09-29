@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
 import 'package:yalla_hagz/modules/choosing_screen.dart';
+import 'package:yalla_hagz/modules/school_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
 import 'package:yalla_hagz/shared/cubit/states.dart';
-
+import 'dart:math';
 import 'rating_screen.dart';
 
 
 class PaymentScreen extends StatelessWidget {
-
+  Random random = Random();
+  String randomNumber = "";
   var choose;
   var school;
   var date;
@@ -25,7 +27,7 @@ class PaymentScreen extends StatelessWidget {
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state){},
       builder: (context,state){
-        int fromWallet = choose.length*school["fees"]<cubit.userModel["balance"]?choose.length*school["fees"]:cubit.userModel["balance"];
+        double fromWallet = choose.length*school["fees"]<cubit.userModel["balance"]?choose.length*school["fees"]:cubit.userModel["balance"];
         return Scaffold(
           appBar: AppBar(
             title: const Text(
@@ -202,53 +204,85 @@ class PaymentScreen extends StatelessWidget {
                         color: Colors.white,
                         backGroundColor: Color(0xff388E3C),
                         function: () {
-                          int from = 10000000000000;
-                          int to = -1000000000000;
-                          for(int i=0; i<choose.length ; i++){
-                            if(cubit.startTimes[choose[i]]["from"]<from){
-                              from = cubit.startTimes[choose[i]]["from"];
+                          bool wasBooked = false;
+                          for(int z=0;z<choose.length;z++){
+                            if(cubit.startTimes[choose[z]]["isBooked"]){
+                              showToast(
+                                  text:"Someone has just recently booked from: ${cubit.startTimes[choose[z]]["from"]} to: ${cubit.startTimes[choose[z]]["to"]}" ,
+                                  state: ToastStates.ERROR
+                              );
+                              wasBooked = true;
                             }
-                            if(cubit.startTimes[choose[i]]["to"]>to){
-                              to = cubit.startTimes[choose[i]]["to"];
-                            }
-                            cubit.updateBookingTimeModel(cityId: cubit.currentCity, schoolId: school["schoolId"], date: date, field: field.toString(), from: cubit.startTimes[choose[i]]["from"].toString(), data: {
-                              "isBooked": true,
-                              "userId":uId,
-                              "userName": cubit.userModel["name"],
-                              "userPhone": cubit.userModel["phone"],
-                            });
                           }
-                          cubit.userModel["mala3eb"].add({
-                            "schoolId":school["schoolId"],
-                            "from":from,
-                            "to":to,
-                            "schoolName":school["name"],
-                            "fees":school["fees"],
-                            "city":cubit.currentCity,
-                            "date": date,
-                            "field": field,
-                            "location":school["mapLocation"],
-                            "isDone":false,
-                            "hasRated":false,
-                            "rating":0,
-                          });
-                          if(cubit.isWallet) {
-                              cubit.userModel["balance"] -= fromWallet;
+                          if(wasBooked) {
+                              navigateAndFinish(context, SchoolScreen(school));
+                          } else{
+                              for (int j = 1; j <= 6; j++) {
+                                randomNumber += "${random.nextInt(10)}";
+                              }
+                              int from = 10000000000000;
+                              int to = -1000000000000;
+                              bool isBooked = false;
+                              for (int i = 0; i < choose.length; i++) {
+                                if (cubit.startTimes[choose[i]]["from"] <
+                                    from) {
+                                  from = cubit.startTimes[choose[i]]["from"];
+                                }
+                                if (cubit.startTimes[choose[i]]["to"] > to) {
+                                  to = cubit.startTimes[choose[i]]["to"];
+                                }
+                                cubit.updateBookingTimeModel(
+                                    cityId: cubit.currentCity,
+                                    schoolId: school["schoolId"],
+                                    date: date,
+                                    field: field.toString(),
+                                    from: cubit.startTimes[choose[i]]["from"]
+                                        .toString(),
+                                    data: {
+                                      "isBooked": true,
+                                      "userId": uId,
+                                      "userName": cubit.userModel["name"],
+                                      "userPhone": cubit.userModel["phone"],
+                                      "randomNumber": randomNumber
+                                    });
+                              }
+
+                              cubit.userModel["mala3eb"].add({
+                                "schoolId": school["schoolId"],
+                                "from": from,
+                                "to": to,
+                                "schoolName": school["name"],
+                                "fees": school["fees"],
+                                "city": cubit.currentCity,
+                                "date": date,
+                                "field": field,
+                                "location": school["mapLocation"],
+                                "isDone": false,
+                                "hasRated": false,
+                                "isVerified": false,
+                                "rating": 0,
+                                "randomNumber": randomNumber,
+                              });
+                              if (cubit.isWallet) {
+                                cubit.userModel["balance"] -= fromWallet;
+                              }
+                              cubit.updateUserData(data: {
+                                "mala3eb": cubit.userModel["mala3eb"],
+                                "balance": cubit.userModel["balance"]
+                              });
+                              if (count > school["policy"]) {
+                                showToast(
+                                    text:
+                                        "You have successfully booked but Ta3ala 2df3 ya 7iwan ya nasab ya beheema",
+                                    state: ToastStates.WARNING);
+                              } else {
+                                showToast(
+                                    text: "You have successfully booked",
+                                    state: ToastStates.SUCCESS);
+                              }
+                              navigateAndFinish(context, BottomNavScreen());
                             }
-                          cubit.updateUserData(data: {
-                            "mala3eb": cubit.userModel["mala3eb"],
-                            "balance": cubit.userModel["balance"]
-                          });
-                          if(count>school["policy"]){
-                            showToast(
-                                text: "You have successfully booked but Ta3ala 2df3 ya 7iwan ya nasab ya beheema",
-                                state: ToastStates.WARNING
-                            );
-                          }else {
-                            showToast(text:"You have successfully booked",state:ToastStates.SUCCESS);
-                          }
-                          navigateAndFinish(context, BottomNavScreen());
-                        },
+                          },
                         text: 'YALA',
                       ),
                     );

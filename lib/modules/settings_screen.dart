@@ -133,8 +133,15 @@ class SettingsScreen extends StatelessWidget {
                   MaterialButton(
                     onPressed: (){
                       CacheHelper.saveData(key: "uId", value: " ");
-                      navigateAndFinish(context, LoginScreen());
-                    },
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                        (route) {
+                          return false;
+                        },
+                      );                      },
                     child: Row(
                       children: [
                         Icon(Icons.logout_sharp),

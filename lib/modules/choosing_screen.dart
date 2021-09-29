@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
@@ -145,7 +146,9 @@ class ChoosingScreen extends StatelessWidget {
                                                       color: defaultColor,
                                                       height: 35,
                                                       child: TextButton(
-                                                        onPressed: () {  },
+                                                        onPressed: () {
+                                                          launch(userModel["mala3eb"][mala3ebLastIndex-index]["location"]);
+                                                        },
 
                                                         child: Row(
                                                           children: [
@@ -161,49 +164,62 @@ class ChoosingScreen extends StatelessWidget {
                                                       ),
                                                     ),
                                                     SizedBox(width:10),
-                                                    Container(
-                                                      color: Colors.red,
-                                                      height: 35,
-                                                      child: TextButton(
-                                                        onPressed: () {
-                                                          Alert(
-                                                              context: context,
-                                                              title: "Are you sure you want to cancel?",
-                                                              content: Text("Cancellation Policy"),
-                                                              buttons: [
-                                                                DialogButton(
-                                                                  child: const Text(
-                                                                      'Cancel',
-                                                                      style: TextStyle(
-                                                                        color:Colors.white,
-                                                                      )),
-                                                                  onPressed: (){
-                                                                    for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
-                                                                      cubit.updateBookingTimeModel(cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"], schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"], date: userModel["mala3eb"][mala3ebLastIndex - index]["date"], field: userModel["mala3eb"][mala3ebLastIndex - index]["field"].toString(), from: i.toString(), data: {
-                                                                        "isBooked": false,
-                                                                        "userId": "",
-                                                                        "userPhone": "",
-                                                                        "userName": ""
-                                                                      });
-                                                                    }
-                                                                    userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
-                                                                    cubit.updateUserData(data: {
-                                                                      "mala3eb":userModel["mala3eb"]
-                                                                    });
-                                                                    Navigator.pop(context);
-                                                                  },
-                                                                  width: 120,
-                                                                  color: Colors.red,
-                                                                ),
-                                                              ]
-                                                          ).show();
-                                                        },
+                                                    ConditionalBuilder(
+                                                      condition: formatTimeInt(num:TimeOfDay.now().hour)<=formatTimeInt(num:userModel["mala3eb"][mala3ebLastIndex-cubit.mal3ab]["from"]),
+                                                      builder: (context) {
+                                                        return Container(
+                                                          color: Colors.red,
+                                                          height: 35,
+                                                          child: TextButton(
+                                                            onPressed: () {
+                                                              Alert(
+                                                                  context: context,
+                                                                  title: "Are you sure you want to cancel?",
+                                                                  content: Text("Cancellation Policy"),
+                                                                  buttons: [
+                                                                    DialogButton(
+                                                                      child: const Text(
+                                                                          'Cancel',
+                                                                          style: TextStyle(
+                                                                            color:Colors.white,
+                                                                          )),
+                                                                      onPressed: (){
+                                                                        for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
+                                                                          cubit.updateBookingTimeModel(
+                                                                              cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"],
+                                                                              schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"],
+                                                                              date: userModel["mala3eb"][mala3ebLastIndex - index]["date"],
+                                                                              field: userModel["mala3eb"][mala3ebLastIndex - index]["field"].toString(),
+                                                                              from: i.toString(),
+                                                                              data: {
+                                                                                "isBooked": false,
+                                                                                "userId": "",
+                                                                                "userPhone": "",
+                                                                                "userName": "",
+                                                                                "randomNumber":""
+                                                                              });
+                                                                        }
+                                                                        userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
+                                                                        cubit.updateUserData(data: {
+                                                                          "mala3eb":userModel["mala3eb"]
+                                                                        });
+                                                                        Navigator.pop(context);
+                                                                      },
+                                                                      width: 120,
+                                                                      color: Colors.red,
+                                                                    ),
+                                                                  ]
+                                                              ).show();
+                                                            },
 
-                                                        child: Text('Cancel',
-                                                            style: TextStyle(
-                                                              color:Colors.white,
-                                                            )),
-                                                      ),
+                                                            child: Text('Cancel',
+                                                                style: TextStyle(
+                                                                  color:Colors.white,
+                                                                )),
+                                                          ),
+                                                        );
+                                                      },
+                                                      fallback: (context)=>Container(),
                                                     ),
                                                   ],
                                                 ),
@@ -455,7 +471,7 @@ class ChoosingScreen extends StatelessWidget {
                               ,
                             ),
                             separatorBuilder: (context , index) => myDivider() ,
-                            itemCount: userModel["teamNames"].length,
+                            itemCount: userModel["tournamentIds"].length,
                           ),
                         ],
                       ),

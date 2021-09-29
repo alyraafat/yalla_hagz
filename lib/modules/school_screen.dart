@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
@@ -80,13 +81,23 @@ class SchoolScreen extends StatelessWidget {
                           color: defaultColor,
                           child: TextButton(
                             onPressed:() {
+                              launch(school["mapLocation"]);
                             },
-                            child: Text(
-                              'Map Location',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width:5),
+                                Text(
+                                  'Location',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         )

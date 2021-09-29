@@ -139,7 +139,9 @@ class RegisterScreen extends StatelessWidget
                               isUpperCase: true,
                             ),
                         fallback: (context) =>
-                            Center(child: CircularProgressIndicator()),
+                            Center(child: CircularProgressIndicator(
+                              color: defaultColor,
+                            )),
                       ),
                     ],
                   ),

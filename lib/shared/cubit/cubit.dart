@@ -11,6 +11,7 @@ import 'package:yalla_hagz/models/school_model.dart';
 import 'package:yalla_hagz/modules/choosing_screen.dart';
 import 'package:yalla_hagz/modules/mala3eb_screen.dart';
 import 'package:yalla_hagz/modules/tournament_screen.dart';
+import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/cubit/states.dart';
 
 import '../constants.dart';
@@ -35,7 +36,6 @@ class AppCubit extends Cubit<AppStates> {
   ];
 
   var userModel;
-  var reservation;
   int mal3ab = 0;
   void getUserData(){
     emit(AppGetUserLoadingState());
@@ -43,16 +43,14 @@ class AppCubit extends Cubit<AppStates> {
         .collection('users')
         .doc(uId)
         .snapshots()
-    .listen((event) {
+        .listen((event) {
       userModel = event.data();
       emit(AppGetUserSuccessState());
       for(int i=0;i<userModel["mala3eb"].length;i++){
         if(userModel["mala3eb"][i]["date"]==DateFormat.yMMMd().format(DateTime.now())){
-          reservation = userModel["mala3eb"][i];
           mal3ab = i;
-          if(TimeOfDay.now().hour>=userModel["mala3eb"][i]["to"]&&!userModel["mala3eb"][i]["hasRated"]){
+          if(formatTimeInt(num:TimeOfDay.now().hour)>=formatTimeInt(num:userModel["mala3eb"][i]["to"])&&!userModel["mala3eb"][i]["hasRated"]){
             userModel["mala3eb"][i]["isDone"] = true;
-            reservation["isDone"] = true;
             updateUserData(data: {
               "mala3eb": userModel["mala3eb"]
             });
@@ -300,6 +298,7 @@ class AppCubit extends Cubit<AppStates> {
   }
   var startTimes =[];
   var selected = [];
+  var bookedAndDone = [];
 
   void checkDateInDataBase({
     required String date,
@@ -367,7 +366,8 @@ class AppCubit extends Cubit<AppStates> {
         fees: fees,
         isBooked: false,
         userPhone: "",
-        userName: ""
+        userName: "",
+        randomNumber: ''
       );
       emit(AppCreateBookingTimeLoadingState());
       FirebaseFirestore.instance
@@ -405,8 +405,7 @@ class AppCubit extends Cubit<AppStates> {
     required String date,
     required String field,
   }){
-    startTimes = [];
-    selected = [];
+
     emit(AppGetBookingTimeLoadingState());
     FirebaseFirestore.instance
         .collection("cities")
@@ -423,17 +422,26 @@ class AppCubit extends Cubit<AppStates> {
         .listen((event) {
           startTimes = [];
           selected = [];
+          bookedAndDone=[];
           event.docs.forEach((startTime){
             if(date==DateFormat.yMMMd().format(DateTime.now())){
-              if(TimeOfDay.now().hour>=startTime.data()["from"]){
-                updateBookingTimeModel(cityId: cityId, schoolId: schoolId, date: date, field: field, from: startTime.data()["from"].toString(), data: {
-                  "isDone": true
-                });
+              if(formatTimeInt(num:TimeOfDay.now().hour)>=formatTimeInt(num:startTime.data()["from"])){
+                updateBookingTimeModel(
+                    cityId: cityId,
+                    schoolId: schoolId,
+                    date: date,
+                    field: field,
+                    from: startTime.data()["from"].toString(),
+                    data: {
+                      "isDone": true
+                    });
               }
             }
             if(!startTime.data()["isBooked"]&&!startTime.data()["isDone"]) {
               startTimes.add(startTime.data());
               selected.add(false);
+            }else{
+              bookedAndDone.add(startTime.data());
             }
           });
           emit(AppGetBookingTimeSuccessState());
