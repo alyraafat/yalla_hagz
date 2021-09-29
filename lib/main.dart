@@ -25,7 +25,7 @@ void main() async {
   await CacheHelper.init();
   // bool onBoarding = CacheHelper.getData(key: 'onBoarding');
   var isDark = CacheHelper.getData(key: 'isDark');
-  uId = CacheHelper.getData(key: 'uId');
+  //uId = CacheHelper.getData(key: 'uId');
   Widget startWidget;
 
   // if(onBoarding)

@@ -27,85 +27,68 @@ class AccountScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      const Icon(
-                          Icons.people_outline
-                      ),
-                      const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Name',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15
+                  Padding(
+                    padding: const EdgeInsets.symmetric( horizontal: 20.0),
+                    child: Row(
+                      children: [
+                        const Icon(
+                            Icons.phone_android
+                        ),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Mobile number',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 5),
-                        ],
-                      ),
-                    ],
+                            const SizedBox(height: 5),
+                            Text(
+                              '+2${userModel["phone"]}',
+                              style: TextStyle(
+                                  color: Colors.grey[500]
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height:20),
-                  Row(
-                    children: [
-                      const Icon(
-                          Icons.phone_android
-                      ),
-                      const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Mobile number',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      children: [
+                        const Icon(
+                            Icons.email_outlined
+                        ),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Email',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            '+2${userModel["phone"]}',
-                            style: TextStyle(
-                                color: Colors.grey[500]
+                            const SizedBox(height: 5),
+                            Text(
+                              userModel["email"],
+                              style: TextStyle(
+                                  color: Colors.grey[500]
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height:20),
-                  Row(
-                    children: [
-                      const Icon(
-                          Icons.email_outlined
-                      ),
-                      const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Email',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            userModel["email"],
-                            style: TextStyle(
-                                color: Colors.grey[500]
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height:20),
                   MaterialButton(

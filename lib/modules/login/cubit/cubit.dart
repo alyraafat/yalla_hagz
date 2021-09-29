@@ -24,10 +24,9 @@ class LoginCubit extends Cubit<LoginStates> {
     ;
   }
   void changePassword ({
-    required String oldPassword,
     required String newPassword,
 }){
-      FirebaseAuth.instance.confirmPasswordReset(code: oldPassword, newPassword: newPassword)
+      FirebaseAuth.instance.currentUser!.updatePassword(newPassword)
       .then((value) {
         showToast(text: 'Password has been changed Successfully', state: ToastStates.SUCCESS);
       }).catchError((error){
