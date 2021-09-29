@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yalla_hagz/Network/local/cache_helper.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
+import 'package:yalla_hagz/modules/register/validateemailaddress.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
 
@@ -25,17 +26,17 @@ class RegisterScreen extends StatelessWidget
       listener: (context, state)
       {
         if (state is RegisterCreateUserSuccessState) {
-          CacheHelper.saveData(
-          key: 'uId',
-          value: state.uid,
-          ).then((value)
-          {
+          // CacheHelper.saveData(
+          // key: 'uId',
+          // value: state.uid,
+          // ).then((value)
+          // {
             navigateAndFinish(
               context,
-              BottomNavScreen(),
+              ValidateEmailAddress(),
             );
-          }
-        );
+          // }
+        //);
         }
         if (state is RegisterCreateUserErrorState) {
           showToast(

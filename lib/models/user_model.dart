@@ -13,6 +13,7 @@ class UserModel{
   late List<String> tournamentIds;
   late List<String> teamNames;
 
+
   UserModel(
       {
         required this.phone,
@@ -24,7 +25,7 @@ class UserModel{
         required this.friendIds,
         required this.mala3eb,
         required this.tournamentIds,
-        required this.teamNames
+        required this.teamNames,
       }
       );
 
@@ -39,6 +40,7 @@ class UserModel{
     mala3eb = json?['mala3eb'];
     tournamentIds = json?['tournamentIds'];
     teamNames = json?["teamNames"];
+
   }
 
   Map<String, dynamic> toMap() {
@@ -52,7 +54,8 @@ class UserModel{
       "friendIds":friendIds,
       "mala3eb":mala3eb,
       "tournamentIds":tournamentIds,
-      "teamNames": teamNames
+      "teamNames": teamNames,
+
     };
   }
 }

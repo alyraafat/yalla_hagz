@@ -17,6 +17,7 @@ class BottomNavScreen extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
+          var userModel = AppCubit.get(context).userModel;
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
