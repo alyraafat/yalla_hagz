@@ -38,8 +38,9 @@ class ChangePasswordScreen extends StatelessWidget {
                     defaultFormField(
                         controller: oldPassController,
                         validate: (value) {
-                          if (value!.isEmpty)
+                          if (value!.isEmpty) {
                             return ('Oldpassword shouldn\'t be empty');
+                          }
                         },
                         isObscure: LoginCubit.get(context).isPassword,
                         text: 'Old Password',
@@ -54,8 +55,15 @@ class ChangePasswordScreen extends StatelessWidget {
                     defaultFormField(
                         controller: newPassController,
                         validate: (value) {
-                          if (value!.isEmpty)
+                          if (value!.isEmpty) {
                             return ('Password shouldn\'t be empty');
+                          }
+                          else if(newPassController.text.length > 8) {
+                            return ('Please make Password is more than 8 Characters');
+                          }
+                          else if(newPassController.text != newPassConfirmationController.text) {
+                            return ('Passwords must be the same');
+                          }
                         },
                         isObscure: LoginCubit.get(context).isPassword,
                         text: 'New Password',
@@ -70,8 +78,15 @@ class ChangePasswordScreen extends StatelessWidget {
                     defaultFormField(
                         controller: newPassConfirmationController,
                         validate: (value) {
-                          if (value!.isEmpty)
+                          if (value!.isEmpty) {
                             return ('Password shouldn\'t be empty');
+                          }
+                          else if(newPassConfirmationController.text.length > 8) {
+                            return ('Please make Password is more than 8 Characters');
+                          }
+                          else if(newPassController.text != newPassConfirmationController.text) {
+                            return ('Passwords must be the same');
+                          }
                         },
                         isObscure: LoginCubit.get(context).isPassword,
                         text: 'Confirm new Password',
@@ -87,24 +102,22 @@ class ChangePasswordScreen extends StatelessWidget {
                       child: defaultTextButton(
                           function: () {
                             if (formKey.currentState!.validate()) {
-                              // FirebaseAuth.instance.currentUser!
-                              //     .reauthenticateWithCredential(
-                              //         EmailAuthProvider.credential(
-                              //             email: userModel["email"],
-                              //             password:
-                              //                 oldPassController.toString()))
-                              //     .then((value) {
+                                FirebaseAuth.instance.currentUser!
+                                    .reauthenticateWithCredential(
+                                        EmailAuthProvider.credential(
+                                            email: userModel["email"],
+                                            password: oldPassController.text))
+                                    .then((value) {
                                   cubit.changePassword(
-                                      newPassword:
-                                          newPassController.toString());
+                                      newPassword: newPassController.text);
                                   Navigator.pop(context);
-                            //   }).catchError((onError){
-                            //     showToast(
-                            //         text:
-                            //         'An error has occurreddddd, Please try again}',
-                            //         state: ToastStates.WARNING);
-                            //   });
-                             }
+                                }).catchError((onError) {
+                                  showToast(
+                                      text:
+                                          'An error has occurred, Please try again',
+                                      state: ToastStates.WARNING);
+                                });
+                              }
                           },
                           text: 'Change Password'),
                     ),

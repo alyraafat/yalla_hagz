@@ -29,7 +29,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             defaultFormField(
                 controller: emailController,
                 validate: (value){
@@ -45,7 +45,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   function: (){
                     if (formKey.currentState!.validate()) {
                       cubit.forgetPasswordResetEmail(
-                          email: emailController.toString());
+                          email: emailController.text);
                     }
                     Navigator.pop(context);
                   },
