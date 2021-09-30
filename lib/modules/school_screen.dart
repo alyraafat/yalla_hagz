@@ -24,6 +24,7 @@ class SchoolScreen extends StatelessWidget {
   String day = "";
   SchoolScreen(this.school);
   List<int> choose = [];
+  List<int> fromTime = [];
   int count = 0;
   @override
   Widget build(BuildContext context) {
@@ -84,7 +85,7 @@ class SchoolScreen extends StatelessWidget {
                               launch(school["mapLocation"]);
                             },
                             child: Row(
-                              children: [
+                              children: const [
                                 Icon(
                                   Icons.location_on,
                                   color: Colors.white,
@@ -173,7 +174,14 @@ class SchoolScreen extends StatelessWidget {
                                         currentField = index+1;
                                         cubit.changeField();
                                         if(school["calendar$currentField"][day].length != 1) {
-                                          AppCubit.get(context).checkDateInDataBase(date: dateController.text, cityId: AppCubit.get(context).currentCity, schoolId: school["schoolId"], field: currentField.toString(), fees: school["fees"],intervals:school["calendar$currentField"][day]);
+                                          AppCubit.get(context).checkDateInDataBase(
+                                              date: dateController.text,
+                                              cityId: AppCubit.get(context).currentCity,
+                                              schoolId: school["schoolId"],
+                                              field: currentField.toString(),
+                                              fees: school["fees"],
+                                              intervals:school["calendar$currentField"][day]
+                                          );
                                         }
                                       },
                                       child: Text(
@@ -316,9 +324,15 @@ class SchoolScreen extends StatelessWidget {
                                     backgroundPicker: defaultColor,
                                   )).then((value) {
                                 day = AppCubit.get(context).dateToDay(date: value.toString());
-                                dateController.text = DateFormat.yMMMd().format(value!);
+                                dateController.text = DateFormat("yyyy-MM-dd").format(value!);
                                 if(school["calendar$currentField"][day].length != 1) {
-                                  AppCubit.get(context).checkDateInDataBase(date: dateController.text, cityId: AppCubit.get(context).currentCity, schoolId: school["schoolId"], field: currentField.toString(), fees: school["fees"],intervals:school["calendar$currentField"][day]);
+                                  AppCubit.get(context).checkDateInDataBase(
+                                      date: dateController.text,
+                                      cityId: AppCubit.get(context).currentCity,
+                                      schoolId: school["schoolId"],
+                                      field: currentField.toString(),
+                                      fees: school["fees"],
+                                      intervals:school["calendar$currentField"][day]);
                                 }
                                 AppCubit.get(context).changeDate();
                               });
@@ -358,11 +372,13 @@ class SchoolScreen extends StatelessWidget {
                                                       cubit.changeCardColor();
                                                       if (cubit.selected[index]) {
                                                         choose.add(index);
+                                                        fromTime.add(AppCubit.get(context).startTimes[index]["from"]);
                                                         count++;
                                                       } else {
                                                         for (int i = 0; i < choose.length; i++) {
                                                           if (choose[i] == index) {
                                                             choose.removeAt(i);
+                                                            fromTime.remove(AppCubit.get(context).startTimes[index]["from"]);
                                                             count--;
                                                           }
                                                         }
@@ -377,7 +393,7 @@ class SchoolScreen extends StatelessWidget {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                            '$day ${dateController.text}, from: $strFrom to: $strTo'
+                                                            '$day ${DateFormat.yMMMd().format(DateTime.parse(dateController.text))}, from: $strFrom to: $strTo'
                                                         ),
                                                         Row(
                                                           children: [
@@ -435,7 +451,7 @@ class SchoolScreen extends StatelessWidget {
                                         color: Colors.white,
                                         backGroundColor: const Color(0xff388E3C),
                                         function: () {
-                                          navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField,count));
+                                          navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField,count,fromTime));
                                         },
                                         text: 'YALA',
                                       ),

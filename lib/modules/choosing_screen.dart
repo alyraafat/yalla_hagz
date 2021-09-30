@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yalla_hagz/shared/components.dart';
@@ -116,7 +117,7 @@ class ChoosingScreen extends StatelessWidget {
                                                 ),
                                                 const SizedBox(height: 10,),
                                                 Text(
-                                                  '${userModel["mala3eb"][mala3ebLastIndex-index]["date"]}',
+                                                  DateFormat.yMMMd().format(DateTime.parse(userModel["mala3eb"][mala3ebLastIndex-index]["date"])),
                                                   maxLines: 1,
                                                   style: TextStyle(
 
@@ -165,7 +166,7 @@ class ChoosingScreen extends StatelessWidget {
                                                     ),
                                                     SizedBox(width:10),
                                                     ConditionalBuilder(
-                                                      condition: formatTimeInt(num:TimeOfDay.now().hour)<=formatTimeInt(num:userModel["mala3eb"][mala3ebLastIndex-cubit.mal3ab]["from"]),
+                                                      condition: (TimeOfDay.now().hour<=userModel["mala3eb"][mala3ebLastIndex-index]["from"]&&cubit.compareDates(date1:userModel["mala3eb"][mala3ebLastIndex-index]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==0)||cubit.compareDates(date1:userModel["mala3eb"][mala3ebLastIndex-index]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==-1,
                                                       builder: (context) {
                                                         return Container(
                                                           color: Colors.red,
@@ -324,16 +325,16 @@ class ChoosingScreen extends StatelessWidget {
                                               Text(
                                                 '${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}',
                                                 maxLines: 1,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
-                                              SizedBox(height: 10,),
+                                              const SizedBox(height: 10,),
                                               Text(
                                                 'Your Team name: ${userModel["teamNames"][userTournamentsLastIndex-index]}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -342,15 +343,14 @@ class ChoosingScreen extends StatelessWidget {
                                               Text(
                                                 '${cubit.userTournaments[userTournamentsLastIndex-index]["date"]}',
                                                 maxLines: 1,
-                                                style: TextStyle(
-
+                                                style: const TextStyle(
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
                                               Text(
                                                 'from: ${cubit.userTournaments[userTournamentsLastIndex-index]["from"]} to: ${cubit.userTournaments[userTournamentsLastIndex-index]["to"]}',
                                                 maxLines: 1,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),

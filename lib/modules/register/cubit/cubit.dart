@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yalla_hagz/models/user_model.dart';
 import 'package:yalla_hagz/modules/register/cubit/states.dart';
+import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
 
@@ -13,13 +14,32 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   static RegisterCubit get(context) => BlocProvider.of(context);
   void verifyPhoneNumber ({
-  required String phoneNumber,
-}) {
+    required String phoneNumber,
+    required String code,
+    required BuildContext context
+
+  }) {
       FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+2$phoneNumber',
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {},
-      codeSent: (String verificationId, int? resendToken) {},
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await FirebaseAuth.instance.signInWithCredential(credential)
+        .then((value) {
+          AppCubit.get(context).updateUserData(data: {
+            "isPhoneVerified":true
+          });
+        });
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        if(e.code=="invalid-phone-number"){
+          showToast(
+              text:"The provided phone number is invalid",
+              state:ToastStates.ERROR
+          );
+        }
+      },
+      codeSent: (String verificationId, int? resendToken) async {
+        await FirebaseAuth.instance.signInWithCredential(PhoneAuthProvider.credential(verificationId: verificationId, smsCode: code));
+      },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
@@ -70,6 +90,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
       friendIds: [],
       mala3eb: [],
       teamNames: [],
+      isEmailVerified:false,
+      isPhoneVerified:false
 
     );
 

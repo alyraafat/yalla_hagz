@@ -45,18 +45,30 @@ class AppCubit extends Cubit<AppStates> {
         .snapshots()
         .listen((event) {
       userModel = event.data();
-      emit(AppGetUserSuccessState());
+      // print(userModel);
       for(int i=0;i<userModel["mala3eb"].length;i++){
-        if(userModel["mala3eb"][i]["date"]==DateFormat.yMMMd().format(DateTime.now())){
+        // print("in loop");
+        if(compareDates(date1:userModel["mala3eb"][i]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==0){
+          // print("in first if");
+          // print(TimeOfDay.now().hour);
+          // print(TimeOfDay.now().hour>=event.data()!["mala3eb"][i]["to"]);
           mal3ab = i;
-          if(formatTimeInt(num:TimeOfDay.now().hour)>=formatTimeInt(num:userModel["mala3eb"][i]["to"])&&!userModel["mala3eb"][i]["hasRated"]){
+          if(TimeOfDay.now().hour>=userModel["mala3eb"][i]["to"]&&!userModel["mala3eb"][i]["isDone"]){
+            print("in time if");
             userModel["mala3eb"][i]["isDone"] = true;
             updateUserData(data: {
               "mala3eb": userModel["mala3eb"]
             });
           }
+        }else if(compareDates(date1:userModel["mala3eb"][i]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==-1){
+          // print("in 2nd if");
+          userModel["mala3eb"][i]["isDone"] = true;
+          updateUserData(data: {
+            "mala3eb": userModel["mala3eb"]
+          });
         }
       };
+      emit(AppGetUserSuccessState());
       getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
     });
     //     .then((value) {
@@ -250,6 +262,25 @@ class AppCubit extends Cubit<AppStates> {
 
   }
 
+  int compareDates({
+  required String date1, // greater:1, smaller:-1,equal:0
+  required String date2,
+  }){
+      List<String> d1 = date1.split("-");
+      List<String> d2 = date2.split("-");
+      if(date1==date2) return 0;
+      else if(int.parse(d1[0])>int.parse(d2[0])) return 1;
+      else if(int.parse(d1[0])<int.parse(d2[0])) return -1;
+      else {
+        if(int.parse(d1[1])>int.parse(d2[1])) return 1;
+        else if(int.parse(d1[1])<int.parse(d2[1])) return -1;
+        else{
+          if(int.parse(d1[2])>int.parse(d2[2])) return 1;
+          else return -1;
+        }
+      }
+  }
+
   String dateToDay({
     required String date
   }){
@@ -298,7 +329,7 @@ class AppCubit extends Cubit<AppStates> {
   }
   var startTimes =[];
   var selected = [];
-  var bookedAndDone = [];
+  var booked = [];
 
   void checkDateInDataBase({
     required String date,
@@ -422,10 +453,22 @@ class AppCubit extends Cubit<AppStates> {
         .listen((event) {
           startTimes = [];
           selected = [];
-          bookedAndDone=[];
+          booked=[];
           event.docs.forEach((startTime){
-            if(date==DateFormat.yMMMd().format(DateTime.now())){
-              if(formatTimeInt(num:TimeOfDay.now().hour)>=formatTimeInt(num:startTime.data()["from"])){
+            if(compareDates(date1:date,date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==0){
+              if(TimeOfDay.now().hour>=startTime.data()["from"]&&!startTime.data()["isDone"]){
+                updateBookingTimeModel(
+                    cityId: cityId,
+                    schoolId: schoolId,
+                    date: date,
+                    field: field,
+                    from: startTime.data()["from"].toString(),
+                    data: {
+                      "isDone": true
+                    });
+              }
+            }else if(compareDates(date1:date,date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==-1){
+              if(!startTime.data()["isDone"]){
                 updateBookingTimeModel(
                     cityId: cityId,
                     schoolId: schoolId,
@@ -440,8 +483,8 @@ class AppCubit extends Cubit<AppStates> {
             if(!startTime.data()["isBooked"]&&!startTime.data()["isDone"]) {
               startTimes.add(startTime.data());
               selected.add(false);
-            }else{
-              bookedAndDone.add(startTime.data());
+            }else if(startTime.data()["isBooked"]){
+              booked.add(startTime.data());
             }
           });
           emit(AppGetBookingTimeSuccessState());

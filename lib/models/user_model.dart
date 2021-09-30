@@ -12,7 +12,8 @@ class UserModel{
   late List<Mala3ebModel> mala3eb;
   late List<String> tournamentIds;
   late List<String> teamNames;
-
+  late bool isEmailVerified;
+  late bool isPhoneVerified;
 
   UserModel(
       {
@@ -26,6 +27,8 @@ class UserModel{
         required this.mala3eb,
         required this.tournamentIds,
         required this.teamNames,
+        required this.isEmailVerified,
+        required this.isPhoneVerified
       }
       );
 
@@ -55,6 +58,8 @@ class UserModel{
       "mala3eb":mala3eb,
       "tournamentIds":tournamentIds,
       "teamNames": teamNames,
+      "isEmailVerified":isEmailVerified,
+      "isPhoneVerified":isPhoneVerified
 
     };
   }

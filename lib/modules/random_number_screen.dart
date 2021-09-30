@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
+import 'package:yalla_hagz/modules/after_7agz_rate_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
@@ -20,7 +21,7 @@ class RandomNumberScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children:  [
-              Text(
+              const Text(
                 "Please enter the random number given by the admin below.",
                 style: TextStyle(
                   fontSize: 20
@@ -31,6 +32,10 @@ class RandomNumberScreen extends StatelessWidget {
                 color: defaultColor,
                 child: MaterialButton(
                     onPressed: (){
+                      cubit.getOneSchoolData(
+                          schoolId: cubit.userModel["mala3eb"][cubit.mal3ab]["schoolId"],
+                          cityId: cubit.userModel["mala3eb"][cubit.mal3ab]["city"]
+                      );
                       Alert(
                         context: context,
                         content: Column(
@@ -58,11 +63,22 @@ class RandomNumberScreen extends StatelessWidget {
                                       cubit.updateUserData(data: {
                                         "mala3eb": cubit.userModel["mala3eb"]
                                       });
+                                      cubit.oneSchool["amountDue"]+=(cubit.oneSchool["fees"]-cubit.oneSchool["schoolFees"]);
+                                      cubit.updateSchoolData(
+                                          cityId: cubit.userModel["mala3eb"][cubit.mal3ab]["city"],
+                                          schoolId: cubit.userModel["mala3eb"][cubit.mal3ab]["schoolId"],
+                                          data: {
+                                            "amountDue": cubit.oneSchool["amountDue"]
+                                          }
+                                      );
                                       showToast(text:"Enjoy your 7agz!!",state: ToastStates.SUCCESS);
                                       Navigator.pop(context);
-                                      navigateAndFinish(context, BottomNavScreen());
+                                      navigateAndFinish(context, After7agzRateScreen());
                                     }else {
-                                      showToast(text:"The random number you entered is not correct. Please try again!",state: ToastStates.ERROR);
+                                      showToast(
+                                          text:"The random number you entered is not correct. Please try again!",
+                                          state: ToastStates.ERROR
+                                      );
                                     }
                                   },
                                   text: "Enter",

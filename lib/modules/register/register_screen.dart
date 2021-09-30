@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yalla_hagz/Network/local/cache_helper.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
-import 'package:yalla_hagz/modules/register/validateemailaddress.dart';
+import 'package:yalla_hagz/modules/register/validate_email_address_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
 
@@ -31,11 +31,8 @@ class RegisterScreen extends StatelessWidget
           // value: state.uid,
           // ).then((value)
           // {
-            navigateAndFinish(
-              context,
-              ValidateEmailAddress(),
-            );
-          // }
+          navigateTo(context,ValidateEmailAddressScreen());
+              // }
         //);
         }
         if (state is RegisterCreateUserErrorState) {

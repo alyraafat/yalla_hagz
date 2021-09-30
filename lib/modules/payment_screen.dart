@@ -20,7 +20,8 @@ class PaymentScreen extends StatelessWidget {
   var date;
   var field;
   var count;
-  PaymentScreen(this.choose,this.school,this.date,this.field,this.count);
+  var fromTime;
+  PaymentScreen(this.choose,this.school,this.date,this.field,this.count,this.fromTime);
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
@@ -205,14 +206,18 @@ class PaymentScreen extends StatelessWidget {
                         backGroundColor: Color(0xff388E3C),
                         function: () {
                           bool wasBooked = false;
-                          for(int z=0;z<choose.length;z++){
-                            if(cubit.startTimes[choose[z]]["isBooked"]){
-                              showToast(
-                                  text:"Someone has just recently booked from: ${cubit.startTimes[choose[z]]["from"]} to: ${cubit.startTimes[choose[z]]["to"]}" ,
-                                  state: ToastStates.ERROR
-                              );
-                              wasBooked = true;
+                          for(int z=0;z<fromTime.length;z++){
+                            for(int m=0;m<cubit.booked.length;m++){
+                              if(cubit.booked[m]["isBooked"]&&cubit.booked[m]["from"]==fromTime[z]){
+                                showToast(
+                                    text:"Someone has just recently booked from: ${fromTime[z]} to: ${cubit.booked[m]["to"]}" ,
+                                    state: ToastStates.ERROR
+                                );
+                                wasBooked = true;
+                                break;
+                              }
                             }
+
                           }
                           if(wasBooked) {
                               navigateAndFinish(context, SchoolScreen(school));
@@ -224,8 +229,7 @@ class PaymentScreen extends StatelessWidget {
                               int to = -1000000000000;
                               bool isBooked = false;
                               for (int i = 0; i < choose.length; i++) {
-                                if (cubit.startTimes[choose[i]]["from"] <
-                                    from) {
+                                if (cubit.startTimes[choose[i]]["from"] < from) {
                                   from = cubit.startTimes[choose[i]]["from"];
                                 }
                                 if (cubit.startTimes[choose[i]]["to"] > to) {
@@ -260,6 +264,7 @@ class PaymentScreen extends StatelessWidget {
                                 "isDone": false,
                                 "hasRated": false,
                                 "isVerified": false,
+                                "hasWithdrawn":false,
                                 "rating": 0,
                                 "randomNumber": randomNumber,
                               });

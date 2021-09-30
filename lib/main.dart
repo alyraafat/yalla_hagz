@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:yalla_hagz/modules/first_screen.dart';
 import 'package:yalla_hagz/modules/on_boarding_screen.dart';
 import 'package:yalla_hagz/shared/my_bloc_observer.dart';

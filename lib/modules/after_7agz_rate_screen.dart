@@ -40,10 +40,10 @@ class After7agzRateScreen extends StatelessWidget {
                           color:defaultColor,
                           child: MaterialButton(
                           onPressed: () {
-                            cubit.getOneSchoolData(
-                                schoolId: cubit.userModel["mala3eb"][cubit.mal3ab]["schoolId"],
-                                cityId: cubit.userModel["mala3eb"][cubit.mal3ab]["city"]
-                            );
+                            // cubit.getOneSchoolData(
+                            //     schoolId: cubit.userModel["mala3eb"][cubit.mal3ab]["schoolId"],
+                            //     cityId: cubit.userModel["mala3eb"][cubit.mal3ab]["city"]
+                            // );
                             Alert(
                                 context: context,
                                 content: Column(
@@ -69,8 +69,8 @@ class After7agzRateScreen extends StatelessWidget {
                                                 data: {
                                                   "count":cubit.oneSchool["count"],
                                                   "rating":cubit.oneSchool["rating"],
-                                                  "totalRating":cubit.oneSchool["totalRating"]
-                                                }
+                                                  "totalRating":cubit.oneSchool["totalRating"],
+                                            }
                                             );
                                             cubit.userModel["mala3eb"][cubit.mal3ab]["hasRated"] = true;
                                             cubit.userModel["mala3eb"][cubit.mal3ab]["rating"] = cubit.num;
