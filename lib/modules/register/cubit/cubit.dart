@@ -12,7 +12,17 @@ class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit() : super(RegisterInitialState());
 
   static RegisterCubit get(context) => BlocProvider.of(context);
-
+  void verifyPhoneNumber ({
+  required String phoneNumber,
+}) {
+      FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: '+2$phoneNumber',
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {},
+      codeSent: (String verificationId, int? resendToken) {},
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
   void userRegister({
     required String name,
     required String email,
