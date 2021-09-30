@@ -2,6 +2,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:string_validator/string_validator.dart';
 import 'package:yalla_hagz/Network/local/cache_helper.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
 import 'package:yalla_hagz/modules/register/validate_email_address_screen.dart';
@@ -63,35 +64,56 @@ class RegisterScreen extends StatelessWidget
                           'Register & Enjoy',
                           style: Theme.of(context).textTheme.bodyText1
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30.0,
                       ),
                       defaultFormField(
                         controller: nameController,
                         validate: (value){
+                          if(value!.length < 3) return ('Username is too short');
+                          if(value!.length >= 20) return ('Username is too long');
                           if(value!.isEmpty) return ('Username shouldn\'t be empty');
+                          String one = "" ;
+                          for(int i = 0; i<value.length;i++){
+                            if(value[i] != " "){
+                              one += value[i];
+                            }
+                          }
+                          if(!isAlpha(one)) {
+                            return ('Username should be composed of letters');
+                          }
                         },
                         text: 'User Name',
                         prefix: Icons.person,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15.0,
                       ),
                       defaultFormField(
                         controller: emailController,
                         validate: (value){
-                          if(value!.isEmpty) return ('Email shouldn\'t be empty');
+                          if(value!.isEmpty) {
+                            return ('Email shouldn\'t be empty');
+                          }
+                          if(!isEmail(value)) {
+                            return ('Input should be an email');
+                          }
                         },
                         text: 'Email Address',
                         prefix: Icons.email_outlined,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15.0,
                       ),
                       defaultFormField(
                           controller: passwordController,
                           validate: (value){
-                            if(value!.isEmpty) return ('Password shouldn\'t be empty');
+                            if(value!.isEmpty) {
+                            return ('Password shouldn\'t be empty');
+                          }
+                          if(value.length<8) {
+                              return ('Password must be more than 8 characters ');
+                            }
                           },
                           isObscure: RegisterCubit.get(context).isPassword,
                           text: 'Password',
@@ -101,18 +123,24 @@ class RegisterScreen extends StatelessWidget
                             RegisterCubit.get(context).changePasswordVisibility();
                           }
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15.0,
                       ),
                       defaultFormField(
                         controller: phoneController,
                         validate: (value){
-                          if(value!.isEmpty) return ('Phone shouldn\'t be empty');
-                        },
+                          if(value!.isEmpty) {
+                          return ('Phone shouldn\'t be empty');
+                        }
+                          if(value.length != 11 || value[0] !='0' || value[1] !='1' || (value[2] !='0' && value[2] !='1'&& value[2] != '2' && value[2] !='5')) {
+                            return ('Phone must be from an Egyptian supplier ');
+                          }
+
+                      },
                         text: 'Phone',
                         prefix: Icons.phone,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30.0,
                       ),
                       ConditionalBuilder(

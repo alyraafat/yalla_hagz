@@ -60,8 +60,10 @@ class RandomNumberScreen extends StatelessWidget {
                                   function: (){
                                     if(randomNumberController.text==cubit.userModel["mala3eb"][cubit.mal3ab]["randomNumber"]){
                                       cubit.userModel["mala3eb"][cubit.mal3ab]["isVerified"] = true;
+                                      cubit.userModel["count"]--;
                                       cubit.updateUserData(data: {
-                                        "mala3eb": cubit.userModel["mala3eb"]
+                                        "mala3eb": cubit.userModel["mala3eb"],
+                                        "count": cubit.userModel["count"]
                                       });
                                       cubit.oneSchool["amountDue"]+=(cubit.oneSchool["fees"]-cubit.oneSchool["schoolFees"]);
                                       cubit.updateSchoolData(

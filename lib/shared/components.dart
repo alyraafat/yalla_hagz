@@ -10,128 +10,124 @@ import 'package:yalla_hagz/shared/cubit/cubit.dart';
 
 import 'constants.dart';
 
-Widget buildSchool(context,school) => Container(
-    child: Padding(
-      padding: const EdgeInsets.all(2),
-      child: Container(
-        child: InkWell(
-          child: Stack(
-            alignment: Alignment.bottomRight,
+Widget buildSchool(context,school) => Padding(
+  padding: const EdgeInsets.all(2),
+  child: InkWell(
+    child: Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          elevation: 2,
+          child: Column(
             children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+              Container(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadiusDirectional.only(
+                        topStart: Radius.circular(30),
+                        topEnd: Radius.circular(30)
+                    )
                 ),
-                elevation: 2,
-                child: Column(
-                  children: [
-                    Container(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadiusDirectional.only(
-                              topStart: Radius.circular(30),
-                              topEnd: Radius.circular(30)
-                          )
-                      ),
-                      height: 150,
-                      width: double.infinity,
-                      child: defaultCarouselSlider(),
-                      // child: Image(
-                      //   fit: BoxFit.cover,
-                      //     image: NetworkImage("https://image.made-in-china.com/2f0j00NQzGaAiBOYcg/Synthetic-Grass-for-Indoor-Soccer-Field-M60-.jpg")
-                      // ),
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsetsDirectional.only(
-                                        start: 7
-                                    ) ,
-                                    child: Text(
-                                      school["name"],
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height:10),
-                                  defaultRatingBar(
-                                      rating: school["rating"],
-                                      gestures: true,
-                                      context: context
-                                  ),
-                                  // RatingBar(
-                                  //   itemSize: 25,
-                                  //   initialRating: 0,
-                                  //   direction: Axis.horizontal,
-                                  //   allowHalfRating: true,
-                                  //   itemCount: 5,
-                                  //   ratingWidget: RatingWidget(
-                                  //     full: Image(
-                                  //       image: AssetImage('assets/images/full_ball.png'),
-                                  //     ),
-                                  //     half: Image(
-                                  //         image: AssetImage('assets/images/full_ball.png'),
-                                  //     ),
-                                  //     empty: Image(
-                                  //         image:AssetImage('assets/images/empty_ball.png'),
-                                  //     )
-                                  //   ),
-                                  //   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                  //   onRatingUpdate: (rating) {
-                                  //     print(rating);
-                                  //   },
-                                  // )
-                                ],
+                height: 150,
+                width: double.infinity,
+                child: defaultCarouselSlider(images: school['fieldsImages']),
+                // child: Image(
+                //   fit: BoxFit.cover,
+                //     image: NetworkImage("https://image.made-in-china.com/2f0j00NQzGaAiBOYcg/Synthetic-Grass-for-Indoor-Soccer-Field-M60-.jpg")
+                // ),
+              ),
+              SizedBox(height: 10,),
+              Container(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 7
+                              ) ,
+                              child: Text(
+                                school["name"],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold
+                                ),
                               ),
-                              Spacer(),
-                              Column(
-                                children: [
-                                  Text(
-                                    school["location"],
-                                    style: TextStyle(
-                                      color: Colors.grey[800],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      height: 15
-                                  ),
-                                  Text(
-                                    '${school["fees"]} EGP/hr',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  )
-                                ],
-                              )
-                            ]
+                            ),
+                            SizedBox(height:10),
+                            defaultRatingBar(
+                                rating: school["rating"],
+                                gestures: true,
+                                context: context
+                            ),
+                            // RatingBar(
+                            //   itemSize: 25,
+                            //   initialRating: 0,
+                            //   direction: Axis.horizontal,
+                            //   allowHalfRating: true,
+                            //   itemCount: 5,
+                            //   ratingWidget: RatingWidget(
+                            //     full: Image(
+                            //       image: AssetImage('assets/images/full_ball.png'),
+                            //     ),
+                            //     half: Image(
+                            //         image: AssetImage('assets/images/full_ball.png'),
+                            //     ),
+                            //     empty: Image(
+                            //         image:AssetImage('assets/images/empty_ball.png'),
+                            //     )
+                            //   ),
+                            //   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                            //   onRatingUpdate: (rating) {
+                            //     print(rating);
+                            //   },
+                            // )
+                          ],
                         ),
-                      ),
-                    ),
-
-
-                  ],
+                        Spacer(),
+                        Column(
+                          children: [
+                            Text(
+                              school["location"],
+                              style: TextStyle(
+                                color: Colors.grey[800],
+                              ),
+                            ),
+                            SizedBox(
+                                height: 15
+                            ),
+                            Text(
+                              '${school["fees"]} EGP/hr',
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            )
+                          ],
+                        )
+                      ]
+                  ),
                 ),
               ),
+
+
             ],
           ),
-          onTap: (){
-            navigateTo(context, SchoolScreen(school));
-          },
         ),
-      ),
-    )
+      ],
+    ),
+    onTap: (){
+      navigateTo(context, SchoolScreen(school));
+    },
+  ),
 );
 
 Widget myDivider() => Container(
@@ -350,7 +346,9 @@ return RatingBar.builder(
 }
 
 
-Widget defaultCarouselSlider() => Container(
+Widget defaultCarouselSlider({
+  required var images
+}) => Container(
   clipBehavior: Clip.antiAliasWithSaveLayer,
   decoration: BoxDecoration(
       borderRadius: BorderRadiusDirectional.all(
@@ -362,12 +360,12 @@ Widget defaultCarouselSlider() => Container(
       Image(
           width: double.infinity,
           fit: BoxFit.cover,
-          image: NetworkImage("https://image.made-in-china.com/2f0j00NQzGaAiBOYcg/Synthetic-Grass-for-Indoor-Soccer-Field-M60-.jpg")
+          image: NetworkImage(images[0])
       ),
       Image(
           width: double.infinity,
           fit: BoxFit.cover,
-          image: NetworkImage("https://www.fcbarcelona.com/photo-resources/2020/02/24/3f1215ed-07e8-47ef-b2c7-8a519f65b9cd/mini_UP3_20200105_FCB_VIS_View_1a_Empty.jpg?width=1200&height=750")
+          image: NetworkImage(images[1])
       ),
     ],
     options: CarouselOptions(
@@ -433,7 +431,7 @@ Widget timeBuilder() => Padding(
   ),
 );
 
-Widget rowBuilder() => Container(
+Widget rowBuilder(school) => Container(
   height: 140,
   width: double.infinity,
   child:   Row(
@@ -450,11 +448,10 @@ Widget rowBuilder() => Container(
             // ),
             height: 140,
             width: 160,
-            child: defaultCarouselSlider(),
-            // child: Image(
-            //   fit: BoxFit.cover,
-            //     image: NetworkImage("https://image.made-in-china.com/2f0j00NQzGaAiBOYcg/Synthetic-Grass-for-Indoor-Soccer-Field-M60-.jpg")
-            // ),
+            child: Image(
+              fit: BoxFit.cover,
+                image: NetworkImage(school['fieldsImages'][0])
+            ),
           ),
           SizedBox(width: 10,),
           Padding(

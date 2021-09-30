@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -174,6 +176,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   List<List<dynamic>> schools = [];
+  var random = Random();
   void getSchoolsData({
     required String cityId
   }){
@@ -186,6 +189,14 @@ class AppCubit extends Cubit<AppStates> {
         .then((value) {
           print("schools; ${value.docs}");
           schools.add(value.docs);
+          for(var i = schools.length - 1; i > 0; i--){
+            int j = schools.length - 1 - i;
+            var n = random.nextInt(i + 1);
+            var temp = schools[i];
+            schools[i] = schools[j];
+            schools[j] = schools[n];
+            schools[n] = temp;
+          }
           emit(AppGetSchoolsSuccessState());
     }).catchError((error){
       print(error.toString());

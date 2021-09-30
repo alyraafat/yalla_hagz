@@ -6,7 +6,7 @@ class UserModel{
   late String phone;
   late String name;
   late String userId;
-  late double balance;
+  late int balance;
   late int points;
   late List<String> friendIds;
   late List<Mala3ebModel> mala3eb;
@@ -14,6 +14,7 @@ class UserModel{
   late List<String> teamNames;
   late bool isEmailVerified;
   late bool isPhoneVerified;
+  late int count;
 
   UserModel(
       {
@@ -28,7 +29,8 @@ class UserModel{
         required this.tournamentIds,
         required this.teamNames,
         required this.isEmailVerified,
-        required this.isPhoneVerified
+        required this.isPhoneVerified,
+        required this.count
       }
       );
 
@@ -59,8 +61,8 @@ class UserModel{
       "tournamentIds":tournamentIds,
       "teamNames": teamNames,
       "isEmailVerified":isEmailVerified,
-      "isPhoneVerified":isPhoneVerified
-
+      "isPhoneVerified":isPhoneVerified,
+      "count":count
     };
   }
 }

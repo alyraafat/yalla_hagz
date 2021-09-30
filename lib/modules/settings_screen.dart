@@ -22,7 +22,7 @@ class SettingsScreen extends StatelessWidget {
           var userModel = AppCubit.get(context).userModel;
           return Scaffold(
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 'Settings',
                 style: TextStyle(
                     color: Color(0xff388E3C),
@@ -114,16 +114,20 @@ class SettingsScreen extends StatelessWidget {
                         onTap: ()=>launch('https://flutteragency.com/how-to-create-a-hyperlink-in-a-flutter/')
                     ),
                   ),
-                  SizedBox(height:20),
+                  const SizedBox(height:20),
                   MaterialButton(
                     onPressed: (){
                       UselessCubit.get(context).changeAppMode();
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.dark_mode_rounded),
+                        Icon(
+                          Icons.dark_mode_rounded,
+                          color:Theme.of(context).iconTheme.color
+                        ),
                         SizedBox(width:10),
-                        Text('Dark Mode'),
+                        Text('Dark Mode',
+                        style: Theme.of(context).textTheme.bodyText1),
                         Spacer(),
 
                       ],

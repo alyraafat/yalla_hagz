@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,12 @@ import 'modules/login/login_screen.dart';
 import 'modules/login/cubit/cubit.dart';
 import 'modules/register/cubit/cubit.dart';
 
-
+final DynamicLinkParameters parameters = DynamicLinkParameters(
+    uriPrefix: "https://7gz.page.link",
+    link: Uri.parse("https://7gz.page.link/LoginScreen"),
+  androidParameters: AndroidParameters(packageName: "com.hagzyalla.yalla_hagz")
+);
+Future<Uri> link =  parameters.buildUrl();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +32,7 @@ void main() async {
   await CacheHelper.init();
   // bool onBoarding = CacheHelper.getData(key: 'onBoarding');
   var isDark = CacheHelper.getData(key: 'isDark');
-  uId = CacheHelper.getData(key: 'uId');
+  //uId = CacheHelper.getData(key: 'uId');
   Widget startWidget;
 
   // if(onBoarding)

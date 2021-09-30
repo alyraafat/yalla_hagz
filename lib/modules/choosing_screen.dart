@@ -93,7 +93,9 @@ class ChoosingScreen extends StatelessWidget {
                                             // ),
                                             height: 140,
                                             width: 160,
-                                            child: defaultCarouselSlider(),
+                                            child: const Image(
+                                                image: NetworkImage('gs://yalla-hagz.appspot.com/chelsea.jpg')
+                                            ),
                                             // child: Image(
                                             //   fit: BoxFit.cover,
                                             //     image: NetworkImage("https://image.made-in-china.com/2f0j00NQzGaAiBOYcg/Synthetic-Grass-for-Indoor-Soccer-Field-M60-.jpg")

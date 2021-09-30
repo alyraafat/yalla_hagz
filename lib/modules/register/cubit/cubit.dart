@@ -29,7 +29,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
           });
         });
       },
-      verificationFailed: (FirebaseAuthException e) {
+      verificationFailed: (FirebaseAuthException e) async {
         if(e.code=="invalid-phone-number"){
           showToast(
               text:"The provided phone number is invalid",
@@ -40,7 +40,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
       codeSent: (String verificationId, int? resendToken) async {
         await FirebaseAuth.instance.signInWithCredential(PhoneAuthProvider.credential(verificationId: verificationId, smsCode: code));
       },
-      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeAutoRetrievalTimeout: (String verificationId) async {},
     );
   }
   void userRegister({
@@ -91,7 +91,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
       mala3eb: [],
       teamNames: [],
       isEmailVerified:false,
-      isPhoneVerified:false
+      isPhoneVerified:false,
+      count: 0
 
     );
 

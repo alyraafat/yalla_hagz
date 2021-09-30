@@ -25,6 +25,7 @@ class ValidateEmailAddressScreen extends StatelessWidget {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
                   defaultTextButton(

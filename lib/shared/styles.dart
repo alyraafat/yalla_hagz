@@ -5,15 +5,16 @@ import 'package:hexcolor/hexcolor.dart';
 import 'constants.dart';
 
 ThemeData darkTheme = ThemeData(
-  // primarySwatch: HexColor('333739') ,
-  scaffoldBackgroundColor: Colors.blue,
-  appBarTheme: AppBarTheme(
+  //primarySwatch: MaterialColor(primary, swatch),
+  scaffoldBackgroundColor: Colors.black54,
+  appBarTheme: const AppBarTheme(
     titleSpacing: 20.0,
-    backgroundColor:Colors.blue,
+    backgroundColor:Colors.black54,
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: Colors.blue,
+      statusBarColor: Colors.black54,
       statusBarIconBrightness: Brightness.light,
     ),
+
     elevation: 0.0,
     titleTextStyle: TextStyle(
       color: Colors.white,
@@ -30,9 +31,9 @@ ThemeData darkTheme = ThemeData(
     // selectedItemColor: ,
     unselectedItemColor: Colors.grey,
     elevation: 20.0,
-    backgroundColor: Colors.blue,
+    backgroundColor: Colors.black54,
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     bodyText1: TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.w600,
@@ -44,7 +45,7 @@ ThemeData darkTheme = ThemeData(
 
 ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     titleSpacing: 20.0,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,
@@ -61,14 +62,14 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
     ),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor: Color(0xff388E3C),
     unselectedItemColor: Colors.grey,
     elevation: 20.0,
     backgroundColor: Colors.white,
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     bodyText1: TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.w600,
