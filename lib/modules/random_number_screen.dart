@@ -76,7 +76,7 @@ class RandomNumberScreen extends StatelessWidget {
                                       );
                                       showToast(text:"Enjoy your 7agz!!",state: ToastStates.SUCCESS);
                                       Navigator.pop(context);
-                                      navigateAndFinish(context, After7agzRateScreen());
+                                      navigateAndFinish(context, BottomNavScreen());
                                     }else {
                                       showToast(
                                           text:"The random number you entered is not correct. Please try again!",
