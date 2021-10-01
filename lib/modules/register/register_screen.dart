@@ -71,8 +71,8 @@ class RegisterScreen extends StatelessWidget
                         controller: nameController,
                         validate: (value){
                           if(value!.length < 3) return ('Username is too short');
-                          if(value!.length >= 20) return ('Username is too long');
-                          if(value!.isEmpty) return ('Username shouldn\'t be empty');
+                          if(value.length >= 20) return ('Username is too long');
+                          if(value.isEmpty) return ('Username shouldn\'t be empty');
                           String one = "" ;
                           for(int i = 0; i<value.length;i++){
                             if(value[i] != " "){

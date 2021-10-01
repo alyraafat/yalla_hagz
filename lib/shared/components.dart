@@ -1,8 +1,12 @@
 
 
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:yalla_hagz/modules/school_screen.dart';
@@ -34,6 +38,7 @@ Widget buildSchool(context,school) => Padding(
                 height: 150,
                 width: double.infinity,
                 child: defaultCarouselSlider(images: school['fieldsImages']),
+
                 // child: Image(
                 //   fit: BoxFit.cover,
                 //     image: NetworkImage("https://image.made-in-china.com/2f0j00NQzGaAiBOYcg/Synthetic-Grass-for-Indoor-Soccer-Field-M60-.jpg")
@@ -347,7 +352,7 @@ return RatingBar.builder(
 
 
 Widget defaultCarouselSlider({
-  required var images
+  required List<dynamic> images
 }) => Container(
   clipBehavior: Clip.antiAliasWithSaveLayer,
   decoration: const BoxDecoration(
@@ -373,9 +378,16 @@ Widget defaultCarouselSlider({
               ),
             ],
           ),
-          child: Image.asset(
-            '$item',
-            fit: BoxFit.fill,
+          child: ConditionalBuilder(
+            condition: ServicesBinding.instance!.defaultBinaryMessenger.send('flutter/assets', Utf8Codec().encoder.convert(Uri(path: Uri.encodeFull(item)).path).buffer.asByteData())!=null,
+            builder: (context) => Image.network(
+                '$item',
+                fit: BoxFit.cover,
+              ),
+            fallback: (context)=>Center(child:CircularProgressIndicator(
+              color: defaultColor,
+            )),
+
           ),
         ),
       );

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:intl/intl.dart';
@@ -161,19 +164,27 @@ class SchoolScreen extends StatelessWidget {
                           builder: (context) {
                             return Column(
                               children: [
-                                Container(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadiusDirectional.only(
-                                          topStart: Radius.circular(30),
-                                          topEnd: Radius.circular(30)
-                                      )
-                                  ),
-                                  height: 140,
-                                  width: 160,
-                                  child: Image(
-                                    image: NetworkImage(school["fieldsImages"][currentField - 1]) ,
-                                  ),
+                                ConditionalBuilder(
+                                  condition: ServicesBinding.instance!.defaultBinaryMessenger.send('flutter/assets', Utf8Codec().encoder.convert(Uri(path: Uri.encodeFull(school["fieldsImages"][currentField - 1])).path).buffer.asByteData())!=null,
+                                  builder: (context) {
+                                    return Container(
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadiusDirectional.only(
+                                              topStart: Radius.circular(30),
+                                              topEnd: Radius.circular(30)
+                                          )
+                                      ),
+                                      height: 140,
+                                      width: 160,
+                                      child: Image(
+                                        image: NetworkImage(school["fieldsImages"][currentField - 1]) ,
+                                      ),
+                                    );
+                                  },
+                                  fallback: (context)=>Center(child: CircularProgressIndicator(
+                                    color: defaultColor,
+                                  )),
                                 ),
                                 Container(
                                   height: 50,
@@ -189,7 +200,7 @@ class SchoolScreen extends StatelessWidget {
                                           onPressed: () {
                                             currentField = index+1;
                                             cubit.changeField();
-                                            if(school["calendar$currentField"][day].length != 1) {
+                                            if(school["calendar$currentField"][day]!=null&&school["calendar$currentField"][day].length != 1) {
                                               AppCubit.get(context).checkDateInDataBase(
                                                   date: dateController.text,
                                                   cityId: AppCubit.get(context).currentCity,

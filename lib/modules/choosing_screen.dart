@@ -95,7 +95,7 @@ class ChoosingScreen extends StatelessWidget {
                                             width: 160,
                                             child: Image(
                                               fit: BoxFit.fill,
-                                                image: NetworkImage(userModel["mala3eb"]["image"])
+                                                image: NetworkImage(userModel["mala3eb"][mala3ebLastIndex-index]["image"])
                                             ),
                                           ),
                                           const SizedBox(width: 10,),

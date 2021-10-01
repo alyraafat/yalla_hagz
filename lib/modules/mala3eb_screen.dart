@@ -7,7 +7,6 @@ import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
 import 'package:yalla_hagz/shared/cubit/states.dart';
 
-import 'search_screen.dart';
 class Mala3ebScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
