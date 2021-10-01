@@ -43,6 +43,7 @@ class SettingsScreen extends StatelessWidget {
                     child: Text(
                       userModel!["name"],
                       style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color,
                           fontWeight: FontWeight.bold,
                           fontSize: 30
                       ),
@@ -50,7 +51,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.bodyText1!.color,
                     height: 1,
                     width: double.infinity,
                   ),
@@ -60,15 +61,25 @@ class SettingsScreen extends StatelessWidget {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.people),
+                        Icon(
+                            Icons.people,
+                            color:Theme.of(context).appBarTheme.iconTheme!.color
+                        ),
                         SizedBox(width:10),
-                        Text('Account'),
+                        Text(
+                            'Account',
+                            style: Theme.of(context).textTheme.bodyText1
+                        ),
                         Spacer(),
-                        Text('Edit'),
+                        Text(
+                            'Edit',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                         SizedBox(width:10),
                         Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 15,
+                          color:Theme.of(context).appBarTheme.iconTheme!.color
                         )
                       ],
                     ),
@@ -99,15 +110,20 @@ class SettingsScreen extends StatelessWidget {
                     child: InkWell(
                         child: Row(
                           children: [
-                            Icon(Icons.star_border_outlined),
+                            Icon(
+                                Icons.star_border_outlined,
+                                color:Theme.of(context).appBarTheme.iconTheme!.color
+                            ),
                             SizedBox(width: 10),
                             Text(
-                                'Rate the app'
+                                'Rate the app',
+                                style: Theme.of(context).textTheme.bodyText1
                             ),
                             Spacer(),
                             Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 15,
+                              color:Theme.of(context).appBarTheme.iconTheme!.color
                             )
                           ],
                         ),
@@ -122,12 +138,14 @@ class SettingsScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Icon(
-                          Icons.dark_mode_rounded,
-                          color:Theme.of(context).iconTheme.color
+                          Icons.brightness_4_outlined,
+                          color:Theme.of(context).appBarTheme.iconTheme!.color
                         ),
                         SizedBox(width:10),
-                        Text('Dark Mode',
-                        style: Theme.of(context).textTheme.bodyText1),
+                        Text(
+                            'Dark Mode',
+                        style: Theme.of(context).textTheme.bodyText1
+                        ),
                         Spacer(),
 
                       ],
@@ -148,19 +166,26 @@ class SettingsScreen extends StatelessWidget {
                       );                      },
                     child: Row(
                       children: [
-                        Icon(Icons.logout_sharp),
+                        Icon(
+                            Icons.logout_sharp,
+                            color:Theme.of(context).appBarTheme.iconTheme!.color
+                        ),
                         SizedBox(width:10),
-                        Text('Sign Out'),
+                        Text(
+                            'Sign Out',
+                            style: Theme.of(context).textTheme.bodyText1
+                        ),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 15,
+                          color:Theme.of(context).appBarTheme.iconTheme!.color
                         )
                       ],
                     ),
                   ),
                   Container(
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.bodyText1!.color,
                     height: 1,
                     width: double.infinity,
                   ),
@@ -175,14 +200,17 @@ class SettingsScreen extends StatelessWidget {
                             child: Text(
                                 'Terms and Conditions',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: Theme.of(context).textTheme.bodyText1!.color,
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline
                                 )
                             ),
                           ),
                           Text(
-                              "App Version 1.0.0"
+                              "App Version 1.0.0",
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                fontSize: 12
+                              )
                           ),
                         ],
                       )

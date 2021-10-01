@@ -31,7 +31,8 @@ class OfferScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Text('My Points: ${userModel!["points"]} ',
-                      style: const TextStyle(
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
@@ -77,8 +78,18 @@ class OfferScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("${offers[index]["name"]}"),
-                                    Text("${offers[index]["expiry"]}"),
+                                    Text(
+                                        "${offers[index]["name"]}",
+                                      style: TextStyle(
+                                        color: Theme.of(context).textTheme.bodyText1!.color
+                                      ),
+                                    ),
+                                    Text(
+                                        "${offers[index]["expiry"]}",
+                                      style: TextStyle(
+                                        color: Theme.of(context).textTheme.bodyText1!.color
+                                      ),
+                                    ),
 
                                   ],
                                 ),

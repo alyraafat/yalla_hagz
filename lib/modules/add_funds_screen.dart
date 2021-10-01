@@ -23,7 +23,7 @@ class AddFundsScreen extends StatelessWidget {
             defaultFormField(
                 text: 'Amount',
                 prefix: Icons.money,
-                keyboardType: TextInputType.number
+                keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 15,),
             const Text(

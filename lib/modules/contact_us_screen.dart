@@ -30,7 +30,7 @@ class ContactUsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.bodyText1!.color,
                     height: 1,
                     width: double.infinity,
                   ),
@@ -40,13 +40,20 @@ class ContactUsScreen extends StatelessWidget {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.email),
+                        Icon(
+                            Icons.email,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
+                        ),
                         SizedBox(width:10),
-                        Text('Yalla7agz@gmail.com'),
+                        Text(
+                            'Yalla7agz@gmail.com',
+                          style: Theme.of(context).textTheme.bodyText1
+                        ),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 15,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
                         )
                       ],
                     ),
@@ -76,13 +83,20 @@ class ContactUsScreen extends StatelessWidget {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.facebook),
+                        Icon(
+                            Icons.facebook,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color
+                        ),
                         SizedBox(width:10),
-                        Text('Facebook'),
+                        Text(
+                            'Facebook',
+                          style: Theme.of(context).textTheme.bodyText1
+                        ),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 15,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
                         )
                       ],
                     ),
@@ -94,19 +108,26 @@ class ContactUsScreen extends StatelessWidget {
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.facebook),
+                        Icon(
+                            Icons.facebook,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
+                        ),
                         SizedBox(width:10),
-                        Text('Instgram'),
+                        Text(
+                            'Instgram',
+                          style: Theme.of(context).textTheme.bodyText1
+                        ),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 15,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
                         )
                       ],
                     ),
                   ),
                   Container(
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.bodyText1!.color,
                     height: 1,
                     width: double.infinity,
                   ),

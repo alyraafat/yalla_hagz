@@ -36,6 +36,7 @@ class WalletScreen extends StatelessWidget {
                   'Your Credit',
                   style: TextStyle(
                     fontSize: 20,
+                    color: Theme.of(context).textTheme.bodyText1!.color
                   ),
                 ),
                 SizedBox(height: 10,),
@@ -45,6 +46,7 @@ class WalletScreen extends StatelessWidget {
                       "${userModel!["balance"]}",
                       style: TextStyle(
                         fontSize: 20,
+                        color: Theme.of(context).textTheme.bodyText1!.color
                       ),
                     ),
                     SizedBox(width: 5),

@@ -31,17 +31,18 @@ class AccountScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric( horizontal: 20.0),
                     child: Row(
                       children: [
-                        const Icon(
-                            Icons.phone_android
+                         Icon(
+                            Icons.phone_android,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
                         ),
                         const SizedBox(width: 20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Mobile number',
                               style: TextStyle(
-                                  color: Colors.black,
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15
                               ),
@@ -63,17 +64,18 @@ class AccountScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
                       children: [
-                        const Icon(
-                            Icons.email_outlined
+                        Icon(
+                            Icons.email_outlined,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
                         ),
                         const SizedBox(width: 20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Email',
                               style: TextStyle(
-                                  color: Colors.black,
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15
                               ),
@@ -96,15 +98,16 @@ class AccountScreen extends StatelessWidget {
                       navigateTo(context, ChangePasswordScreen());
                     },
                     child: Row(
-                      children: const [
+                      children:  [
                         Icon(
-                            Icons.lock_outline_rounded
+                            Icons.lock_outline_rounded,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
                         ),
                         SizedBox(width: 20),
                         Text(
                           'Change Password',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Theme.of(context).textTheme.bodyText1!.color,
                               fontWeight: FontWeight.bold,
                               fontSize: 15
                           ),
@@ -114,18 +117,20 @@ class AccountScreen extends StatelessWidget {
                           'Edit',
                           style: TextStyle(
                             fontSize: 15,
+                            color: Theme.of(context).textTheme.bodyText1!.color
                           ),
                         ),
                         SizedBox(width: 20),
                         Icon(
                           Icons.edit,
                           size: 20,
+                          color: Theme.of(context).appBarTheme.iconTheme!.color,
                         )
                       ],
                     ),
                   ),
                   Container(
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.bodyText1!.color,
                     height: 1,
                     width: double.infinity,
                   ),
@@ -137,17 +142,21 @@ class AccountScreen extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () {  },
-                            child: const Text(
+                            child: Text(
                                 'Terms and Conditions',
                                 style: TextStyle(
-                                    color: Colors.black,
+                                    color: Theme.of(context).textTheme.bodyText1!.color,
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline
                                 )
                             ),
                           ),
-                          const Text(
-                              "App Version 1.0.0"
+                          Text(
+                              "App Version 1.0.0",
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.bodyText1!.color,
+                              fontSize: 12
+                            ),
                           ),
                         ],
                       )

@@ -21,7 +21,7 @@ class BottomNavScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              backgroundColor: Colors.white, //Color(0xff38A3A5),
+              backgroundColor: Theme.of(context).appBarTheme.backgroundColor, //Color(0xff38A3A5),
               elevation: 0,
               title: Text(
                 cubit.titles[cubit.currentIndex],

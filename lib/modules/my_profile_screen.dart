@@ -116,9 +116,15 @@ class MyProfileScreen extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Icon(Icons.money),
+                          Icon(
+                              Icons.money,
+                            color: Theme.of(context).appBarTheme.iconTheme!.color,
+                          ),
                           SizedBox(width:10),
-                          Text('Wallet'),
+                          Text(
+                              'Wallet',
+                            style: Theme.of(context).textTheme.bodyText1
+                          ),
                           SizedBox(
                             width: 5,
                           ),
@@ -144,6 +150,7 @@ class MyProfileScreen extends StatelessWidget {
                           Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 15,
+                            color: Theme.of(context).appBarTheme.iconTheme!.color,
                           )
                         ],
                       ),
@@ -154,13 +161,20 @@ class MyProfileScreen extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Icon(Icons.redeem),
+                          Icon(
+                              Icons.redeem,
+                            color: Theme.of(context).appBarTheme.iconTheme!.color,
+                          ),
                           SizedBox(width:10),
-                          Text('Redeem Offers'),
+                          Text(
+                              'Redeem Offers',
+                            style: Theme.of(context).textTheme.bodyText1
+                          ),
                           Spacer(),
                           Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 15,
+                            color: Theme.of(context).appBarTheme.iconTheme!.color,
                           )
                         ],
                       ),
@@ -171,13 +185,20 @@ class MyProfileScreen extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Icon(Icons.settings),
+                          Icon(
+                              Icons.settings,
+                            color: Theme.of(context).appBarTheme.iconTheme!.color,
+                          ),
                           SizedBox(width:10),
-                          Text('Settings'),
+                          Text(
+                              'Settings',
+                            style:Theme.of(context).textTheme.bodyText1
+                          ),
                           Spacer(),
                           Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 15,
+                            color: Theme.of(context).appBarTheme.iconTheme!.color,
                           )
                         ],
                       ),
@@ -188,13 +209,20 @@ class MyProfileScreen extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Icon(Icons.chat),
+                          Icon(
+                              Icons.chat,
+                            color: Theme.of(context).appBarTheme.iconTheme!.color,
+                          ),
                           SizedBox(width:10),
-                          Text('Contact us'),
+                          Text(
+                              'Contact us',
+                            style:Theme.of(context).textTheme.bodyText1
+                          ),
                           Spacer(),
                           Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 15,
+                            color: Theme.of(context).appBarTheme.iconTheme!.color,
                           )
                         ],
                       ),
