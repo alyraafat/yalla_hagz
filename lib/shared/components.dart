@@ -400,8 +400,8 @@ Widget defaultCarouselSlider({
       enableInfiniteScroll: true,
       reverse: false,
       autoPlay: true,
-      autoPlayInterval: Duration(seconds: 3),
-      autoPlayAnimationDuration: Duration(seconds: 1),
+      autoPlayInterval: const Duration(seconds: 3),
+      autoPlayAnimationDuration: const Duration(seconds: 1),
       autoPlayCurve: Curves.fastOutSlowIn,
       scrollDirection: Axis.horizontal,
     ),
@@ -419,7 +419,7 @@ Widget timeBuilder() => Padding(
     elevation: 2,
     child:   Column(
       children: [
-        Text('Date, from: to: '),
+        const Text('Date, from: to: '),
         Row(
           children: [
             Container(

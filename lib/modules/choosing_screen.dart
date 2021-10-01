@@ -165,7 +165,7 @@ class ChoosingScreen extends StatelessWidget {
                                                     ),
                                                     SizedBox(width:10),
                                                     ConditionalBuilder(
-                                                      condition: (TimeOfDay.now().hour<=userModel["mala3eb"][mala3ebLastIndex-index]["from"]&&cubit.compareDates(date1:userModel["mala3eb"][mala3ebLastIndex-index]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==0)||cubit.compareDates(date1:userModel["mala3eb"][mala3ebLastIndex-index]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==-1,
+                                                      condition: !userModel["mala3eb"][mala3ebLastIndex-index]["isDone"],
                                                       builder: (context) {
                                                         return Container(
                                                           color: Colors.red,
@@ -199,9 +199,15 @@ class ChoosingScreen extends StatelessWidget {
                                                                                 "randomNumber":""
                                                                               });
                                                                         }
+                                                                        if(cubit.diffBetweenDates(date1:DateFormat("yyyy-MM-dd").format(DateTime.now()),date2:userModel["mala3eb"][mala3ebLastIndex - index]["date"])){
+                                                                          userModel["balance"]-= 0.5*userModel["mala3eb"][mala3ebLastIndex - index]["fees"]*(userModel["mala3eb"][mala3ebLastIndex - index]["to"]-userModel["mala3eb"][mala3ebLastIndex - index]["from"]);
+                                                                        }
+                                                                        userModel["count"]--;
                                                                         userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
                                                                         cubit.updateUserData(data: {
-                                                                          "mala3eb":userModel["mala3eb"]
+                                                                          "mala3eb":userModel["mala3eb"],
+                                                                          "balance":userModel["balance"],
+                                                                          "count":userModel["count"]
                                                                         });
                                                                         Navigator.pop(context);
                                                                       },

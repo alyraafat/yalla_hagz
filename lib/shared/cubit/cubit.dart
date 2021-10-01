@@ -56,7 +56,7 @@ class AppCubit extends Cubit<AppStates> {
           // print(TimeOfDay.now().hour>=event.data()!["mala3eb"][i]["to"]);
           mal3ab = i;
           if(TimeOfDay.now().hour>=userModel["mala3eb"][i]["to"]&&!userModel["mala3eb"][i]["isDone"]){
-            print("in time if");
+            // print("in time if");
             userModel["mala3eb"][i]["isDone"] = true;
             updateUserData(data: {
               "mala3eb": userModel["mala3eb"]
@@ -263,7 +263,36 @@ class AppCubit extends Cubit<AppStates> {
     return date;
 
   }
-
+  int days({
+    required int num,
+    required int year
+  }){
+    switch(num){
+      case 1:case 3:case 5:case 7:case 8:case 10:case 12: return 31;
+      case 2: {
+        if(year%4==0) return 29;
+        else return 28;
+      }
+      default: return 30;
+    }
+  }
+  bool diffBetweenDates({
+    required String date1, // greater:1, smaller:-1,equal:0
+    required String date2,
+  }){
+    List<String> d1 = date1.split("-");
+    List<String> d2 = date2.split("-");
+    if(date1 == date2){return true;}
+    else if(int.parse(d1[0])==int.parse(d2[0])&&int.parse(d1[1])==int.parse(d2[1])){
+      if((int.parse(d2[2])-int.parse(d1[2]))==1){return true;}
+    }else if(int.parse(d1[0])==int.parse(d2[0])&&(int.parse(d2[1])-int.parse(d1[1]))==1){
+      int days1 = days(num:int.parse(d1[1]),year:int.parse(d1[0]));
+      if(int.parse(d1[2])==days1&&int.parse(d2[2])==1){return true;}
+    }else if((int.parse(d2[0])-int.parse(d1[0]))==1&&int.parse(d2[1])==1&&int.parse(d1[1])==12&&int.parse(d2[2])==1&&int.parse(d1[2])==31){
+      return true;
+    }
+    return false;
+}
   int compareDates({
   required String date1, // greater:1, smaller:-1,equal:0
   required String date2,

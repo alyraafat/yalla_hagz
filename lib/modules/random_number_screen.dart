@@ -60,6 +60,7 @@ class RandomNumberScreen extends StatelessWidget {
                                   function: (){
                                     if(randomNumberController.text==cubit.userModel["mala3eb"][cubit.mal3ab]["randomNumber"]){
                                       cubit.userModel["mala3eb"][cubit.mal3ab]["isVerified"] = true;
+                                      cubit.userModel["mala3eb"][cubit.mal3ab]["isDone"] = true;
                                       cubit.userModel["count"]--;
                                       cubit.updateUserData(data: {
                                         "mala3eb": cubit.userModel["mala3eb"],
@@ -75,7 +76,7 @@ class RandomNumberScreen extends StatelessWidget {
                                       );
                                       showToast(text:"Enjoy your 7agz!!",state: ToastStates.SUCCESS);
                                       Navigator.pop(context);
-                                      navigateAndFinish(context, BottomNavScreen());
+                                      navigateAndFinish(context, After7agzRateScreen());
                                     }else {
                                       showToast(
                                           text:"The random number you entered is not correct. Please try again!",
