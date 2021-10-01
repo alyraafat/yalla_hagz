@@ -32,3 +32,14 @@ class RegisterCreateUserErrorState extends RegisterStates
 
   RegisterCreateUserErrorState(this.error);
 }
+
+// Get all users:
+class RegisterGetAllUsersLoadingState extends RegisterStates {}
+
+class RegisterGetAllUsersSuccessState extends RegisterStates {}
+
+class RegisterGetAllUsersErrorState extends RegisterStates
+{
+  final String error;
+  RegisterGetAllUsersErrorState(this.error);
+}

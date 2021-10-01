@@ -10,6 +10,17 @@ class AppChangeModeState extends AppStates {}
 
 class AppMala3ebSearchState extends AppStates {}
 
+// Get all users:
+class AppGetAllUsersLoadingState extends AppStates {}
+
+class AppGetAllUsersSuccessState extends AppStates {}
+
+class AppGetAllUsersErrorState extends AppStates
+{
+  final String error;
+  AppGetAllUsersErrorState(this.error);
+}
+
 // Get User:
 class AppGetUserLoadingState extends AppStates {}
 

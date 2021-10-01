@@ -47,6 +47,7 @@ class AppCubit extends Cubit<AppStates> {
         .snapshots()
         .listen((event) {
       userModel = event.data();
+      emit(AppGetUserSuccessState());
       // print(userModel);
       for(int i=0;i<userModel["mala3eb"].length;i++){
         // print("in loop");
@@ -70,7 +71,6 @@ class AppCubit extends Cubit<AppStates> {
           });
         }
       };
-      emit(AppGetUserSuccessState());
       getUserTournamentsData(tournamentIds: userModel["tournamentIds"]);
     });
     //     .then((value) {

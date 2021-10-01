@@ -227,10 +227,23 @@ class PaymentScreen extends StatelessWidget {
                                 }
                                 int from = 10000000000000;
                                 int to = -1000000000000;
-                                bool isBooked = false;
+                                choose.sort();
+                                bool isConsequent = true;
+                                for(int j=0;j<choose.length;j++){
+                                  if(j!=choose.length-1){
+                                    if(cubit.startTimes[choose[j]]["to"]!=cubit.startTimes[choose[j+1]]["from"]){
+                                      showToast(
+                                          text: "The reservations are not consequent",
+                                          state: ToastStates.ERROR
+                                      );
+                                      isConsequent = false;
+                                      break;
+                                    }
+                                  }
+                                }
+                                if(isConsequent){
                                 for (int i = 0; i < choose.length; i++) {
-                                  if (cubit.startTimes[choose[i]]["from"] <
-                                      from) {
+                                  if (cubit.startTimes[choose[i]]["from"] < from) {
                                     from = cubit.startTimes[choose[i]]["from"];
                                   }
                                   if (cubit.startTimes[choose[i]]["to"] > to) {
@@ -249,7 +262,8 @@ class PaymentScreen extends StatelessWidget {
                                         "userName": cubit.userModel["name"],
                                         "userPhone": cubit.userModel["phone"],
                                         "randomNumber": randomNumber
-                                      });
+                                      }
+                                  );
                                 }
 
                                 cubit.userModel["mala3eb"].add({
@@ -275,9 +289,9 @@ class PaymentScreen extends StatelessWidget {
                                 }
                                 cubit.userModel["count"]++;
                                 cubit.updateUserData(data: {
-                                "mala3eb": cubit.userModel["mala3eb"],
-                                "balance": cubit.userModel["balance"],
-                                "count": cubit.userModel["count"]
+                                  "mala3eb": cubit.userModel["mala3eb"],
+                                  "balance": cubit.userModel["balance"],
+                                  "count": cubit.userModel["count"]
                                 });
                                 if (count > school["policy"]) {
                                   showToast(
@@ -290,6 +304,7 @@ class PaymentScreen extends StatelessWidget {
                                       state: ToastStates.SUCCESS);
                                 }
                                 navigateAndFinish(context, BottomNavScreen());
+                                }
                               }
                             }
                             else {

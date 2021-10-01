@@ -8,6 +8,8 @@ import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
 import 'package:yalla_hagz/modules/register/validate_email_address_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
+import 'package:yalla_hagz/shared/cubit/cubit.dart';
+import 'package:yalla_hagz/shared/cubit/states.dart';
 
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
@@ -37,6 +39,12 @@ class RegisterScreen extends StatelessWidget
         //);
         }
         if (state is RegisterCreateUserErrorState) {
+          showToast(
+            text: state.error,
+            state: ToastStates.ERROR,
+          );
+        }
+        if (state is RegisterErrorState) {
           showToast(
             text: state.error,
             state: ToastStates.ERROR,
@@ -144,20 +152,34 @@ class RegisterScreen extends StatelessWidget
                         height: 30.0,
                       ),
                       ConditionalBuilder(
-                        condition: state is! RegisterLoadingState,
+                        condition: state is! RegisterLoadingState||state is! AppGetAllUsersLoadingState,
                         builder: (context) =>
                             defaultButton(
                               onPressed: () {
+                                bool phoneFound = false;
                                 if (formKey.currentState!.validate())
-                                {
-                                  RegisterCubit.get(context).userRegister(
-                                    name: nameController.text,
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                    phone: phoneController.text,
-                                    context:context
-                                  );
-                                }
+                                  {
+                                    for(int i=0;i<RegisterCubit.get(context).usersPhones.length;i++)
+                                    {
+                                      if(RegisterCubit.get(context).usersPhones[i]==phoneController.text){
+                                        showToast(
+                                          text: "This phone number has been used by another account",
+                                          state: ToastStates.ERROR,
+                                        );
+                                        phoneFound = true;
+                                        break;
+                                      }
+                                    };
+                                    if(!phoneFound) {
+                                      RegisterCubit.get(context).userRegister(
+                                          name: nameController.text,
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                          phone: phoneController.text,
+                                          context: context
+                                      );
+                                    }
+                                  }
                               },
                               text: 'register',
                               background: defaultColor,

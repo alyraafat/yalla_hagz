@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
             create: (context) => LoginCubit()
         ),
         BlocProvider(
-            create: (context) => RegisterCubit()
+            create: (context) => RegisterCubit()..getAllUsers()
         ),
       ],
       child: BlocConsumer<UselessCubit, UselessStates>(

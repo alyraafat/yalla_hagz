@@ -13,6 +13,23 @@ class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit() : super(RegisterInitialState());
 
   static RegisterCubit get(context) => BlocProvider.of(context);
+
+  var usersPhones = [];
+  void getAllUsers(){
+    emit(RegisterGetAllUsersLoadingState());
+    FirebaseFirestore.instance
+        .collection("users")
+        .get()
+        .then((value) {
+      value.docs.forEach((user) {
+        usersPhones.add(user.data()["phone"]);
+      });
+      emit(RegisterGetAllUsersSuccessState());
+    }).catchError((error){
+      print(error.toString());
+      emit(RegisterGetAllUsersErrorState(error));
+    });
+  }
   void verifyPhoneNumber ({
     required String phoneNumber,
     required String code,
@@ -50,12 +67,10 @@ class RegisterCubit extends Cubit<RegisterStates> {
     required String phone,
     required BuildContext context,
   }) {
-    print('hello');
 
     emit(RegisterLoadingState());
 
-    FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
+    FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
       password: password,
     )
