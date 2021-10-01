@@ -137,7 +137,7 @@ class SchoolScreen extends StatelessWidget {
                                     fontSize: 16
                                   ),
                                 ),
-                                separatorBuilder: (context,index) => SizedBox(width: 10,),
+                                separatorBuilder: (context,index) => const SizedBox(width: 10,),
                                 itemCount: school["extras"].length
                             ),
                           ),
@@ -159,45 +159,63 @@ class SchoolScreen extends StatelessWidget {
                         ConditionalBuilder(
                           condition: currentField != 1000000 ,
                           builder: (context) {
-                            return Container(
-                              height: 50,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  return Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    color: (currentField == index+1) ? defaultColor : Colors.grey[300],
-                                    child: TextButton(
-                                      onPressed: () {
-                                        currentField = index+1;
-                                        cubit.changeField();
-                                        if(school["calendar$currentField"][day].length != 1) {
-                                          AppCubit.get(context).checkDateInDataBase(
-                                              date: dateController.text,
-                                              cityId: AppCubit.get(context).currentCity,
-                                              schoolId: school["schoolId"],
-                                              field: currentField.toString(),
-                                              fees: school["fees"],
-                                              intervals:school["calendar$currentField"][day]
-                                          );
-                                        }
-                                      },
-                                      child: Text(
-                                        'Field ${index+1}',
-                                        style: TextStyle(
-                                          color: (currentField == index+1) ? Colors.white : defaultColor,
-                                          fontSize: 14,
+                            return Column(
+                              children: [
+                                Container(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  decoration: const BoxDecoration(
+                                      borderRadius: BorderRadiusDirectional.only(
+                                          topStart: Radius.circular(30),
+                                          topEnd: Radius.circular(30)
+                                      )
+                                  ),
+                                  height: 140,
+                                  width: 160,
+                                  child: Image(
+                                    image: NetworkImage(school["fieldsImages"][currentField - 1]) ,
+                                  ),
+                                ),
+                                Container(
+                                  height: 50,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30),
                                         ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context,
-                                    index) => const SizedBox(width: 5,),
-                                itemCount: school["fields"],
-                              ),
+                                        color: (currentField == index+1) ? defaultColor : Colors.grey[300],
+                                        child: TextButton(
+                                          onPressed: () {
+                                            currentField = index+1;
+                                            cubit.changeField();
+                                            if(school["calendar$currentField"][day].length != 1) {
+                                              AppCubit.get(context).checkDateInDataBase(
+                                                  date: dateController.text,
+                                                  cityId: AppCubit.get(context).currentCity,
+                                                  schoolId: school["schoolId"],
+                                                  field: currentField.toString(),
+                                                  fees: school["fees"],
+                                                  intervals:school["calendar$currentField"][day]
+                                              );
+                                            }
+                                          },
+                                          child: Text(
+                                            'Field ${index+1}',
+                                            style: TextStyle(
+                                              color: (currentField == index+1) ? Colors.white : defaultColor,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder: (context,
+                                        index) => const SizedBox(width: 5,),
+                                    itemCount: school["fields"],
+                                  ),
+                                ),
+                              ],
                             );
                           },
                           fallback: (context) {

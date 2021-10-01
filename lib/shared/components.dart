@@ -350,24 +350,36 @@ Widget defaultCarouselSlider({
   required var images
 }) => Container(
   clipBehavior: Clip.antiAliasWithSaveLayer,
-  decoration: BoxDecoration(
+  decoration: const BoxDecoration(
       borderRadius: BorderRadiusDirectional.all(
         Radius.circular(30),
       )
   ),
   child: CarouselSlider(
-    items: [
-      Image(
-          width: double.infinity,
-          fit: BoxFit.cover,
-          image: NetworkImage(images[0])
-      ),
-      Image(
-          width: double.infinity,
-          fit: BoxFit.cover,
-          image: NetworkImage(images[1])
-      ),
-    ],
+    items: images.map((item) {
+      return Padding(
+        padding: const EdgeInsets.only(left: 30.0),
+        child: Container(
+          height: 250,
+          margin: EdgeInsets.symmetric(vertical: 0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: defaultColor,
+                blurRadius: 3,
+                spreadRadius: 3,
+              ),
+            ],
+          ),
+          child: Image.asset(
+            '$item',
+            fit: BoxFit.fill,
+          ),
+        ),
+      );
+    }).toList(),
     options: CarouselOptions(
       //height: 200,
       viewportFraction: 1.0,

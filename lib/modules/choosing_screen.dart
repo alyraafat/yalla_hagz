@@ -84,24 +84,21 @@ class ChoosingScreen extends StatelessWidget {
                                       Row(
                                         children: [
                                           Container(
-                                            //clipBehavior: Clip.antiAliasWithSaveLayer,
-                                            // decoration: BoxDecoration(
-                                            //     borderRadius: BorderRadiusDirectional.only(
-                                            //         topStart: Radius.circular(30),
-                                            //         topEnd: Radius.circular(30)
-                                            //     )
-                                            // ),
+                                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadiusDirectional.only(
+                                                    topStart: Radius.circular(30),
+                                                    topEnd: Radius.circular(30)
+                                                )
+                                            ),
                                             height: 140,
                                             width: 160,
-                                            child: const Image(
-                                                image: NetworkImage('gs://yalla-hagz.appspot.com/chelsea.jpg')
+                                            child: Image(
+                                              fit: BoxFit.fill,
+                                                image: NetworkImage(userModel["mala3eb"]["image"])
                                             ),
-                                            // child: Image(
-                                            //   fit: BoxFit.cover,
-                                            //     image: NetworkImage("https://image.made-in-china.com/2f0j00NQzGaAiBOYcg/Synthetic-Grass-for-Indoor-Soccer-Field-M60-.jpg")
-                                            // ),
                                           ),
-                                          SizedBox(width: 10,),
+                                          const SizedBox(width: 10,),
                                           Padding(
                                             padding: const EdgeInsets.all(5),
                                             child: Column(

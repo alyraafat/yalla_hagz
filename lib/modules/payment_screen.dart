@@ -268,6 +268,7 @@ class PaymentScreen extends StatelessWidget {
                                   "hasWithdrawn": false,
                                   "rating": 0,
                                   "randomNumber": randomNumber,
+                                  "image":school["fieldsImages"][field -1 ]
                                 });
                                 if (cubit.isWallet) {
                                   cubit.userModel["balance"] -= fromWallet;
