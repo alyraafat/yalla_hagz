@@ -20,7 +20,8 @@ class RegisterScreen extends StatelessWidget
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  var phoneController = TextEditingController();
+  var phone;
+  RegisterScreen(this.phone);
 
   @override
   Widget build(BuildContext context)
@@ -29,14 +30,14 @@ class RegisterScreen extends StatelessWidget
       listener: (context, state)
       {
         if (state is RegisterCreateUserSuccessState) {
-          // CacheHelper.saveData(
-          // key: 'uId',
-          // value: state.uid,
-          // ).then((value)
-          // {
-          navigateTo(context,ValidateEmailAddressScreen());
-              // }
-        //);
+          CacheHelper.saveData(
+          key: 'uId',
+          value: state.uid,
+          ).then((value)
+          {
+              navigateTo(context,ValidateEmailAddressScreen());
+          }
+        );
         }
         if (state is RegisterCreateUserErrorState) {
           showToast(
@@ -132,23 +133,6 @@ class RegisterScreen extends StatelessWidget
                           }
                       ),
                       const SizedBox(
-                        height: 15.0,
-                      ),
-                      defaultFormField(
-                        controller: phoneController,
-                        validate: (value){
-                          if(value!.isEmpty) {
-                          return ('Phone shouldn\'t be empty');
-                        }
-                          if(value.length != 11 || value[0] !='0' || value[1] !='1' || (value[2] !='0' && value[2] !='1'&& value[2] != '2' && value[2] !='5')) {
-                            return ('Phone must be from an Egyptian supplier ');
-                          }
-
-                      },
-                        text: 'Phone',
-                        prefix: Icons.phone,
-                      ),
-                      const SizedBox(
                         height: 30.0,
                       ),
                       ConditionalBuilder(
@@ -159,26 +143,13 @@ class RegisterScreen extends StatelessWidget
                                 bool phoneFound = false;
                                 if (formKey.currentState!.validate())
                                   {
-                                    for(int i=0;i<RegisterCubit.get(context).usersPhones.length;i++)
-                                    {
-                                      if(RegisterCubit.get(context).usersPhones[i]==phoneController.text){
-                                        showToast(
-                                          text: "This phone number has been used by another account",
-                                          state: ToastStates.ERROR,
-                                        );
-                                        phoneFound = true;
-                                        break;
-                                      }
-                                    };
-                                    if(!phoneFound) {
-                                      RegisterCubit.get(context).userRegister(
-                                          name: nameController.text,
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                          phone: phoneController.text,
-                                          context: context
-                                      );
-                                    }
+                                    RegisterCubit.get(context).userRegister(
+                                        name: nameController.text,
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        phone: phone,
+                                        context: context
+                                    );
                                   }
                               },
                               text: 'register',

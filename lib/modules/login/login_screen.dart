@@ -7,8 +7,10 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:yalla_hagz/Network/local/cache_helper.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
+import 'package:yalla_hagz/modules/register/dummy_file.dart';
 import 'package:yalla_hagz/modules/first_screen.dart';
-import 'package:yalla_hagz/modules/forgetpassscreen.dart';
+import 'package:yalla_hagz/modules/forget_password_screen.dart';
+import 'package:yalla_hagz/modules/register/cubit/cubit.dart';
 import 'package:yalla_hagz/modules/register/register_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
@@ -137,36 +139,8 @@ class LoginScreen extends StatelessWidget
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
-                      Center(
-                        child: Text(
-                          'or continue with:',
-                          style: TextStyle(
-                              color: Colors.grey
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-
-                        child: SignInButton(
-                          Buttons.FacebookNew,
-                          text: "Sign in with Facebook",
-                          onPressed: () {},
-                        ),
-                        width: double.infinity,
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        child: SignInButton(
-                          Buttons.Google,
-                          text: "Sign in with Google",
-                          onPressed: () {},
-                        ),
-                        width: double.infinity,
-                      ),
                       SizedBox(
-                        height: 15.0,
+                        height: 10.0,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -176,10 +150,7 @@ class LoginScreen extends StatelessWidget
                           ),
                           defaultTextButton(
                             function: () {
-                              navigateTo(
-                                context,
-                                RegisterScreen(),
-                              );
+                              navigateTo(context, PhoneAuthenticationScreen());
                             },
                             text: 'REGISTER',
                           ),

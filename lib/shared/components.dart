@@ -197,7 +197,7 @@ Widget defaultFormField({
   TextInputType? keyboardType,
   String? Function(String?)? validate,
   void Function()? suffixOnPressed,
-  bool isObscure = false
+  bool isObscure = false,
 
 }) => Container(
   decoration: BoxDecoration(

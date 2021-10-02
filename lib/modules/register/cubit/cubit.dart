@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
 import 'package:yalla_hagz/models/user_model.dart';
 import 'package:yalla_hagz/modules/register/cubit/states.dart';
 import 'package:yalla_hagz/shared/components.dart';
@@ -13,7 +16,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit() : super(RegisterInitialState());
 
   static RegisterCubit get(context) => BlocProvider.of(context);
-
+  var code = "";
   var usersPhones = [];
   void getAllUsers(){
     emit(RegisterGetAllUsersLoadingState());
@@ -30,15 +33,17 @@ class RegisterCubit extends Cubit<RegisterStates> {
       emit(RegisterGetAllUsersErrorState(error));
     });
   }
+
+
   void verifyPhoneNumber ({
     required String phoneNumber,
-    required String code,
     required BuildContext context
 
   }) {
       FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+2$phoneNumber',
       verificationCompleted: (PhoneAuthCredential credential) async {
+        code = credential.smsCode!;
         await FirebaseAuth.instance.signInWithCredential(credential)
         .then((value) {
           AppCubit.get(context).updateUserData(data: {
@@ -55,7 +60,14 @@ class RegisterCubit extends Cubit<RegisterStates> {
         }
       },
       codeSent: (String verificationId, int? resendToken) async {
-        await FirebaseAuth.instance.signInWithCredential(PhoneAuthProvider.credential(verificationId: verificationId, smsCode: code));
+        String smsCode = "";
+        PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+        await FirebaseAuth.instance.signInWithCredential(
+            PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode)
+        );
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+
       },
       codeAutoRetrievalTimeout: (String verificationId) async {},
     );

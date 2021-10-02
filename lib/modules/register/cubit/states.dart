@@ -43,3 +43,5 @@ class RegisterGetAllUsersErrorState extends RegisterStates
   final String error;
   RegisterGetAllUsersErrorState(this.error);
 }
+
+class RegisterCodeState extends RegisterStates {}
