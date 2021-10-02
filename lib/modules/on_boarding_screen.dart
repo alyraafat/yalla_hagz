@@ -28,8 +28,22 @@ class OnBoardingScreen extends StatelessWidget{
       title: '7agz yala 7agz',
       body: 'Your friend in winning football tournaments',
     ),
-
   ];
+  void submit(context) {
+    CacheHelper.saveData(
+      key: 'onBoarding',
+      value: true,
+    ).then((value)
+    {
+      if (value) {
+        navigateAndFinish(
+          context,
+          LoginScreen(),
+        );
+      }
+    });
+  }
+
   Widget buildBoarding(BoardModel model) => Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
@@ -68,8 +82,7 @@ class OnBoardingScreen extends StatelessWidget{
           defaultTextButton(
             text: 'Skip',
             function: () {
-              navigateTo(context, LoginScreen());
-
+              submit(context);
             } ,
           ),
 
@@ -136,19 +149,5 @@ class BoardModel {
     required this.image ,
     required this.title ,
     required this.body ,
-  });
-}
-void submit(context) {
-  CacheHelper.saveData(
-    key: 'onBoarding',
-    value: true,
-  ).then((value)
-  {
-    if (value) {
-      navigateAndFinish(
-        context,
-        LoginScreen(),
-      );
-    }
   });
 }

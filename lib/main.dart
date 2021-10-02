@@ -30,21 +30,23 @@ void main() async {
   await Firebase.initializeApp();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
-  // bool onBoarding = CacheHelper.getData(key: 'onBoarding');
-  var isDark = CacheHelper.getData(key: 'isDark');
+  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+  bool isDark = CacheHelper.getData(key: 'isDark');
   uId = CacheHelper.getData(key: 'uId');
+
   Widget startWidget;
 
-  // if(onBoarding)
-  // {
-  if (uId != " ") {
+
+  if(onBoarding!=null&&onBoarding!=false)
+  {
+  if (uId != ""&&uId!=null) {
     startWidget = FirstScreen();
   } else {
     startWidget = LoginScreen();
   }
-  // }else{
-  //   startWidget = OnBoardingScreen();
-  // }
+  }else{
+    startWidget = OnBoardingScreen();
+  }
   runApp(
       MyApp(
           isDark,

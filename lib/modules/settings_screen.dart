@@ -154,7 +154,7 @@ class SettingsScreen extends StatelessWidget {
                   SizedBox(height:20),
                   MaterialButton(
                     onPressed: (){
-                      CacheHelper.saveData(key: "uId", value: " ");
+                      CacheHelper.saveData(key: "uId", value: "");
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

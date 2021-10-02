@@ -294,189 +294,198 @@ class ChoosingScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context , index) => Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Container(
-                                height: 150,
-                                width: double.infinity,
-                                child:   Row(
-                                  children: [
-                                    Row(
+                          ConditionalBuilder(
+                            condition: userModel["tournamentIds"].length>0&&cubit.userTournaments.isNotEmpty&&userModel["teamNames"].length>0,
+                            builder: (context) {
+                              return ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context , index) => Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Container(
+                                    height: 150,
+                                    width: double.infinity,
+                                    child:   Row(
                                       children: [
-                                        Container(
-                                          //clipBehavior: Clip.antiAliasWithSaveLayer,
-                                          // decoration: BoxDecoration(
-                                          //     borderRadius: BorderRadiusDirectional.only(
-                                          //         topStart: Radius.circular(30),
-                                          //         topEnd: Radius.circular(30)
-                                          //     )
-                                          // ),
-                                          height: 100,
-                                          width: 120,
-                                          child: Image(
-                                              fit: BoxFit.contain,
-                                              image: AssetImage('assets/images/empty_ball.png')
-                                          ),
-                                        ),
-                                        SizedBox(width: 10,),
-                                        Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start ,
-                                            children: [
-                                              Text(
-                                                '${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}',
-                                                maxLines: 1,
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              //clipBehavior: Clip.antiAliasWithSaveLayer,
+                                              // decoration: BoxDecoration(
+                                              //     borderRadius: BorderRadiusDirectional.only(
+                                              //         topStart: Radius.circular(30),
+                                              //         topEnd: Radius.circular(30)
+                                              //     )
+                                              // ),
+                                              height: 100,
+                                              width: 120,
+                                              child: Image(
+                                                  fit: BoxFit.contain,
+                                                  image: AssetImage('assets/images/empty_ball.png')
                                               ),
-                                              const SizedBox(height: 10,),
-                                              Text(
-                                                'Your Team name: ${userModel["teamNames"][userTournamentsLastIndex-index]}',
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Text('${cubit.userTournaments[userTournamentsLastIndex-index]["schoolName"]}'),
-                                              Text(
-                                                '${cubit.userTournaments[userTournamentsLastIndex-index]["date"]}',
-                                                maxLines: 1,
-                                                style: const TextStyle(
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              Text(
-                                                'from: ${cubit.userTournaments[userTournamentsLastIndex-index]["from"]} to: ${cubit.userTournaments[userTournamentsLastIndex-index]["to"]}',
-                                                maxLines: 1,
-                                                style: const TextStyle(
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              Spacer(),
-                                              Row(
+                                            ),
+                                            SizedBox(width: 10,),
+                                            Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start ,
                                                 children: [
-                                                  Container(
-                                                    color: defaultColor,
-                                                    height: 35,
-                                                    child: TextButton(
-                                                      onPressed: () {
-                                                        Alert(
-                                                          context: context,
-                                                          title: "${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}",
-                                                          content: Container(
-                                                              width: double.infinity,
-                                                              child: Column(
-                                                                mainAxisSize: MainAxisSize.min,
-                                                                children: [
-                                                                  const SizedBox(height:10),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.all(12.0),
-                                                                    child: Column(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      children: [
-                                                                        Text(
-                                                                          'Entry requirements',
-                                                                          style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                        Text(
-                                                                          'Canceling Policy',
-                                                                          style: TextStyle(
-                                                                              fontSize: 16,
-                                                                              color: Colors.black
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ],
-
-                                                              ),
-                                                          ),
-                                                          buttons: [
-                                                            DialogButton(
-                                                              child:  const Text(
-                                                                  'Cancel',
-                                                                  style: TextStyle(
-                                                                    color:Colors.white,
-                                                                  )),
-                                                              onPressed: () {
-                                                                cubit.userTournaments[userTournamentsLastIndex-index]["Participants"].remove(userModel["teamNames"][userTournamentsLastIndex-index]);
-                                                                cubit.updateTournamentsData(tournamentId: userModel["tournamentIds"][userTournamentsLastIndex-index], data: {
-                                                                  "Participants": cubit.userTournaments[userTournamentsLastIndex-index]["Participants"],
-                                                                });
-                                                                userModel["teamNames"].removeAt(userTournamentsLastIndex-index);
-                                                                cubit.userTournaments.removeAt(userTournamentsLastIndex-index);
-                                                                if(userModel["tournamentIds"].length==1) {
-                                                                  userModel["tournamentIds"].removeAt(0);
-                                                                  cubit.updateUserData(data: {
-                                                                    "teamNames":userModel["teamNames"],
-                                                                    "tournamentIds": []
-                                                                  });
-                                                                }else{
-                                                                  userModel["tournamentIds"].removeAt(userTournamentsLastIndex - index);
-                                                                  cubit.updateUserData(data: {
-                                                                    "teamNames":userModel["teamNames"],
-                                                                    "tournamentIds": userModel["tournamentsIds"]
-                                                                  });
-                                                                }
-                                                                Navigator.pop(context);
-                                                              },
-                                                              width: 120,
-                                                              color: Colors.red,
-                                                            )
-                                                          ],
-                                                        ).show();
-                                                      },
-                                                      child: Text('Details',
-                                                          style: TextStyle(
-                                                            color:Colors.white,
-                                                          )),
+                                                  Text(
+                                                    '${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}',
+                                                    maxLines: 1,
+                                                    style: const TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.bold,
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 10,),
-                                                  Container(
-                                                    color: defaultColor,
-                                                    height: 35,
-                                                    child: TextButton(
-                                                      onPressed: () {  },
+                                                  const SizedBox(height: 10,),
+                                                  Text(
+                                                    'Your Team name: ${userModel["teamNames"][userTournamentsLastIndex-index]}',
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text('${cubit.userTournaments[userTournamentsLastIndex-index]["schoolName"]}'),
+                                                  Text(
+                                                    '${cubit.userTournaments[userTournamentsLastIndex-index]["date"]}',
+                                                    maxLines: 1,
+                                                    style: const TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'from: ${cubit.userTournaments[userTournamentsLastIndex-index]["from"]} to: ${cubit.userTournaments[userTournamentsLastIndex-index]["to"]}',
+                                                    maxLines: 1,
+                                                    style: const TextStyle(
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        color: defaultColor,
+                                                        height: 35,
+                                                        child: TextButton(
+                                                          onPressed: () {
+                                                            Alert(
+                                                              context: context,
+                                                              title: "${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}",
+                                                              content: Container(
+                                                                  width: double.infinity,
+                                                                  child: Column(
+                                                                    mainAxisSize: MainAxisSize.min,
+                                                                    children: [
+                                                                      const SizedBox(height:10),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.all(12.0),
+                                                                        child: Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Entry requirements',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 16,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                            Text(
+                                                                              'Canceling Policy',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 16,
+                                                                                  color: Colors.black
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
 
-                                                      child: Row(
-                                                        children: [
-                                                          Icon(Icons.location_on ,
-                                                            color: Colors.white,),
-                                                          Text('Location',
+                                                                  ),
+                                                              ),
+                                                              buttons: [
+                                                                DialogButton(
+                                                                  child:  const Text(
+                                                                      'Cancel',
+                                                                      style: TextStyle(
+                                                                        color:Colors.white,
+                                                                      )),
+                                                                  onPressed: () {
+                                                                    cubit.userTournaments[userTournamentsLastIndex-index]["Participants"].remove(userModel["teamNames"][userTournamentsLastIndex-index]);
+                                                                    cubit.updateTournamentsData(tournamentId: userModel["tournamentIds"][userTournamentsLastIndex-index], data: {
+                                                                      "Participants": cubit.userTournaments[userTournamentsLastIndex-index]["Participants"],
+                                                                    });
+                                                                    userModel["teamNames"].removeAt(userTournamentsLastIndex-index);
+                                                                    cubit.userTournaments.removeAt(userTournamentsLastIndex-index);
+                                                                    if(userModel["tournamentIds"].length==1) {
+                                                                      userModel["tournamentIds"].removeAt(0);
+                                                                      cubit.updateUserData(data: {
+                                                                        "teamNames":userModel["teamNames"],
+                                                                        "tournamentIds": []
+                                                                      });
+                                                                    }else{
+                                                                      userModel["tournamentIds"].removeAt(userTournamentsLastIndex - index);
+                                                                      cubit.updateUserData(data: {
+                                                                        "teamNames":userModel["teamNames"],
+                                                                        "tournamentIds": userModel["tournamentsIds"]
+                                                                      });
+                                                                    }
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                  width: 120,
+                                                                  color: Colors.red,
+                                                                )
+                                                              ],
+                                                            ).show();
+                                                          },
+                                                          child: Text('Details',
                                                               style: TextStyle(
                                                                 color:Colors.white,
-                                                              ))
-                                                        ],
+                                                              )),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ),
+                                                      const SizedBox(width: 10,),
+                                                      Container(
+                                                        color: defaultColor,
+                                                        height: 35,
+                                                        child: TextButton(
+                                                          onPressed: () {  },
 
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(Icons.location_on ,
+                                                                color: Colors.white,),
+                                                              Text('Location',
+                                                                  style: TextStyle(
+                                                                    color:Colors.white,
+                                                                  ))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
+                                  )
+                                  ,
                                 ),
-                              )
-                              ,
-                            ),
-                            separatorBuilder: (context , index) => myDivider() ,
-                            itemCount: userModel["tournamentIds"].length,
+                                separatorBuilder: (context , index) => myDivider() ,
+                                itemCount: userModel["tournamentIds"].length,
+                              );
+                            },
+                            fallback: (context)=>Center(
+                                child: CircularProgressIndicator(
+                              color: defaultColor,
+                            )),
                           ),
                         ],
                       ),

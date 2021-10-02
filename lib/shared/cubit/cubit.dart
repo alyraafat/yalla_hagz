@@ -91,7 +91,7 @@ class AppCubit extends Cubit<AppStates> {
         .update(data)
         .then((value) {
       emit(AppUpdateUserSuccessState());
-      // getUserData();
+      getUserData();
     }).catchError((error){
       print(error.toString());
       emit(AppUpdateUserErrorState(error));

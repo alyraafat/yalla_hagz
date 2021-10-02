@@ -106,15 +106,15 @@ class Mala3ebScreen extends StatelessWidget {
                             fallback: (context) => Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  child: Text("Please choose a location"),
-                                ) ,
+                                Text("Please choose a location") ,
                               ]
                             )
                         )
                       ]
                   ),
-                  fallback: (context) => Center(child:const CircularProgressIndicator()),
+                  fallback: (context) => Center(child: CircularProgressIndicator(
+                    color: defaultColor,
+                  )),
                 ),
               ),
             ),
