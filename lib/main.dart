@@ -18,12 +18,6 @@ import 'modules/login/login_screen.dart';
 import 'modules/login/cubit/cubit.dart';
 import 'modules/register/cubit/cubit.dart';
 
-final DynamicLinkParameters parameters = DynamicLinkParameters(
-    uriPrefix: "https://7gz.page.link",
-    link: Uri.parse("https://7gz.page.link/LoginScreen"),
-  androidParameters: AndroidParameters(packageName: "com.hagzyalla.yalla_hagz")
-);
-Future<Uri> link =  parameters.buildUrl();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +25,7 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  bool isDark = CacheHelper.getData(key: 'isDark');
+  bool? isDark = CacheHelper.getData(key: 'isDark');
   uId = CacheHelper.getData(key: 'uId');
 
   Widget startWidget;
@@ -90,7 +84,23 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             themeMode: UselessCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             debugShowCheckedModeBanner: false,
-            home: startWidget,
+            home: FutureBuilder(
+                future: Firebase.initializeApp(),
+              builder: (context,snapshot){
+                  if(snapshot.hasError){
+                    print("error");
+                  }
+                  if(snapshot.connectionState== ConnectionState.done){
+                    return startWidget;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: defaultColor,
+                    ),
+                  );
+                  
+              },
+            ),
           );
         },
       ),

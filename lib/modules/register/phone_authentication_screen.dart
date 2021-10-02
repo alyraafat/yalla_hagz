@@ -43,7 +43,7 @@ class _PhoneAuthenticationScreenState extends State<PhoneAuthenticationScreen> {
         showLoading = false;
       });
 
-      if(authCredential?.user != null){
+      if(authCredential.user != null){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> RegisterScreen(phoneController.text)));
       }
 

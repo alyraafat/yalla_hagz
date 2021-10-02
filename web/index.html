@@ -97,5 +97,23 @@
       loadMainDartJs();
     }
   </script>
+<!--  <script>src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"</script>-->
+<!--  <script>src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"</script>-->
+<!--  <script>src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"</script>-->
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyC7JgzeRR9k-Qdkxuw3nByrG2u10xZaFtc",
+    authDomain: "yalla-hagz.firebaseapp.com",
+    projectId: "yalla-hagz",
+    storageBucket: "yalla-hagz.appspot.com",
+    messagingSenderId: "116286006488",
+    appId: "1:116286006488:web:404a2b37c354d72dd2a3ad",
+    measurementId: "G-HKG3H5YEDX"
+  };
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  </script>
 </body>
 </html>

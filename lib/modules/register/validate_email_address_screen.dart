@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
-import 'package:yalla_hagz/modules/register/dummy_file.dart';
+import 'package:yalla_hagz/modules/register/phone_authentication_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
 

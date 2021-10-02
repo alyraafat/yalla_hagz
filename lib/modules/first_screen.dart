@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
 import 'package:yalla_hagz/modules/after_7agz_rate_screen.dart';
-import 'package:yalla_hagz/modules/register/dummy_file.dart';
+import 'package:yalla_hagz/modules/register/phone_authentication_screen.dart';
 import 'package:yalla_hagz/modules/random_number_screen.dart';
 import 'package:yalla_hagz/modules/register/validate_email_address_screen.dart';
 import 'package:yalla_hagz/modules/withdraw_money_screen.dart';

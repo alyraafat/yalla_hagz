@@ -30,7 +30,7 @@ class UserModel{
         required this.teamNames,
         required this.isEmailVerified,
         required this.isPhoneVerified,
-        required this.count
+        required this.count,
       }
       );
 

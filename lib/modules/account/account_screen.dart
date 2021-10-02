@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
 import 'package:yalla_hagz/shared/cubit/states.dart';
-import 'changepassword.dart';
+import 'change_password.dart';
 class AccountScreen extends StatelessWidget {
 
   @override

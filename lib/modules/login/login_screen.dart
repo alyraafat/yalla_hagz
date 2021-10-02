@@ -7,7 +7,7 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:yalla_hagz/Network/local/cache_helper.dart';
 import 'package:yalla_hagz/layout/bottom_nav_screen.dart';
-import 'package:yalla_hagz/modules/register/dummy_file.dart';
+import 'package:yalla_hagz/modules/register/phone_authentication_screen.dart';
 import 'package:yalla_hagz/modules/first_screen.dart';
 import 'package:yalla_hagz/modules/forget_password_screen.dart';
 import 'package:yalla_hagz/modules/register/cubit/cubit.dart';
