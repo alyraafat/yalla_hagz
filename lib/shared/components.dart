@@ -31,11 +31,11 @@ Widget buildSchool(context,school) => Padding(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadiusDirectional.only(
-                        topStart: Radius.circular(30),
-                        topEnd: Radius.circular(30)
+                        topStart:Radius.circular(30),
+                      topEnd:Radius.circular(30),
                     )
                 ),
-                height: 150,
+                height: 200,
                 width: double.infinity,
                 child: defaultCarouselSlider(images: school['fieldsImages']),
 
@@ -356,39 +356,38 @@ Widget defaultCarouselSlider({
 }) => Container(
   clipBehavior: Clip.antiAliasWithSaveLayer,
   decoration: const BoxDecoration(
-      borderRadius: BorderRadiusDirectional.all(
-        Radius.circular(30),
-      )
+      borderRadius: BorderRadiusDirectional.only(
+        topStart:Radius.circular(30),
+        topEnd:Radius.circular(30),      )
   ),
   child: CarouselSlider(
     items: images.map((item) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 30.0),
-        child: Container(
-          height: 250,
-          margin: EdgeInsets.symmetric(vertical: 0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: defaultColor,
-                blurRadius: 3,
-                spreadRadius: 3,
-              ),
-            ],
-          ),
-          child: ConditionalBuilder(
-            condition: ServicesBinding.instance!.defaultBinaryMessenger.send('flutter/assets', Utf8Codec().encoder.convert(Uri(path: Uri.encodeFull(item)).path).buffer.asByteData())!=null,
-            builder: (context) => Image.network(
-                '$item',
-                fit: BoxFit.cover,
-              ),
-            fallback: (context)=>Center(child:CircularProgressIndicator(
+      return Container(
+        width: double.infinity,
+        height: 200,
+        margin: EdgeInsets.symmetric(vertical: 0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
               color: defaultColor,
-            )),
+              blurRadius: 3,
+              spreadRadius: 3,
+            ),
+          ],
+        ),
+        child: ConditionalBuilder(
+          condition: ServicesBinding.instance!.defaultBinaryMessenger.send('flutter/assets', Utf8Codec().encoder.convert(Uri(path: Uri.encodeFull(item)).path).buffer.asByteData())!=null,
+          builder: (context) => Image.network(
+              '$item',
+              fit: BoxFit.cover,
+            width: double.infinity,
+            ),
+          fallback: (context)=>Center(child:CircularProgressIndicator(
+            color: defaultColor,
+          )),
 
-          ),
         ),
       );
     }).toList(),

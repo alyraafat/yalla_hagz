@@ -110,6 +110,7 @@ class AppCubit extends Cubit<AppStates> {
       for(int i=0;i<value.size;i++){
         tournaments.add(value.docs[i].data());
       }
+      print(tournaments);
       emit(AppGetTournamentsSuccessState());
     }).catchError((error){
       print(error.toString());
@@ -186,7 +187,6 @@ class AppCubit extends Cubit<AppStates> {
         .collection("schools")
         .get()
         .then((value) {
-          print("schools; ${value.docs}");
           schools.add(value.docs);
           emit(AppGetSchoolsSuccessState());
     }).catchError((error){

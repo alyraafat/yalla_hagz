@@ -170,14 +170,16 @@ class SchoolScreen extends StatelessWidget {
                                     return Container(
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
                                       decoration: const BoxDecoration(
-                                          borderRadius: BorderRadiusDirectional.only(
-                                              topStart: Radius.circular(30),
-                                              topEnd: Radius.circular(30)
+                                          borderRadius: BorderRadiusDirectional.all(
+                                              // topStart: Radius.circular(30),
+                                              // topEnd: Radius.circular(30)
+                                            Radius.circular(30)
                                           )
                                       ),
-                                      height: 140,
-                                      width: 160,
+                                      height: 200,
+                                      width: double.infinity,
                                       child: Image(
+                                        fit: BoxFit.cover,
                                         image: NetworkImage(school["fieldsImages"][currentField - 1]) ,
                                       ),
                                     );
@@ -286,42 +288,44 @@ class SchoolScreen extends StatelessWidget {
                                   firstDate: DateTime.now(),
                                   lastDate: AppCubit.get(context).createLastDate(),
                                   context: context,
-                                  // theme: ThemeData(primarySwatch: Colors.deepPurple),
+                                  theme: ThemeData(
+                                    primaryColor: Colors.white,
+                                  ),
                                   styleDatePicker: MaterialRoundedDatePickerStyle(
                                     textStyleDayButton:
                                     const TextStyle(fontSize: 36, color: Colors.white),
                                     textStyleYearButton: const TextStyle(
                                       fontSize: 52,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                     ),
                                     textStyleDayHeader: const TextStyle(
                                       fontSize: 24,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                     ),
                                     textStyleCurrentDayOnCalendar: const TextStyle(
                                         fontSize: 32,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                     textStyleDayOnCalendar:
-                                    const TextStyle(fontSize: 28, color: Colors.white),
+                                    const TextStyle(fontSize: 28, color: Colors.black),
                                     textStyleDayOnCalendarSelected: const TextStyle(
                                         fontSize: 32,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
-                                    textStyleDayOnCalendarDisabled: TextStyle(
+                                    textStyleDayOnCalendarDisabled: const TextStyle(
                                         fontSize: 28,
-                                        color: Colors.white.withOpacity(0.1)),
+                                        color: Colors.black),
                                     textStyleMonthYearHeader: const TextStyle(
                                         fontSize: 32,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                     paddingDatePicker: const EdgeInsets.all(0),
                                     paddingMonthHeader: const EdgeInsets.all(32),
                                     paddingActionBar: const EdgeInsets.all(16),
                                     paddingDateYearHeader: const EdgeInsets.all(32),
                                     sizeArrow: 50,
-                                    colorArrowNext: Colors.white,
-                                    colorArrowPrevious: Colors.white,
+                                    colorArrowNext: Colors.black,
+                                    colorArrowPrevious: Colors.black,
                                     marginLeftArrowPrevious: 16,
                                     marginTopArrowPrevious: 16,
                                     marginTopArrowNext: 16,
@@ -330,27 +334,27 @@ class SchoolScreen extends StatelessWidget {
                                     const TextStyle(fontSize: 28, color: Colors.white),
                                     textStyleButtonPositive: const TextStyle(
                                         fontSize: 28,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                     textStyleButtonNegative: TextStyle(
                                         fontSize: 28,
-                                        color: Colors.white.withOpacity(0.5)),
+                                        color: Colors.black.withOpacity(0.5)),
                                     decorationDateSelected: BoxDecoration(
-                                        color: Colors.orange[600],
+                                        color: defaultColor,
                                         shape: BoxShape.circle),
-                                    backgroundPicker: defaultColor,
-                                    backgroundActionBar: defaultColor,
-                                    backgroundHeaderMonth: defaultColor,
+                                    backgroundPicker: Colors.white,
+                                    backgroundActionBar: Colors.white,
+                                    backgroundHeaderMonth: Colors.white,
                                   ),
                                   styleYearPicker: MaterialRoundedYearPickerStyle(
                                     textStyleYear:
-                                    const TextStyle(fontSize: 40, color: Colors.white),
+                                    const TextStyle(fontSize: 40, color: Colors.black),
                                     textStyleYearSelected: const TextStyle(
                                         fontSize: 56,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                     heightYearRow: 100,
-                                    backgroundPicker: defaultColor,
+                                    backgroundPicker: Colors.black,
                                   )).then((value) {
                                 day = AppCubit.get(context).dateToDay(date: value.toString());
                                 dateController.text = DateFormat("yyyy-MM-dd").format(value!);

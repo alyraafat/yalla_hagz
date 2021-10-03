@@ -25,10 +25,10 @@ class FirstScreen extends StatelessWidget {
           condition: cubit.userModel!=null,
           builder: (context) {
             return ConditionalBuilder(
-              condition: cubit.userModel["isEmailVerified"],
+              condition: cubit.userModel["isPhoneVerified"],
               builder: (context) {
                 return ConditionalBuilder(
-                  condition: cubit.userModel["isPhoneVerified"],
+                  condition: cubit.userModel["isEmailVerified"],
                   builder: (context) {
                     return ConditionalBuilder(
                       condition: cubit.userModel["mala3eb"].length>0,
@@ -62,10 +62,10 @@ class FirstScreen extends StatelessWidget {
                       fallback: (context)=> BottomNavScreen()
                     );
                   },
-                  fallback: (context) => PhoneAuthenticationScreen(),//PhoneAuthenticationScreen(),
+                  fallback: (context) => ValidateEmailAddressScreen(),//PhoneAuthenticationScreen(),
                 );
               },
-            fallback: (context) => ValidateEmailAddressScreen(),
+            fallback: (context) => PhoneAuthenticationScreen(),
             );
           },
           fallback: (context)=>Center(

@@ -80,7 +80,7 @@ class Mala3ebScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height:15),
                                     ConditionalBuilder(
-                                        condition: state is! AppGetSchoolsLoadingState && schools!=null,
+                                        condition: state is! AppGetSchoolsLoadingState&&schools!=null,
                                         builder: (context) => Container(
                                           child: ListView.separated(
                                               shrinkWrap: true,
@@ -94,7 +94,8 @@ class Mala3ebScreen extends StatelessWidget {
                                               ),
                                               itemCount: schools[currentIndex].length
                                           ),
-                                        ), fallback: (BuildContext context) => const Center(child:CircularProgressIndicator())
+                                        ),
+                                        fallback: (BuildContext context) => const Center(child:CircularProgressIndicator())
                                     ),
                                   ],
                                 );
