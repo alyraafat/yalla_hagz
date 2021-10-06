@@ -77,6 +77,7 @@ class RegisterScreen extends StatelessWidget
                         height: 30.0,
                       ),
                       defaultFormField(
+                        context: context,
                         controller: nameController,
                         validate: (value){
                           if(value!.length < 3) return ('Username is too short');
@@ -99,6 +100,7 @@ class RegisterScreen extends StatelessWidget
                         height: 15.0,
                       ),
                       defaultFormField(
+                        context: context,
                         controller: emailController,
                         validate: (value){
                           if(value!.isEmpty) {
@@ -115,6 +117,7 @@ class RegisterScreen extends StatelessWidget
                         height: 15.0,
                       ),
                       defaultFormField(
+                          context: context,
                           controller: passwordController,
                           validate: (value){
                             if(value!.isEmpty) {

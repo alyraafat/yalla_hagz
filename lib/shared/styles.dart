@@ -6,22 +6,23 @@ import 'constants.dart';
 
 ThemeData darkTheme = ThemeData(
   //primarySwatch: MaterialColor(primary, swatch),
-  scaffoldBackgroundColor: Colors.black54,
-  appBarTheme: const AppBarTheme(
+  scaffoldBackgroundColor: HexColor("#121b22"),
+
+  appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
-    backgroundColor:Colors.black54,
+    backgroundColor: HexColor("#121b22"),
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: Colors.black54,
+      statusBarColor: HexColor("#121b22"),
       statusBarIconBrightness: Brightness.light,
     ),
 
     elevation: 0.0,
-    titleTextStyle: TextStyle(
+    titleTextStyle: const TextStyle(
       color: Colors.white,
       fontSize: 20.0,
       fontWeight: FontWeight.bold,
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: Colors.white,
     ),
   ),
@@ -31,7 +32,7 @@ ThemeData darkTheme = ThemeData(
     // selectedItemColor: ,
     unselectedItemColor: Colors.grey,
     elevation: 20.0,
-    backgroundColor: Colors.black54,
+    backgroundColor: HexColor("#121b22"),
   ),
   textTheme: const TextTheme(
     bodyText1: TextStyle(

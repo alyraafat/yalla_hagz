@@ -37,6 +37,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       defaultFormField(
+                        context: context,
                           controller: oldPassController,
                           validate: (value) {
                             if (value!.isEmpty) {
@@ -54,6 +55,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         height: 15,
                       ),
                       defaultFormField(
+                          context: context,
                           controller: newPassController,
                           validate: (value) {
                             if (value!.isEmpty) {
@@ -80,6 +82,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         height: 15,
                       ),
                       defaultFormField(
+                          context: context,
                           controller: newPassConfirmationController,
                           validate: (value) {
                             if (value!.isEmpty) {

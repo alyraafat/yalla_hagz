@@ -18,9 +18,10 @@ class ValidateEmailAddressScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Text(
+              Text(
                 'Please verify your email Address',
                 style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1!.color,
                     fontSize: 20,
                     fontWeight: FontWeight.bold
                 ),
@@ -28,10 +29,13 @@ class ValidateEmailAddressScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   defaultTextButton(
                       function: (){
                         FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                        showToast(
+                            text: "Check your junk or spam or inbox for the verification email",
+                            state:ToastStates.WARNING
+                        );
                       },
                       text: 'Send Verification Email'
                   ),
@@ -39,7 +43,7 @@ class ValidateEmailAddressScreen extends StatelessWidget {
                     function: () async{
                       await FirebaseAuth.instance.currentUser!.reload();
                       if (FirebaseAuth.instance.currentUser!.emailVerified){
-                        navigateAndFinish(context, BottomNavScreen());
+                        navigateAndReplace(context, BottomNavScreen());
                         AppCubit.get(context).updateUserData(data: {
                           "isEmailVerified":true,
                           "isPhoneVerified":true

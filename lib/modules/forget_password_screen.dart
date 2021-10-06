@@ -14,7 +14,8 @@ class ForgotPasswordScreen extends StatelessWidget {
     LoginCubit cubit = LoginCubit.get(context);
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white, //Color(0xff38A3A5),
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor
+        , //Color(0xff38A3A5),
           elevation: 0,
           title: const Text(
             'Forgot Password',
@@ -33,6 +34,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 20,),
               defaultFormField(
+                  context: context,
                   controller: emailController,
                   validate: (value){
                     if(value!.isEmpty) return ('Email shouldn\'t be empty');

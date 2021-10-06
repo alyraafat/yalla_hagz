@@ -152,6 +152,17 @@ class AppCreateBookingTimeErrorState extends AppStates
   AppCreateBookingTimeErrorState(this.error);
 }
 
+// Get One BookingTimeModel:
+class AppGetOneBookingTimeLoadingState extends AppStates {}
+
+class AppGetOneBookingTimeSuccessState extends AppStates {}
+
+class AppGetOneBookingTimeErrorState extends AppStates
+{
+  final String error;
+  AppGetOneBookingTimeErrorState(this.error);
+}
+
 // Get BookingTimeModel:
 class AppGetBookingTimeLoadingState extends AppStates {}
 

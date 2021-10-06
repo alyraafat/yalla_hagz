@@ -63,7 +63,7 @@ class AppCubit extends Cubit<AppStates> {
               "mala3eb": userModel["mala3eb"]
             });
           }
-        }else if(compareDates(date1:userModel["mala3eb"][i]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==-1){
+        }else if(compareDates(date1:userModel["mala3eb"][i]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==-1&&!userModel["mala3eb"][i]["isDone"]){
           // print("in 2nd if");
           userModel["mala3eb"][i]["isDone"] = true;
           updateUserData(data: {
@@ -110,7 +110,6 @@ class AppCubit extends Cubit<AppStates> {
       for(int i=0;i<value.size;i++){
         tournaments.add(value.docs[i].data());
       }
-      print(tournaments);
       emit(AppGetTournamentsSuccessState());
     }).catchError((error){
       print(error.toString());
@@ -185,9 +184,17 @@ class AppCubit extends Cubit<AppStates> {
         .collection('cities')
         .doc(cityId)
         .collection("schools")
+        .orderBy("name")
         .get()
         .then((value) {
           schools.add(value.docs);
+          // for(int i=0;i<value.docs.length;i++){
+          //   int x = Random().nextInt(value.docs.length);
+          //   var temp = schools[0][i];
+          //   schools[0][i] = schools[0][x];
+          //   schools[0][x] = temp;
+          // }
+
           emit(AppGetSchoolsSuccessState());
     }).catchError((error){
       print(error.toString());
@@ -385,7 +392,7 @@ class AppCubit extends Cubit<AppStates> {
         .get()
         .then((value) {
           if(value.docs.isNotEmpty) {
-            getBookingTimeModel(
+            getBookingTimeModels(
                 cityId: cityId,
                 date: date,
                 schoolId: schoolId,
@@ -417,7 +424,6 @@ class AppCubit extends Cubit<AppStates> {
     required String field,
     required List<dynamic> intervals
   }){
-
     timeTable = createTimeTable(intervals: intervals);
     timeTable.forEach((list){
       BookingTimeModel bookingTimeModel = BookingTimeModel(
@@ -429,7 +435,10 @@ class AppCubit extends Cubit<AppStates> {
         isBooked: false,
         userPhone: "",
         userName: "",
-        randomNumber: ''
+        randomNumber: '',
+        depositPaid: false,
+        bookingDate: "",
+        isDeposit: false
       );
       emit(AppCreateBookingTimeLoadingState());
       FirebaseFirestore.instance
@@ -452,7 +461,7 @@ class AppCubit extends Cubit<AppStates> {
         emit(AppCreateBookingTimeErrorState(error));
       });
     });
-    getBookingTimeModel(
+    getBookingTimeModels(
         cityId: cityId,
         field: field,
         schoolId: schoolId,
@@ -461,7 +470,39 @@ class AppCubit extends Cubit<AppStates> {
 
   }
 
-  void getBookingTimeModel({
+  //Get one booking time model:
+  var bookingTimeModel = {};
+  void getOneBookingTimeModel({
+    required String cityId,
+    required String schoolId,
+    required String date,
+    required String field,
+    required int from,
+  }){
+    emit(AppGetOneBookingTimeLoadingState());
+    FirebaseFirestore.instance
+        .collection("cities")
+        .doc(cityId)
+        .collection("schools")
+        .doc(schoolId)
+        .collection("fields")
+        .doc(field)
+        .collection("bookingDay")
+        .doc(date)
+        .collection("bookingTime")
+        .doc(from.toString())
+        .get()
+        .then((value) {
+          bookingTimeModel = value.data()!;
+          print(bookingTimeModel);
+          emit(AppGetOneBookingTimeSuccessState());
+        }).catchError((error){
+          print(error.toString());
+          emit(AppGetOneBookingTimeErrorState(error));
+        });
+  }
+
+  void getBookingTimeModels({
     required String cityId,
     required String schoolId,
     required String date,
@@ -589,15 +630,24 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppMala3ebSearchState());
   }
   //PaymentScreen:
+  bool creditCard = false;
+  void creditCardSelection(){
+    isCash = false;
+    vodaCash = false;
+    creditCard = !creditCard;
+    emit(vodaCashState());
+  }
   bool isCash = false;
   void cashSelection(){
     isCash = !isCash;
+    creditCard = false;
     vodaCash = false;
     emit(CashState());
   }
   bool vodaCash = false;
   void vodaCashSelection(){
     isCash = false;
+    creditCard = false;
     vodaCash = !vodaCash;
     emit(vodaCashState());
   }
@@ -638,7 +688,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   //ChoosingScreen:
-  bool isMala3eb = true;
+  bool isMala3eb = false;
   void changeToMala3eb() {
     isMala3eb = true;
     emit(ChoosingScreenMala3ebState());

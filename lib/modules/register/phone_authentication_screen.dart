@@ -63,6 +63,7 @@ class _PhoneAuthenticationScreenState extends State<PhoneAuthenticationScreen> {
       children: [
         const Spacer(),
         defaultFormField(
+          context: context,
           prefix: Icons.phone_android_outlined,
           controller: phoneController,
           text: 'Phone Number',
@@ -129,7 +130,8 @@ class _PhoneAuthenticationScreenState extends State<PhoneAuthenticationScreen> {
       children: [
         Spacer(),
         defaultFormField(
-          prefix: Icons.verified_user_outlined,
+            context: context,
+            prefix: Icons.verified_user_outlined,
           controller: otpController,
           text:"Enter OTP"
         ),

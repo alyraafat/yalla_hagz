@@ -27,10 +27,11 @@ class After7agzRateScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           "Please rate your experience below to earn points to redeem future offers",
                           style: TextStyle(
-                            fontSize: 20
+                              color: Theme.of(context).textTheme.bodyText1!.color,
+                              fontSize: 20
                           ),
                         ),
                         SizedBox(height:20),
@@ -40,18 +41,28 @@ class After7agzRateScreen extends StatelessWidget {
                           color:defaultColor,
                           child: MaterialButton(
                           onPressed: () {
-                            // cubit.getOneSchoolData(
-                            //     schoolId: cubit.userModel["mala3eb"][cubit.mal3ab]["schoolId"],
-                            //     cityId: cubit.userModel["mala3eb"][cubit.mal3ab]["city"]
-                            // );
+                            cubit.getOneSchoolData(
+                                schoolId: cubit.userModel["mala3eb"][cubit.mal3ab]["schoolId"],
+                                cityId: cubit.userModel["mala3eb"][cubit.mal3ab]["city"]
+                            );
                             Alert(
                                 context: context,
+                                style: AlertStyle(
+                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                  titleStyle: TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1!.color,
+                                  ),
+                                  animationType: AnimationType.fromBottom,
+                                ),
                                 content: Column(
                                     children: [
                                        Text(
-                                          "Rate Your Experience from ${formatTime(num:cubit.userModel["mala3eb"][cubit.mal3ab]["from"])} to ${formatTime(num:cubit.userModel["mala3eb"][cubit.mal3ab]["to"])}!!"
+                                          "Rate Your Experience from ${formatTime(num:cubit.userModel["mala3eb"][cubit.mal3ab]["from"])} to ${formatTime(num:cubit.userModel["mala3eb"][cubit.mal3ab]["to"])}!!",
+                                         style: TextStyle(
+                                             color: Theme.of(context).textTheme.bodyText1!.color
+                                         ),
                                       ),
-                                      SizedBox(height:10),
+                                      const SizedBox(height:10),
                                       defaultRatingBar(
                                           rating: 0,
                                           gestures: false,
@@ -80,7 +91,7 @@ class After7agzRateScreen extends StatelessWidget {
                                               "points": cubit.userModel["points"],
                                             });
                                             Navigator.pop(context);
-                                            navigateAndFinish(context,BottomNavScreen());
+                                            navigateAndReplace(context,BottomNavScreen());
                                           },
                                           text: "YALA"
                                       )

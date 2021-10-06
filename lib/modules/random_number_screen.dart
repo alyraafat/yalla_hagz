@@ -21,13 +21,14 @@ class RandomNumberScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children:  [
-              const Text(
+              Text(
                 "Please enter the random number given by the admin below.",
                 style: TextStyle(
-                  fontSize: 20
+                    color: Theme.of(context).textTheme.bodyText1!.color,
+                    fontSize: 20
                 ),
               ),
-              SizedBox(height:15),
+              const SizedBox(height:15),
               Container(
                 color: defaultColor,
                 child: MaterialButton(
@@ -38,10 +39,18 @@ class RandomNumberScreen extends StatelessWidget {
                       );
                       Alert(
                         context: context,
+                        style: AlertStyle(
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                          titleStyle: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                          ),
+                          animationType: AnimationType.fromBottom,
+                        ),
                         content: Column(
                           children: [
                             defaultFormField(
-                              controller: randomNumberController,
+                                context: context,
+                                controller: randomNumberController,
                               prefix: Icons.format_list_numbered_outlined,
                               text: "Random Number",
                               validate: (value){
@@ -50,7 +59,7 @@ class RandomNumberScreen extends StatelessWidget {
                                 }
                               }
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               width: 100,
                               height: 40,
@@ -76,7 +85,7 @@ class RandomNumberScreen extends StatelessWidget {
                                       );
                                       showToast(text:"Enjoy your 7agz!!",state: ToastStates.SUCCESS);
                                       Navigator.pop(context);
-                                      navigateAndFinish(context, BottomNavScreen());
+                                      navigateAndReplace(context, BottomNavScreen());
                                     }else {
                                       showToast(
                                           text:"The random number you entered is not correct. Please try again!",
@@ -93,7 +102,7 @@ class RandomNumberScreen extends StatelessWidget {
                         buttons: []
                       ).show();
                     },
-                    child: Text(
+                    child: const Text(
                       'Enter your random number',
                       style: TextStyle(
                         color: Colors.white

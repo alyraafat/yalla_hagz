@@ -21,9 +21,10 @@ class WithdrawMoneyScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Money is withdrawn from your wallet",
                   style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1!.color,
                       fontSize: 20
                   ),
                 ),
@@ -41,7 +42,7 @@ class WithdrawMoneyScreen extends StatelessWidget {
                           "balance":cubit.userModel["balance"],
                           "mala3eb":cubit.userModel["mala3eb"]
                         });
-                        navigateAndFinish(context, BottomNavScreen());
+                        navigateAndReplace(context, BottomNavScreen());
                       },
                       text: "Ok",
                       color: Colors.white,

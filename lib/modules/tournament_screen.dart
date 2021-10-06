@@ -27,8 +27,6 @@ class TournamentScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context , index)
                   {
-                    // AppCubit.get(context).getOneSchoolData(cityId: tournaments[index]["cityId"], schoolId: tournaments[index]["schoolId"]);
-                    // var oneSchool = AppCubit.get(context).oneSchool;
                     return Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Container(
@@ -36,343 +34,227 @@ class TournamentScreen extends StatelessWidget {
                         width: double.infinity,
                         child: Row(
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  //clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  // decoration: BoxDecoration(
-                                  //     borderRadius: BorderRadiusDirectional.only(
-                                  //         topStart: Radius.circular(30),
-                                  //         topEnd: Radius.circular(30)
-                                  //     )
-                                  // ),
-                                  height: 100,
-                                  width: 120,
-                                  child: const Image(
-                                      fit: BoxFit.contain,
-                                      image: AssetImage(
-                                          'assets/images/empty_ball.png')),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                            Container(
+                              //clipBehavior: Clip.antiAliasWithSaveLayer,
+                              // decoration: BoxDecoration(
+                              //     borderRadius: BorderRadiusDirectional.only(
+                              //         topStart: Radius.circular(30),
+                              //         topEnd: Radius.circular(30)
+                              //     )
+                              // ),
+                              height: 100,
+                              width: 120,
+                              child: const Image(
+                                  fit: BoxFit.contain,
+                                  image: AssetImage(
+                                      'assets/images/empty_ball.png'
+                                  )
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${tournaments[index]["name"]}',
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                      '${tournaments[index]["schoolName"]}',
+                                    style: TextStyle(
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${tournaments[index]["date"]}',
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                    ),
+                                  ),
+                                  Text(
+                                    tournaments[index]["pointsEntry"]==0?
+                                    "${tournaments[index]["feesEntry"]} EGP/team" :"${tournaments[index]["pointsEntry"]} points/team",
+                                    style: TextStyle(
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    'Maximum number of teams: ${tournaments[index]["numberOfParticipants"]}',
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Row(
                                     children: [
-                                      Text(
-                                        '${tournaments[index]["name"]}',
-                                        maxLines: 1,
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text('${tournaments[index]["schoolName"]}'),
-                                      Text(
-                                        '${tournaments[index]["date"]}',
-                                        maxLines: 1,
-                                        style: const TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Text(
-                                        'from: ${tournaments[index]["from"]} to: ${tournaments[index]["to"]}',
-                                        maxLines: 1,
-                                        style: const TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            color: defaultColor,
-                                            height: 35,
-                                            child: TextButton(
-                                              onPressed: () {
-                                                // scaffoldKey.currentState!
-                                                //     .showBottomSheet((context) =>
-                                                //         Container(
-                                                //             width: double.infinity,
-                                                //             child: Form(
-                                                //               key: formKey,
-                                                //               child: Column(
-                                                //                 mainAxisSize:
-                                                //                     MainAxisSize.min,
-                                                //                 children: [
-                                                //                   Text(
-                                                //                     '${tournaments[index]["name"]}',
-                                                //                     style: const TextStyle(
-                                                //                       fontSize: 30,
-                                                //                       color: Colors
-                                                //                           .black,
-                                                //                       fontWeight:
-                                                //                           FontWeight
-                                                //                               .bold,
-                                                //                     ),
-                                                //                   ),
-                                                //                   const SizedBox(
-                                                //                       height: 10
-                                                //                   ),
-                                                //                   Padding(
-                                                //                     padding:
-                                                //                         const EdgeInsets.all(12.0),
-                                                //                     child: Column(
-                                                //                       crossAxisAlignment:
-                                                //                           CrossAxisAlignment
-                                                //                               .start,
-                                                //                       children: [
-                                                //                         Text(
-                                                //                           'School: ${tournaments[index]["schoolName"]}',
-                                                //                           style: const TextStyle(
-                                                //                               fontSize: 16,
-                                                //                               color: Colors.black),
-                                                //                         ),
-                                                //                         Text(
-                                                //                           '${tournaments[index]["date"]}',
-                                                //                           style: const TextStyle(
-                                                //                               fontSize: 16,
-                                                //                               color: Colors.black
-                                                //                           ),
-                                                //                         ),
-                                                //                         Text(
-                                                //                           'from: ${tournaments[index]["from"]} to: ${tournaments[index]["to"]}',
-                                                //                           style: const TextStyle(
-                                                //                               fontSize: 16,
-                                                //                               color: Colors.black),
-                                                //                         ),
-                                                //                         const Text(
-                                                //                           'Entry requirements',
-                                                //                           style: TextStyle(
-                                                //                               fontSize: 16,
-                                                //                               color: Colors.black),
-                                                //                         ),
-                                                //                         ConditionalBuilder(
-                                                //                           condition: tournaments[index]["pointsEntry"]==0,
-                                                //                           builder: (context) {
-                                                //                             return Text(
-                                                //                               '${tournaments[index]["fees"]} EGP',
-                                                //                               style: const TextStyle(
-                                                //                                   fontSize: 16,
-                                                //                                   color: Colors.black
-                                                //                               ),
-                                                //                             );
-                                                //                           },
-                                                //                           fallback: (context){
-                                                //                             return Text(
-                                                //                               '${tournaments[index]["pointsEntry"]} points',
-                                                //                               style: const TextStyle(
-                                                //                                   fontSize: 16,
-                                                //                                   color: Colors.black
-                                                //                               ),
-                                                //                             );
-                                                //                           }
-                                                //                         ),
-                                                //                         const SizedBox(
-                                                //                           height: 10,
-                                                //                         ),
-                                                //                         defaultFormField(
-                                                //                           prefix: Icons.people_rounded,
-                                                //                           text: "Team name",
-                                                //                           validate: (value){
-                                                //                             if(value!.isEmpty){
-                                                //                               return "You must write your team name";
-                                                //                             }else{
-                                                //                               for(String team in tournaments[index]["Participants"].keys){
-                                                //                                 if(tournaments[index]["Participants"][team]==AppCubit.get(context).userModel["userId"]){
-                                                //                                   return "You have already applied";
-                                                //                                 }
-                                                //                                 if(team.toLowerCase()==value.toLowerCase()){
-                                                //                                   return "This name is already taken";
-                                                //                                 }
-                                                //                               }
-                                                //                               teamNameController.text = value;
-                                                //                               tournaments[index]["Participants"][value] = AppCubit.get(context).userModel["userId"];
-                                                //                             }
-                                                //                           }
-                                                //                         ),
-                                                //                         const SizedBox(
-                                                //                           height: 10,
-                                                //                         ),
-                                                //                         Container(
-                                                //                           height: 40,
-                                                //                           width: double.infinity,
-                                                //                           color: defaultColor,
-                                                //                           child: TextButton(
-                                                //                             onPressed: () {
-                                                //                               if(formKey.currentState!.validate()){
-                                                //                                 AppCubit.get(context).updateTournamentsData(tournamentId: tournaments[index]["tournamentId"], data: {
-                                                //                                   "Participants":tournaments[index]["Participants"]
-                                                //                                 });
-                                                //                                 AppCubit.get(context).userModel["tournamentIds"].add(tournaments[index]["tournamentId"]);
-                                                //                                 AppCubit.get(context).userModel["teamNames"].add(teamNameController.text);
-                                                //                                 AppCubit.get(context).updateUserData(data: {
-                                                //                                   "tournamentIds": AppCubit.get(context).userModel["tournamentIds"],
-                                                //                                   "teamNames": AppCubit.get(context).userModel["teamNames"]
-                                                //                                 });
-                                                //                                 showToast(state: ToastStates.SUCCESS, text: 'Congratulations! You have entered the tournament.');
-                                                //                                 Navigator.pop(context);
-                                                //                               }
-                                                //                             },
-                                                //                             child: const Text(
-                                                //                                 'Apply',
-                                                //                                 style:
-                                                //                                     TextStyle(
-                                                //                                   color:
-                                                //                                       Colors.white,
-                                                //                                 )),
-                                                //                           ),
-                                                //                         )
-                                                //                       ],
-                                                //                     ),
-                                                //                   ),
-                                                //                 ],
-                                                //               ),
-                                                //             ),
-                                                //             decoration:
-                                                //                 BoxDecoration(
-                                                //               color:
-                                                //                   Colors.grey[300],
-                                                //               borderRadius:
-                                                //                   const BorderRadius.only(
-                                                //                       topRight: Radius
-                                                //                           .circular(
-                                                //                               50),
-                                                //                       topLeft: Radius
-                                                //                           .circular(
-                                                //                               50)),
-                                                //             )));
-                                                Alert(
-                                                  context: context,
-                                                  title: "${tournaments[index]["name"]}",
-                                                  content: Container(
-                                                    width: double.infinity,
-                                                    child: Form(
-                                                      key: formKey,
-                                                      child: Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          const SizedBox(height:10),
-                                                          Padding(
-                                                            padding: const EdgeInsets.all(12.0),
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                Text(
-                                                                  'Entry requirements',
-                                                                  style: TextStyle(
-                                                                      fontSize: 16,
-                                                                      color: Colors.black
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  'Canceling Policy',
-                                                                  style: TextStyle(
-                                                                      fontSize: 16,
-                                                                      color: Colors.black
-                                                                  ),
-                                                                ),
-                                                              ],
+                                      Container(
+                                        color: defaultColor,
+                                        height: 35,
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Alert(
+                                              context: context,
+                                              style: AlertStyle(
+                                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                titleStyle: TextStyle(
+                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                                ),
+                                                animationType: AnimationType.fromBottom,
+                                              ),
+                                              title: "${tournaments[index]["name"]}",
+                                              content: Container(
+                                                width: double.infinity,
+                                                child: Form(
+                                                  key: formKey,
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      const SizedBox(height:10),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(12.0),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              'from: ${tournaments[index]["from"]} to: ${tournaments[index]["to"]}',
+                                                              maxLines: 1,
+                                                              style: TextStyle(
+                                                                overflow: TextOverflow.ellipsis,
+                                                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                                              ),
                                                             ),
-                                                          ),
-                                                          defaultFormField(
-                                                            prefix: Icons.people_rounded,
-                                                            text: "Team name",
-                                                            validate: (value){
-                                                              if(value!.isEmpty){
-                                                                return "You must write your team name";
-                                                              }else{
-                                                                for(String team in tournaments[index]["Participants"].keys){
-                                                                  if(tournaments[index]["Participants"][team]==AppCubit.get(context).userModel["userId"]){
-                                                                    return "You have already applied";
-                                                                  }
-                                                                  if(team.toLowerCase()==value.toLowerCase()){
-                                                                    return "This name is already taken";
-                                                                  }
-                                                                }
-                                                                teamNameController.text = value;
-                                                                tournaments[index]["Participants"][value] = AppCubit.get(context).userModel["userId"];
+                                                            Text(
+                                                              'Awards: ${tournaments[index]["awards"]}',
+                                                              style: TextStyle(
+                                                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      defaultFormField(
+                                                          context: context,
+                                                          prefix: Icons.people_rounded,
+                                                        text: "Team name",
+                                                        validate: (value){
+                                                          if(value!.isEmpty){
+                                                            return "You must write your team name";
+                                                          }else{
+                                                            for(String team in tournaments[index]["participants"].keys){
+                                                              if(tournaments[index]["participants"][team]==AppCubit.get(context).userModel["userId"]){
+                                                                return "You have already applied";
+                                                              }
+                                                              if(team.toLowerCase()==value.toLowerCase()){
+                                                                return "This name is already taken";
                                                               }
                                                             }
-                                                          ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                          DialogButton(
-                                                            child:  const Text(
-                                                                'Apply',
-                                                                style: TextStyle(
-                                                                  color:Colors.white,
-                                                                )),
-                                                            onPressed: () {
-                                                              if(formKey.currentState!.validate()){
+                                                            teamNameController.text = value;
+                                                            tournaments[index]["participants"][value] = AppCubit.get(context).userModel["userId"];
+                                                            tournaments[index]["currentParticipants"]++;
+                                                          }
+                                                        }
+                                                      ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                      DialogButton(
+                                                        child:  const Text(
+                                                            'Apply',
+                                                            style: TextStyle(
+                                                              color:Colors.white,
+                                                            )),
+                                                        onPressed: () {
+                                                          if(formKey.currentState!.validate()){
+                                                            if(tournaments[index]["pointsEntry"]!=0){
+                                                              if(AppCubit.get(context).userModel["points"]>=tournaments[index]["pointsEntry"]){
+                                                                AppCubit.get(context).userModel["points"]-=tournaments[index]["pointsEntry"];
                                                                 AppCubit.get(context).updateTournamentsData(tournamentId: tournaments[index]["tournamentId"], data: {
-                                                                  "Participants":tournaments[index]["Participants"]
+                                                                  "participants":tournaments[index]["participants"],
+                                                                  "currentParticipants":tournaments[index]["currentParticipants"]
                                                                 });
                                                                 AppCubit.get(context).userModel["tournamentIds"].add(tournaments[index]["tournamentId"]);
                                                                 AppCubit.get(context).userModel["teamNames"].add(teamNameController.text);
                                                                 AppCubit.get(context).updateUserData(data: {
                                                                   "tournamentIds": AppCubit.get(context).userModel["tournamentIds"],
-                                                                  "teamNames": AppCubit.get(context).userModel["teamNames"]
+                                                                  "teamNames": AppCubit.get(context).userModel["teamNames"],
+                                                                  "points": AppCubit.get(context).userModel["points"]
                                                                 });
                                                                 showToast(state: ToastStates.SUCCESS, text: 'Congratulations! You have entered the tournament.');
-                                                                Navigator.pop(context);
+                                                              }else {
+                                                                showToast(
+                                                                  text:"Your points are not enough to enter the tournament",
+                                                                  state: ToastStates.ERROR
+                                                                );
                                                               }
-                                                            },
-                                                            width: 120,
-                                                            color: defaultColor,
-                                                          )
-                                                        ],
+                                                            }
+                                                            Navigator.pop(context);
+                                                          }
+                                                        },
+                                                        width: 120,
+                                                        color: defaultColor,
+                                                      )
+                                                    ],
 
-                                                      ),
-                                                    ),
                                                   ),
-                                                  buttons: []
-                                                ).show();
-                                              },
-                                              child: const Text(
-                                                  'Details',
+                                                ),
+                                              ),
+                                              buttons: []
+                                            ).show();
+                                          },
+                                          child: const Text(
+                                              'Details',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              )),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Container(
+                                        color: defaultColor,
+                                        height: 35,
+                                        child: TextButton(
+                                          onPressed: () {
+                                            launch("${tournaments[index]["location"]}");
+                                          },
+                                          child: Row(
+                                            children: const [
+                                              Icon(
+                                                Icons.location_on,
+                                                color: Colors.white,
+                                              ),
+                                              Text('Location',
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                  )),
-                                            ),
+                                                  ))
+                                            ],
                                           ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Container(
-                                            color: defaultColor,
-                                            height: 35,
-                                            child: TextButton(
-                                              onPressed: () {
-                                                launch("${tournaments[index]["location"]}");
-                                              },
-                                              child: Row(
-                                                children: const [
-                                                  Icon(
-                                                    Icons.location_on,
-                                                    color: Colors.white,
-                                                  ),
-                                                  Text('Location',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                      ))
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -385,7 +267,8 @@ class TournamentScreen extends StatelessWidget {
             },
             fallback: (context)=>Center(
                 child: Text(
-                    "Tournaments will be available soon!!"
+                    "Tournaments will be available soon!!",
+                  style:Theme.of(context).textTheme.bodyText1
                 )
             ),
           );

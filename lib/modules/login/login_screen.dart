@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget
             value: state.uid,
           ).then((value)
           {
-            navigateAndFinish(
+            navigateAndReplace(
               context,
               FirstScreen(),
             );
@@ -66,7 +66,10 @@ class LoginScreen extends StatelessWidget
                     children: [
                       Text(
                           'LOGIN',
-                          style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.black, fontSize: 40)
+                          style: Theme.of(context).textTheme.headline4!.copyWith(
+                              color: Theme.of(context).textTheme.bodyText1!.color,
+                              fontSize: 40
+                          )
                       ),
                       Text(
                           'Reserve & Enjoy',
@@ -76,7 +79,8 @@ class LoginScreen extends StatelessWidget
                         height: 30.0,
                       ),
                       defaultFormField(
-                        controller: emailController,
+                          context: context,
+                          controller: emailController,
                         validate: (value){
                           if(value!.isEmpty) return ('Email shouldn\'t be empty');
                         },
@@ -88,6 +92,7 @@ class LoginScreen extends StatelessWidget
                         height: 15.0,
                       ),
                       defaultFormField(
+                          context: context,
                           controller: passwordController,
                           validate: (value){
                             if(value!.isEmpty) return ('Password shouldn\'t be empty');
@@ -147,6 +152,9 @@ class LoginScreen extends StatelessWidget
                         children: [
                           Text(
                             'Don\'t have an account?',
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.bodyText1!.color
+                            ),
                           ),
                           defaultTextButton(
                             function: () {

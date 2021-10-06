@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:yalla_hagz/modules/school_screen.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
 
@@ -21,6 +22,7 @@ Widget buildSchool(context,school) => Padding(
       alignment: Alignment.bottomRight,
       children: [
         Card(
+          color: Theme.of(context).scaffoldBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
@@ -29,11 +31,11 @@ Widget buildSchool(context,school) => Padding(
             children: [
               Container(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                decoration: const BoxDecoration(
+                decoration:  const BoxDecoration(
                     borderRadius: BorderRadiusDirectional.only(
                         topStart:Radius.circular(30),
                       topEnd:Radius.circular(30),
-                    )
+                    ) ,
                 ),
                 height: 200,
                 width: double.infinity,
@@ -44,8 +46,11 @@ Widget buildSchool(context,school) => Padding(
                 //     image: NetworkImage("https://image.made-in-china.com/2f0j00NQzGaAiBOYcg/Synthetic-Grass-for-Indoor-Soccer-Field-M60-.jpg")
                 // ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
+                // color: Theme.of(context).scaffoldBackgroundColor,
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -63,39 +68,18 @@ Widget buildSchool(context,school) => Padding(
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
+                                  color:Theme.of(context).textTheme.bodyText1!.color,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold
                                 ),
                               ),
                             ),
-                            SizedBox(height:10),
+                            const SizedBox(height:10),
                             defaultRatingBar(
                                 rating: school["rating"],
                                 gestures: true,
                                 context: context
                             ),
-                            // RatingBar(
-                            //   itemSize: 25,
-                            //   initialRating: 0,
-                            //   direction: Axis.horizontal,
-                            //   allowHalfRating: true,
-                            //   itemCount: 5,
-                            //   ratingWidget: RatingWidget(
-                            //     full: Image(
-                            //       image: AssetImage('assets/images/full_ball.png'),
-                            //     ),
-                            //     half: Image(
-                            //         image: AssetImage('assets/images/full_ball.png'),
-                            //     ),
-                            //     empty: Image(
-                            //         image:AssetImage('assets/images/empty_ball.png'),
-                            //     )
-                            //   ),
-                            //   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            //   onRatingUpdate: (rating) {
-                            //     print(rating);
-                            //   },
-                            // )
                           ],
                         ),
                         Spacer(),
@@ -104,16 +88,16 @@ Widget buildSchool(context,school) => Padding(
                             Text(
                               school["location"],
                               style: TextStyle(
-                                color: Colors.grey[800],
+                                color: Colors.grey[500],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                                 height: 15
                             ),
                             Text(
                               '${school["fees"]} EGP/hr',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Theme.of(context).textTheme.bodyText1!.color,
                               ),
                             )
                           ],
@@ -122,8 +106,6 @@ Widget buildSchool(context,school) => Padding(
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),
@@ -198,13 +180,13 @@ Widget defaultFormField({
   String? Function(String?)? validate,
   void Function()? suffixOnPressed,
   bool isObscure = false,
-
+  required BuildContext context
 }) => Container(
   decoration: BoxDecoration(
-    // border: Border(
-    //   bottom: BorderSide(width: 1, color:defaultColor),
-    // ),
-    color: Colors.white,
+    border: Border(
+      bottom: BorderSide(width: 1, color:defaultColor),
+    ),
+    color: Theme.of(context).scaffoldBackgroundColor,
   ),
   child: TextFormField(
     keyboardType: keyboardType,
@@ -274,7 +256,18 @@ int formatTimeInt({
   return time;
 }
 
-void navigateAndFinish(
+void navigateAndFinish(context, widget){
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (context) => widget,
+    ),
+        (route) {
+      return false;
+    },
+  );
+}
+void navigateAndReplace(
     context, widget,
     ) =>
     Navigator.pushReplacement(
@@ -328,6 +321,7 @@ Widget defaultRatingBar({
   required BuildContext context
 }) {
 return RatingBar.builder(
+      unratedColor: Colors.grey[700],
       ignoreGestures: gestures,
       glowRadius: 10,
       glowColor: defaultColor,

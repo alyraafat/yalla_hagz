@@ -40,7 +40,7 @@ class SchoolScreen extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
-                navigateAndFinish(context, BottomNavScreen());
+                navigateAndReplace(context, BottomNavScreen());
               },
             ),
           ),
@@ -61,7 +61,8 @@ class SchoolScreen extends StatelessWidget {
                         school["name"],
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
+                          color:Theme.of(context).textTheme.bodyText1!.color,
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                         ),
@@ -73,7 +74,8 @@ class SchoolScreen extends StatelessWidget {
                       children: [
                         Text(
                           school["location"],
-                          style: const TextStyle(
+                          style: TextStyle(
+                            color:Theme.of(context).textTheme.bodyText1!.color,
                             fontSize: 20
                           ),
                         ),
@@ -122,8 +124,9 @@ class SchoolScreen extends StatelessWidget {
                         children: [
                           Text(
                               "${school["name"]} offers:",
-                            style:const TextStyle(
-                              fontSize: 22,
+                            style: TextStyle(
+                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                fontSize: 22,
                               fontWeight: FontWeight.bold
                             )
                           ),
@@ -136,7 +139,8 @@ class SchoolScreen extends StatelessWidget {
                                 shrinkWrap: true,
                                 itemBuilder: (context,index) => Text(
                                     "#${school["extras"][index]}",
-                                  style: const TextStyle(
+                                  style: TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1!.color,
                                     fontSize: 16
                                   ),
                                 ),
@@ -152,7 +156,10 @@ class SchoolScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                            "Policy: ${school["policyStr"]}"
+                            "Policy: ${school["policyStr"]}",
+                          style:TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                          )
                         ),
                       ],
                     ),
@@ -272,18 +279,11 @@ class SchoolScreen extends StatelessWidget {
                       condition: currentField != 1000000,
                       builder: (context) {
                         return defaultFormField(
+                            context: context,
                             controller: dateController,
                             prefix: Icons.date_range,
                             text: 'Choose a Date',
                             onTap: () {
-                              // showDatePicker(
-                              //   context: context,
-                              //   initialDate: DateTime.now(),
-                              //   firstDate: DateTime.now(),
-                              //   lastDate: DateTime.parse('2030-05-03'),
-                              // ).then((value) {
-                              //   dateController.text =
-                              //       DateFormat.yMMMd().format(value!);
                               showRoundedDatePicker(
                                   firstDate: DateTime.now(),
                                   lastDate: AppCubit.get(context).createLastDate(),
@@ -418,7 +418,7 @@ class SchoolScreen extends StatelessWidget {
                                                       }
                                                     },
                                                   child: Card(
-                                                    color: cubit.selected[index] ? defaultColor.withOpacity(0.8) : Colors.white,
+                                                    color: cubit.selected[index] ? defaultColor.withOpacity(0.8) : Theme.of(context).scaffoldBackgroundColor,
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.circular(30),
                                                     ),
@@ -426,7 +426,10 @@ class SchoolScreen extends StatelessWidget {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                            '$day ${DateFormat.yMMMd().format(DateTime.parse(dateController.text))}, from: $strFrom to: $strTo'
+                                                            '$day ${DateFormat.yMMMd().format(DateTime.parse(dateController.text))}, from: $strFrom to: $strTo',
+                                                          style: TextStyle(
+                                                            color:Theme.of(context).textTheme.bodyText1!.color
+                                                          ),
                                                         ),
                                                         Row(
                                                           children: [
@@ -445,10 +448,16 @@ class SchoolScreen extends StatelessWidget {
                                                                   CrossAxisAlignment.start,
                                                               children: [
                                                                 Text(
-                                                                    school["name"]
+                                                                    school["name"],
+                                                                  style: TextStyle(
+                                                                    color: Theme.of(context).textTheme.bodyText1!.color
+                                                                  ),
                                                                 ),
                                                                 Text(
-                                                                    'Field $currentField'
+                                                                    'Field $currentField',
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(context).textTheme.bodyText1!.color
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
@@ -476,7 +485,8 @@ class SchoolScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ConditionalBuilder(
-                                  builder: (context) {
+                                    condition: count != 0,
+                                    builder: (context) {
                                     return Container(
                                       width: double.infinity,
                                       color: const Color(0xff388E3C),
@@ -484,13 +494,39 @@ class SchoolScreen extends StatelessWidget {
                                         color: Colors.white,
                                         backGroundColor: const Color(0xff388E3C),
                                         function: () {
-                                          navigateTo(context, PaymentScreen(choose,school,dateController.text,currentField,count,fromTime));
+                                          if(count>3){
+                                            showToast(
+                                                text:"You a have limit of 3 hours",
+                                                state:ToastStates.WARNING
+                                            );
+                                          }else {
+                                            bool flag = false;
+                                            for(int i=0;i<AppCubit.get(context).booked.length;i++){
+                                              if(uId==AppCubit.get(context).booked[i]["userId"]){
+                                                showToast(
+                                                    text:"You already reserved in this school on ${dateController.text}",
+                                                    state:ToastStates.WARNING
+                                                );
+                                                flag = true;
+                                                break;
+                                              }
+                                            }
+                                            if(!flag) {
+                                              navigateTo(context, PaymentScreen(
+                                                  choose, school,
+                                                  dateController.text,
+                                                  currentField, count,
+                                                  fromTime
+                                              )
+                                              );
+                                            }
+                                          }
+
                                         },
                                         text: 'YALA',
                                       ),
                                     );
                                   },
-                                  condition: count != 0,
                                   fallback: (context) {
                                     return Container(
                                       width: double.infinity,
@@ -513,7 +549,12 @@ class SchoolScreen extends StatelessWidget {
                         fallback: (context)=>Container(
                           width: double.infinity,
                           alignment: Alignment.center,
-                          child: Text("No reservations on $day ${dateController.text}"),
+                          child: Text(
+                              "No reservations on $day ${dateController.text} field $currentField",
+                            style: TextStyle(
+                                color: Theme.of(context).textTheme.bodyText1!.color
+                            ),
+                          ),
                         ),
                       ),
                       fallback: (context) => Container()

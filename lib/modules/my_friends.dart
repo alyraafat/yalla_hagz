@@ -278,6 +278,7 @@ class MyFriends extends StatelessWidget {
                   Card(
                       elevation: 5,
                       child: defaultFormField(
+                        context: context,
                         prefix: Icons.search,
                         text: 'Search',
                       )

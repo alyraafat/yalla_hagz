@@ -22,8 +22,9 @@ class ChoosingScreen extends StatelessWidget {
           int userTournamentsLastIndex = cubit.userTournaments.length-1;
           return ConditionalBuilder(
                   condition: cubit.isMala3eb  ,
-                  builder: (context) => SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
+                  builder: (context){
+                    return SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     child: Column(
                       children: [
                         Padding(
@@ -88,9 +89,8 @@ class ChoosingScreen extends StatelessWidget {
                                             Container(
                                               clipBehavior: Clip.antiAliasWithSaveLayer,
                                               decoration: const BoxDecoration(
-                                                  borderRadius: BorderRadiusDirectional.only(
-                                                      topStart: Radius.circular(30),
-                                                      topEnd: Radius.circular(30)
+                                                  borderRadius: BorderRadiusDirectional.all(
+                                                      Radius.circular(30)
                                                   )
                                               ),
                                               height: 140,
@@ -110,9 +110,9 @@ class ChoosingScreen extends StatelessWidget {
                                                     '${userModel["mala3eb"][mala3ebLastIndex-index]["schoolName"]}',
                                                     maxLines: 1,
                                                     style: TextStyle(
+                                                      color:Theme.of(context).textTheme.bodyText1!.color,
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.bold,
-
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
@@ -121,7 +121,7 @@ class ChoosingScreen extends StatelessWidget {
                                                     DateFormat.yMMMd().format(DateTime.parse(userModel["mala3eb"][mala3ebLastIndex-index]["date"])),
                                                     maxLines: 1,
                                                     style: TextStyle(
-
+                                                      color:Theme.of(context).textTheme.bodyText1!.color,
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
@@ -129,6 +129,7 @@ class ChoosingScreen extends StatelessWidget {
                                                     'from: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["from"])} to: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["to"])}',
                                                     maxLines: 1,
                                                     style: TextStyle(
+                                                      color: Theme.of(context).textTheme.bodyText1!.color,
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
@@ -136,12 +137,17 @@ class ChoosingScreen extends StatelessWidget {
                                                     'Field: ${userModel["mala3eb"][mala3ebLastIndex-index]["field"]}',
                                                     maxLines: 1,
                                                     style: TextStyle(
-
+                                                      color: Theme.of(context).textTheme.bodyText1!.color,
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
-                                                  Text('${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]} EGP/hr'),
-                                                  Spacer(),
+                                                  Text(
+                                                      '${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]} EGP/hr',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).textTheme.bodyText1!.color
+                                                    ),
+                                                  ),
+                                                  const Spacer(),
                                                   Row(
                                                     children: [
                                                       Container(
@@ -153,7 +159,7 @@ class ChoosingScreen extends StatelessWidget {
                                                           },
 
                                                           child: Row(
-                                                            children: [
+                                                            children: const [
                                                               Icon(Icons.location_on ,
                                                                 color: Colors.white,),
                                                               Text(
@@ -165,7 +171,7 @@ class ChoosingScreen extends StatelessWidget {
                                                           ),
                                                         ),
                                                       ),
-                                                      SizedBox(width:10),
+                                                      const SizedBox(width:10),
                                                       ConditionalBuilder(
                                                         condition: !userModel["mala3eb"][mala3ebLastIndex-index]["isDone"],
                                                         builder: (context) {
@@ -176,8 +182,20 @@ class ChoosingScreen extends StatelessWidget {
                                                               onPressed: () {
                                                                 Alert(
                                                                     context: context,
+                                                                    style: AlertStyle(
+                                                                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                                      titleStyle: TextStyle(
+                                                                        color: Theme.of(context).textTheme.bodyText1!.color,
+                                                                      ),
+                                                                      animationType: AnimationType.fromBottom,
+                                                                    ),
                                                                     title: "Are you sure you want to cancel?",
-                                                                    content: Text("Cancellation Policy"),
+                                                                    content: Text(
+                                                                        "Cancellation Policy",
+                                                                      style: TextStyle(
+                                                                        color:Theme.of(context).textTheme.bodyText1!.color
+                                                                      ),
+                                                                    ),
                                                                     buttons: [
                                                                       DialogButton(
                                                                         child: const Text(
@@ -198,7 +216,10 @@ class ChoosingScreen extends StatelessWidget {
                                                                                   "userId": "",
                                                                                   "userPhone": "",
                                                                                   "userName": "",
-                                                                                  "randomNumber":""
+                                                                                  "randomNumber":"",
+                                                                                  "isDeposit":false,
+                                                                                  "depositPaid":false,
+                                                                                  "bookingDate":""
                                                                                 });
                                                                           }
                                                                           if(cubit.diffBetweenDates(date1:DateFormat("yyyy-MM-dd").format(DateTime.now()),date2:userModel["mala3eb"][mala3ebLastIndex - index]["date"])){
@@ -220,7 +241,7 @@ class ChoosingScreen extends StatelessWidget {
                                                                 ).show();
                                                               },
 
-                                                              child: Text('Cancel',
+                                                              child: const Text('Cancel',
                                                                   style: TextStyle(
                                                                     color:Colors.white,
                                                                   )),
@@ -243,14 +264,22 @@ class ChoosingScreen extends StatelessWidget {
                               separatorBuilder: (context , index) => myDivider(),
                               itemCount: userModel["mala3eb"].length
                           ),
-                          fallback: (context)=>Text("You have not reserved any field yet. Go reserve now!"),
+                          fallback: (context)=>Center(
+                            child: Text(
+                                "You have not reserved any field yet. Go reserve now!",
+                                style:Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize:15
+                                )
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
+                  );
+                  },
                   fallback: (context) => SafeArea(
                     child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       child: Column(
                         children: [
                           Padding(
@@ -275,7 +304,7 @@ class ChoosingScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 5,),
+                                const SizedBox(width: 5,),
                                 Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
@@ -285,7 +314,7 @@ class ChoosingScreen extends StatelessWidget {
                                     onPressed:() {
                                       cubit.changeToTournaments();
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Tournaments',
                                       style: TextStyle(
                                         color: Colors.white,
@@ -302,7 +331,7 @@ class ChoosingScreen extends StatelessWidget {
                             condition: userModel["tournamentIds"].length>0&&cubit.userTournaments.isNotEmpty&&userModel["teamNames"].length>0,
                             builder: (context) {
                               return ListView.separated(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context , index) => Padding(
                                   padding: const EdgeInsets.all(12.0),
@@ -323,12 +352,12 @@ class ChoosingScreen extends StatelessWidget {
                                               // ),
                                               height: 100,
                                               width: 120,
-                                              child: Image(
+                                              child: const Image(
                                                   fit: BoxFit.contain,
                                                   image: AssetImage('assets/images/empty_ball.png')
                                               ),
                                             ),
-                                            SizedBox(width: 10,),
+                                            const SizedBox(width: 10,),
                                             Padding(
                                               padding: const EdgeInsets.all(5),
                                               child: Column(
@@ -337,7 +366,8 @@ class ChoosingScreen extends StatelessWidget {
                                                   Text(
                                                     '${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}',
                                                     maxLines: 1,
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).textTheme.bodyText1!.color,
                                                       fontSize: 20,
                                                       fontWeight: FontWeight.bold,
                                                       overflow: TextOverflow.ellipsis,
@@ -346,27 +376,35 @@ class ChoosingScreen extends StatelessWidget {
                                                   const SizedBox(height: 10,),
                                                   Text(
                                                     'Your Team name: ${userModel["teamNames"][userTournamentsLastIndex-index]}',
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).textTheme.bodyText1!.color,
                                                       fontSize: 15,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
-                                                  Text('${cubit.userTournaments[userTournamentsLastIndex-index]["schoolName"]}'),
+                                                  Text(
+                                                      '${cubit.userTournaments[userTournamentsLastIndex-index]["schoolName"]}',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).textTheme.bodyText1!.color
+                                                    ),
+                                                  ),
                                                   Text(
                                                     '${cubit.userTournaments[userTournamentsLastIndex-index]["date"]}',
                                                     maxLines: 1,
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).textTheme.bodyText1!.color,
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
                                                   Text(
                                                     'from: ${cubit.userTournaments[userTournamentsLastIndex-index]["from"]} to: ${cubit.userTournaments[userTournamentsLastIndex-index]["to"]}',
                                                     maxLines: 1,
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
+                                                      color:Theme.of(context).textTheme.bodyText1!.color,
                                                       overflow: TextOverflow.ellipsis,
                                                     ),
                                                   ),
-                                                  Spacer(),
+                                                  const Spacer(),
                                                   Row(
                                                     children: [
                                                       Container(
@@ -376,6 +414,13 @@ class ChoosingScreen extends StatelessWidget {
                                                           onPressed: () {
                                                             Alert(
                                                               context: context,
+                                                              style: AlertStyle(
+                                                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                                titleStyle: TextStyle(
+                                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                                                ),
+                                                                animationType: AnimationType.fromBottom,
+                                                              ),
                                                               title: "${cubit.userTournaments[userTournamentsLastIndex-index]["name"]}",
                                                               content: Container(
                                                                   width: double.infinity,
@@ -389,17 +434,19 @@ class ChoosingScreen extends StatelessWidget {
                                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                                           children: [
                                                                             Text(
-                                                                              'Entry requirements',
+                                                                              cubit.userTournaments[userTournamentsLastIndex-index]["pointsEntry"]==0?
+                                                                              "${cubit.userTournaments[userTournamentsLastIndex-index]["feesEntry"]} EGP/team" :"${cubit.userTournaments[userTournamentsLastIndex-index]["pointsEntry"]} points/team",
                                                                               style: TextStyle(
                                                                                   fontSize: 16,
-                                                                                  color: Colors.black
+                                                                                  color: Theme.of(context).textTheme.bodyText1!.color
                                                                               ),
                                                                             ),
                                                                             Text(
                                                                               'Canceling Policy',
                                                                               style: TextStyle(
                                                                                   fontSize: 16,
-                                                                                  color: Colors.black
+                                                                                  color: Theme.of(context).textTheme.bodyText1!.color
+
                                                                               ),
                                                                             ),
                                                                           ],
@@ -417,10 +464,14 @@ class ChoosingScreen extends StatelessWidget {
                                                                         color:Colors.white,
                                                                       )),
                                                                   onPressed: () {
-                                                                    cubit.userTournaments[userTournamentsLastIndex-index]["Participants"].remove(userModel["teamNames"][userTournamentsLastIndex-index]);
-                                                                    cubit.updateTournamentsData(tournamentId: userModel["tournamentIds"][userTournamentsLastIndex-index], data: {
-                                                                      "Participants": cubit.userTournaments[userTournamentsLastIndex-index]["Participants"],
-                                                                    });
+                                                                    cubit.userTournaments[userTournamentsLastIndex-index]["participants"].remove(userModel["teamNames"][userTournamentsLastIndex-index]);
+                                                                    cubit.userTournaments[userTournamentsLastIndex-index]["currentParticipants"]--;
+                                                                    cubit.updateTournamentsData(
+                                                                        tournamentId: userModel["tournamentIds"][userTournamentsLastIndex-index],
+                                                                        data: {
+                                                                          "participants": cubit.userTournaments[userTournamentsLastIndex-index]["participants"],
+                                                                          "currentParticipants":cubit.userTournaments[userTournamentsLastIndex-index]["currentParticipants"]
+                                                                        });
                                                                     userModel["teamNames"].removeAt(userTournamentsLastIndex-index);
                                                                     cubit.userTournaments.removeAt(userTournamentsLastIndex-index);
                                                                     if(userModel["tournamentIds"].length==1) {
@@ -455,10 +506,12 @@ class ChoosingScreen extends StatelessWidget {
                                                         color: defaultColor,
                                                         height: 35,
                                                         child: TextButton(
-                                                          onPressed: () {  },
+                                                          onPressed: () {
+                                                            launch("${cubit.userTournaments[userTournamentsLastIndex-index]["location"]}");
+                                                          },
 
                                                           child: Row(
-                                                            children: [
+                                                            children: const [
                                                               Icon(Icons.location_on ,
                                                                 color: Colors.white,),
                                                               Text('Location',
@@ -487,7 +540,13 @@ class ChoosingScreen extends StatelessWidget {
                               );
                             },
                             fallback: (context)=>Center(
-                                child:Text("You have not applied in any tournament.Go apply now!")),
+                                child:Text(
+                                    "You have not applied in any tournament.Go apply now!",
+                                    style:Theme.of(context).textTheme.bodyText1!.copyWith(
+                                        fontSize:15
+                                    )
+                                )
+                            ),
                           ),
                         ],
                       ),

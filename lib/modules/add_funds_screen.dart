@@ -21,14 +21,16 @@ class AddFundsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             defaultFormField(
-                text: 'Amount',
+              context: context,
+              text: 'Amount',
                 prefix: Icons.money,
                 keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 15,),
-            const Text(
+            Text(
               'Add Funds with',
               style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyText1!.color,
                   fontSize: 18,
                   fontWeight: FontWeight.bold
               ),
@@ -36,12 +38,23 @@ class AddFundsScreen extends StatelessWidget {
             MaterialButton(
               onPressed: () {},
               child: Row(
-                children: const [
-                  Icon(Icons.circle_outlined),
-                  SizedBox(width: 5,),
-                  Icon(Icons.credit_card),
-                  SizedBox(width: 5),
-                  Text('Credit/Debit Card'),
+                children: [
+                  Icon(
+                      Icons.circle_outlined,
+                    color: Theme.of(context).appBarTheme.iconTheme!.color,
+                  ),
+                  const SizedBox(width: 5,),
+                  Icon(
+                      Icons.credit_card,
+                    color: Theme.of(context).appBarTheme.iconTheme!.color,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                      'Credit/Debit Card',
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText1!.color
+                      ),
+                  ),
                 ],
               ),
 
@@ -49,12 +62,23 @@ class AddFundsScreen extends StatelessWidget {
             MaterialButton(
               onPressed: () {},
               child: Row(
-                children: const [
-                  Icon(Icons.circle_outlined),
-                  SizedBox(width: 5,),
-                  Icon(Icons.money),
-                  SizedBox(width: 5),
-                  Text('Vodafone Cash'),
+                children: [
+                  Icon(
+                      Icons.circle_outlined,
+                    color: Theme.of(context).appBarTheme.iconTheme!.color,
+                  ),
+                  const SizedBox(width: 5,),
+                  Icon(
+                      Icons.money,
+                    color: Theme.of(context).appBarTheme.iconTheme!.color,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                      'Vodafone Cash',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText1!.color
+                    ),
+                  ),
                 ],
               ),
 

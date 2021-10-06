@@ -36,7 +36,7 @@ class OnBoardingScreen extends StatelessWidget{
     ).then((value)
     {
       if (value) {
-        navigateAndFinish(
+        navigateAndReplace(
           context,
           LoginScreen(),
         );

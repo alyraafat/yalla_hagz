@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -18,10 +19,18 @@ import 'modules/login/login_screen.dart';
 import 'modules/login/cubit/cubit.dart';
 import 'modules/register/cubit/cubit.dart';
 
-
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  var token = await FirebaseMessaging.instance.getToken();
+  FirebaseMessaging.onMessage.listen((event) {
+    print("success");
+  }).onError((error){
+    print(error.toString());
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {});
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
@@ -84,23 +93,7 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             themeMode: UselessCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             debugShowCheckedModeBanner: false,
-            home: FutureBuilder(
-                future: Firebase.initializeApp(),
-              builder: (context,snapshot){
-                  if(snapshot.hasError){
-                    print("error");
-                  }
-                  if(snapshot.connectionState== ConnectionState.done){
-                    return startWidget;
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: defaultColor,
-                    ),
-                  );
-                  
-              },
-            ),
+            home: startWidget
           );
         },
       ),
