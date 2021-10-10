@@ -91,7 +91,7 @@ class AppCubit extends Cubit<AppStates> {
         .update(data)
         .then((value) {
       emit(AppUpdateUserSuccessState());
-      getUserData();
+      // getUserData();
     }).catchError((error){
       print(error.toString());
       emit(AppUpdateUserErrorState(error));
@@ -175,10 +175,11 @@ class AppCubit extends Cubit<AppStates> {
         });
   }
 
-  List<List<dynamic>> schools = [];
+  List<dynamic> schools = [];
   void getSchoolsData({
     required String cityId
   }){
+    schools = [];
     emit(AppGetSchoolsLoadingState());
     FirebaseFirestore.instance
         .collection('cities')
@@ -187,7 +188,9 @@ class AppCubit extends Cubit<AppStates> {
         .orderBy("name")
         .get()
         .then((value) {
-          schools.add(value.docs);
+          value.docs.forEach((element) {
+            schools.add(element.data());
+          });
           // for(int i=0;i<value.docs.length;i++){
           //   int x = Random().nextInt(value.docs.length);
           //   var temp = schools[0][i];
@@ -438,7 +441,8 @@ class AppCubit extends Cubit<AppStates> {
         randomNumber: '',
         depositPaid: false,
         bookingDate: "",
-        isDeposit: false
+        isDeposit: false,
+        pay: 0
       );
       emit(AppCreateBookingTimeLoadingState());
       FirebaseFirestore.instance
@@ -688,7 +692,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   //ChoosingScreen:
-  bool isMala3eb = false;
+  bool isMala3eb = true;
   void changeToMala3eb() {
     isMala3eb = true;
     emit(ChoosingScreenMala3ebState());

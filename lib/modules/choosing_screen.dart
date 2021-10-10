@@ -79,183 +79,188 @@ class ChoosingScreen extends StatelessWidget {
                               shrinkWrap: true,
                               itemBuilder: (context , index) => Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: SizedBox(
-                                    height: 140,
+                                  child: Container(
+                                    height: 160,
                                     width: double.infinity,
-                                    child:   Row(
+                                    child: Row(
                                       children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                                              decoration: const BoxDecoration(
-                                                  borderRadius: BorderRadiusDirectional.all(
-                                                      Radius.circular(30)
-                                                  )
+                                        Container(
+                                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadiusDirectional.all(
+                                                  Radius.circular(30)
+                                              )
+                                          ),
+                                          height: 160,
+                                          width: 170,
+                                          child: Image(
+                                            fit: BoxFit.fill,
+                                              image: NetworkImage(userModel["mala3eb"][mala3ebLastIndex-index]["image"])
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10,),
+                                        Padding(
+                                          padding: const EdgeInsets.all(5),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start ,
+                                            children: [
+                                               Text(
+                                                '${userModel["mala3eb"][mala3ebLastIndex-index]["schoolName"]}',
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  color:Theme.of(context).textTheme.bodyText1!.color,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
                                               ),
-                                              height: 140,
-                                              width: 160,
-                                              child: Image(
-                                                fit: BoxFit.fill,
-                                                  image: NetworkImage(userModel["mala3eb"][mala3ebLastIndex-index]["image"])
+                                              const SizedBox(height: 10,),
+                                              Text(
+                                                DateFormat.yMMMd().format(DateTime.parse(userModel["mala3eb"][mala3ebLastIndex-index]["date"])),
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  color:Theme.of(context).textTheme.bodyText1!.color,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(width: 10,),
-                                            Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start ,
+                                              Text(
+                                                'from: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["from"])} to: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["to"])}',
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Field: ${userModel["mala3eb"][mala3ebLastIndex-index]["field"]}',
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              Text(
+                                                  '${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]} EGP/hr',
+                                                style: TextStyle(
+                                                  color: Theme.of(context).textTheme.bodyText1!.color
+                                                ),
+                                              ),
+                                              Text(
+                                                'Total: ${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]*(userModel["mala3eb"][mala3ebLastIndex-index]["to"]-userModel["mala3eb"][mala3ebLastIndex-index]["from"])-userModel["mala3eb"][mala3ebLastIndex - index]["payByWallet"]} EGP',
+                                                style: TextStyle(
+                                                    color: Theme.of(context).textTheme.bodyText1!.color
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                              Row(
                                                 children: [
-                                                   Text(
-                                                    '${userModel["mala3eb"][mala3ebLastIndex-index]["schoolName"]}',
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                      color:Theme.of(context).textTheme.bodyText1!.color,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.bold,
-                                                      overflow: TextOverflow.ellipsis,
+                                                  Container(
+                                                    color: defaultColor,
+                                                    height: 35,
+                                                    child: TextButton(
+                                                      onPressed: () {
+                                                        launch(userModel["mala3eb"][mala3ebLastIndex-index]["location"]);
+                                                      },
+
+                                                      child: Row(
+                                                        children: const [
+                                                          Icon(Icons.location_on ,
+                                                            color: Colors.white,),
+                                                          Text(
+                                                              'Location',
+                                                              style: TextStyle(
+                                                                color:Colors.white,
+                                                              ))
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 10,),
-                                                  Text(
-                                                    DateFormat.yMMMd().format(DateTime.parse(userModel["mala3eb"][mala3ebLastIndex-index]["date"])),
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                      color:Theme.of(context).textTheme.bodyText1!.color,
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'from: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["from"])} to: ${formatTime(num:userModel["mala3eb"][mala3ebLastIndex-index]["to"])}',
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).textTheme.bodyText1!.color,
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'Field: ${userModel["mala3eb"][mala3ebLastIndex-index]["field"]}',
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).textTheme.bodyText1!.color,
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                      '${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]} EGP/hr',
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).textTheme.bodyText1!.color
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        color: defaultColor,
+                                                  const SizedBox(width:10),
+                                                  ConditionalBuilder(
+                                                    condition: !userModel["mala3eb"][mala3ebLastIndex-index]["isDone"],
+                                                    builder: (context) {
+                                                      return Container(
+                                                        color: Colors.red,
                                                         height: 35,
                                                         child: TextButton(
                                                           onPressed: () {
-                                                            launch(userModel["mala3eb"][mala3ebLastIndex-index]["location"]);
+                                                            Alert(
+                                                                context: context,
+                                                                style: AlertStyle(
+                                                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                                  titleStyle: TextStyle(
+                                                                    color: Theme.of(context).textTheme.bodyText1!.color,
+                                                                  ),
+                                                                  animationType: AnimationType.fromBottom,
+                                                                ),
+                                                                title: "Are you sure you want to cancel?",
+                                                                content: Text(
+                                                                    "Cancellation Policy",
+                                                                  style: TextStyle(
+                                                                    color:Theme.of(context).textTheme.bodyText1!.color
+                                                                  ),
+                                                                ),
+                                                                buttons: [
+                                                                  DialogButton(
+                                                                    child: const Text(
+                                                                        'Cancel',
+                                                                        style: TextStyle(
+                                                                          color:Colors.white,
+                                                                        )),
+                                                                    onPressed: (){
+                                                                      for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
+                                                                        cubit.updateBookingTimeModel(
+                                                                            cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"],
+                                                                            schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"],
+                                                                            date: userModel["mala3eb"][mala3ebLastIndex - index]["date"],
+                                                                            field: userModel["mala3eb"][mala3ebLastIndex - index]["field"].toString(),
+                                                                            from: i.toString(),
+                                                                            data: {
+                                                                              "isBooked": false,
+                                                                              "userId": "",
+                                                                              "userPhone": "",
+                                                                              "userName": "",
+                                                                              "randomNumber":"",
+                                                                              "isDeposit":false,
+                                                                              "depositPaid":false,
+                                                                              "bookingDate":"",
+                                                                              "pay": 0
+                                                                            });
+                                                                      }
+                                                                      // deduct from his balance if the user cancels before the 7agz day or on the same day:
+                                                                      // if(cubit.diffBetweenDates(date1:DateFormat("yyyy-MM-dd").format(DateTime.now()),date2:userModel["mala3eb"][mala3ebLastIndex - index]["date"])){
+                                                                      //   userModel["balance"]-= 0.5*userModel["mala3eb"][mala3ebLastIndex - index]["fees"]*(userModel["mala3eb"][mala3ebLastIndex - index]["to"]-userModel["mala3eb"][mala3ebLastIndex - index]["from"]);
+                                                                      // }
+                                                                      userModel["balance"]+=userModel["mala3eb"][mala3ebLastIndex - index]["payByWallet"];
+                                                                      userModel["count"]--;
+                                                                      userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
+                                                                      cubit.updateUserData(data: {
+                                                                        "mala3eb":userModel["mala3eb"],
+                                                                        "balance":userModel["balance"],
+                                                                        "count":userModel["count"]
+                                                                      });
+                                                                      Navigator.pop(context);
+                                                                    },
+                                                                    width: 120,
+                                                                    color: Colors.red,
+                                                                  ),
+                                                                ]
+                                                            ).show();
                                                           },
 
-                                                          child: Row(
-                                                            children: const [
-                                                              Icon(Icons.location_on ,
-                                                                color: Colors.white,),
-                                                              Text(
-                                                                  'Location',
-                                                                  style: TextStyle(
-                                                                    color:Colors.white,
-                                                                  ))
-                                                            ],
-                                                          ),
+                                                          child: const Text('Cancel',
+                                                              style: TextStyle(
+                                                                color:Colors.white,
+                                                              )),
                                                         ),
-                                                      ),
-                                                      const SizedBox(width:10),
-                                                      ConditionalBuilder(
-                                                        condition: !userModel["mala3eb"][mala3ebLastIndex-index]["isDone"],
-                                                        builder: (context) {
-                                                          return Container(
-                                                            color: Colors.red,
-                                                            height: 35,
-                                                            child: TextButton(
-                                                              onPressed: () {
-                                                                Alert(
-                                                                    context: context,
-                                                                    style: AlertStyle(
-                                                                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                                      titleStyle: TextStyle(
-                                                                        color: Theme.of(context).textTheme.bodyText1!.color,
-                                                                      ),
-                                                                      animationType: AnimationType.fromBottom,
-                                                                    ),
-                                                                    title: "Are you sure you want to cancel?",
-                                                                    content: Text(
-                                                                        "Cancellation Policy",
-                                                                      style: TextStyle(
-                                                                        color:Theme.of(context).textTheme.bodyText1!.color
-                                                                      ),
-                                                                    ),
-                                                                    buttons: [
-                                                                      DialogButton(
-                                                                        child: const Text(
-                                                                            'Cancel',
-                                                                            style: TextStyle(
-                                                                              color:Colors.white,
-                                                                            )),
-                                                                        onPressed: (){
-                                                                          for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
-                                                                            cubit.updateBookingTimeModel(
-                                                                                cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"],
-                                                                                schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"],
-                                                                                date: userModel["mala3eb"][mala3ebLastIndex - index]["date"],
-                                                                                field: userModel["mala3eb"][mala3ebLastIndex - index]["field"].toString(),
-                                                                                from: i.toString(),
-                                                                                data: {
-                                                                                  "isBooked": false,
-                                                                                  "userId": "",
-                                                                                  "userPhone": "",
-                                                                                  "userName": "",
-                                                                                  "randomNumber":"",
-                                                                                  "isDeposit":false,
-                                                                                  "depositPaid":false,
-                                                                                  "bookingDate":""
-                                                                                });
-                                                                          }
-                                                                          if(cubit.diffBetweenDates(date1:DateFormat("yyyy-MM-dd").format(DateTime.now()),date2:userModel["mala3eb"][mala3ebLastIndex - index]["date"])){
-                                                                            userModel["balance"]-= 0.5*userModel["mala3eb"][mala3ebLastIndex - index]["fees"]*(userModel["mala3eb"][mala3ebLastIndex - index]["to"]-userModel["mala3eb"][mala3ebLastIndex - index]["from"]);
-                                                                          }
-                                                                          userModel["count"]--;
-                                                                          userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
-                                                                          cubit.updateUserData(data: {
-                                                                            "mala3eb":userModel["mala3eb"],
-                                                                            "balance":userModel["balance"],
-                                                                            "count":userModel["count"]
-                                                                          });
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                        width: 120,
-                                                                        color: Colors.red,
-                                                                      ),
-                                                                    ]
-                                                                ).show();
-                                                              },
-
-                                                              child: const Text('Cancel',
-                                                                  style: TextStyle(
-                                                                    color:Colors.white,
-                                                                  )),
-                                                            ),
-                                                          );
-                                                        },
-                                                        fallback: (context)=>Container(),
-                                                      ),
-                                                    ],
+                                                      );
+                                                    },
+                                                    fallback: (context)=>Container(),
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -343,18 +348,17 @@ class ChoosingScreen extends StatelessWidget {
                                         Row(
                                           children: [
                                             Container(
-                                              //clipBehavior: Clip.antiAliasWithSaveLayer,
-                                              // decoration: BoxDecoration(
-                                              //     borderRadius: BorderRadiusDirectional.only(
-                                              //         topStart: Radius.circular(30),
-                                              //         topEnd: Radius.circular(30)
-                                              //     )
-                                              // ),
-                                              height: 100,
-                                              width: 120,
+                                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                                              decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadiusDirectional.all(
+                                                      Radius.circular(30)
+                                                  ),
+                                              ),
+                                              height: 150,
+                                              width: 140,
                                               child: const Image(
-                                                  fit: BoxFit.contain,
-                                                  image: AssetImage('assets/images/empty_ball.png')
+                                                  fit: BoxFit.cover,
+                                                  image: AssetImage('assets/images/players.jpg')
                                               ),
                                             ),
                                             const SizedBox(width: 10,),

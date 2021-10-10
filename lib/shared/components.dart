@@ -183,12 +183,15 @@ Widget defaultFormField({
   required BuildContext context
 }) => Container(
   decoration: BoxDecoration(
-    border: Border(
-      bottom: BorderSide(width: 1, color:defaultColor),
-    ),
+    // border: Border(
+    //   bottom: BorderSide(width: 1, color:defaultColor),
+    // ),
     color: Theme.of(context).scaffoldBackgroundColor,
   ),
   child: TextFormField(
+    style: TextStyle(
+      color: Theme.of(context).textTheme.bodyText1!.color
+    ),
     keyboardType: keyboardType,
     controller: controller,
     obscureText: isObscure,
@@ -197,9 +200,13 @@ Widget defaultFormField({
     validator: validate,
     decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
             borderSide: BorderSide(
               color: defaultColor,
             )
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: defaultColor),
         ),
         prefixIcon: Icon(
           prefix,

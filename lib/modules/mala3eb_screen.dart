@@ -12,7 +12,10 @@ class Mala3ebScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     int currentIndex=0;
     var cities = AppCubit.get(context).cities;
-
+    if(cities.isNotEmpty){
+      AppCubit.get(context).getSchoolsData(cityId:cities[0]);
+      AppCubit.get(context).currentCity = cities[0];
+    }
     return BlocConsumer<AppCubit, AppStates>(
         listener: (context, state)  {
           if(state is AppGetCitiesSuccessState){
@@ -28,7 +31,7 @@ class Mala3ebScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ConditionalBuilder(
-                  condition: cities.isNotEmpty&&schools.isNotEmpty,
+                  condition: cities.isNotEmpty,
                   builder: (context)
                   {
                     return Column(
@@ -72,8 +75,7 @@ class Mala3ebScreen extends StatelessWidget {
                             children: [
                               const SizedBox(height: 15),
                               Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.only(start: 8),
+                                padding: const EdgeInsetsDirectional.only(start: 8),
                                 child: Container(
                                   width: double.infinity,
                                   child: Text(
@@ -88,24 +90,17 @@ class Mala3ebScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 15),
                               ConditionalBuilder(
-                                  condition: state is! AppGetSchoolsLoadingState && schools != null,
-                                  builder: (context) => Container(
-                                        child: ListView.separated(
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            itemBuilder: (context, index) =>
-                                                buildSchool(
-                                                    context,
-                                                    schools[currentIndex][index].data()),
-                                            separatorBuilder: (context,
-                                                    index) =>
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 8),
-                                                  child: myDivider(),
-                                                ),
-                                            itemCount: schools[currentIndex].length),
+                                  condition: state is! AppGetSchoolsLoadingState,
+                                  builder: (context) => ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) => buildSchool(context, schools[index]),
+                                      separatorBuilder: (context, index) => Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 8),
+                                            child: myDivider(),
                                       ),
+                                      itemCount: schools.length
+                                  ),
                                   fallback: (BuildContext context) => Center(
                                           child: CircularProgressIndicator(
                                         color: defaultColor,

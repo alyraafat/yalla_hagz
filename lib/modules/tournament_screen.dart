@@ -35,19 +35,18 @@ class TournamentScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Container(
-                              //clipBehavior: Clip.antiAliasWithSaveLayer,
-                              // decoration: BoxDecoration(
-                              //     borderRadius: BorderRadiusDirectional.only(
-                              //         topStart: Radius.circular(30),
-                              //         topEnd: Radius.circular(30)
-                              //     )
-                              // ),
-                              height: 100,
-                              width: 120,
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadiusDirectional.all(
+                                      Radius.circular(30)
+                                  )
+                              ),
+                              height: 150,
+                              width: 140,
                               child: const Image(
-                                  fit: BoxFit.contain,
+                                  fit: BoxFit.cover,
                                   image: AssetImage(
-                                      'assets/images/empty_ball.png'
+                                      'assets/images/players.jpg'
                                   )
                               ),
                             ),

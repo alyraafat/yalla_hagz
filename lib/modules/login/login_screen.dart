@@ -125,7 +125,9 @@ class LoginScreen extends StatelessWidget
                             }
                         ),
                         fallback: (context) =>
-                            Center(child: CircularProgressIndicator()),
+                            Center(child: CircularProgressIndicator(
+                              color: defaultColor,
+                            )),
                       ),
                       Row(
                         children: [

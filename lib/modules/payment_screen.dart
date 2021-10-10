@@ -29,10 +29,10 @@ class PaymentScreen extends StatelessWidget {
         var fromWallet = choose.length*school["fees"]<cubit.userModel["balance"]?choose.length*school["fees"]:cubit.userModel["balance"];
         return Scaffold(
           appBar: AppBar(
-            title: const Text(
+            title: Text(
               'Payment',
               style: TextStyle(
-                  color: Color(0xff388E3C),
+                  color: defaultColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 30
               ),
@@ -289,10 +289,10 @@ class PaymentScreen extends StatelessWidget {
                   builder: (context) {
                     return Container(
                       width: double.infinity,
-                      color: Color(0xff388E3C),
+                      color: defaultColor,
                       child: defaultTextButton(
                         color: Colors.white,
-                        backGroundColor: Color(0xff388E3C),
+                        backGroundColor: defaultColor,
                         function: () {
                         if (cubit.userModel["count"] < 2){
                             if (cubit.userModel["balance"] >= -200) {
@@ -360,10 +360,11 @@ class PaymentScreen extends StatelessWidget {
                                           "randomNumber": randomNumber,
                                           "isDeposit":isDeposit,
                                           "depositPaid":false,
-                                          "bookingDate":DateFormat("yyyy-MM-dd").format(DateTime.now())
+                                          "bookingDate":DateFormat("yyyy-MM-dd").format(DateTime.now()),
+                                          "pay": choose.length*school["fees"]-(cubit.isWallet? fromWallet:0)
                                         }
-                                    );
-                                }
+                                      );
+                                    }
                                     cubit.userModel["mala3eb"].add({
                                       "schoolId": school["schoolId"],
                                       "from": from,
@@ -381,7 +382,8 @@ class PaymentScreen extends StatelessWidget {
                                       "hasWithdrawn": false,
                                       "rating": 0,
                                       "randomNumber": randomNumber,
-                                      "image": school["fieldsImages"][field - 1]
+                                      "image": school["fieldsImages"][field - 1],
+                                      "payByWallet": fromWallet
                                     });
                                     if (cubit.isWallet) {
                                       cubit.userModel["balance"] -= fromWallet;

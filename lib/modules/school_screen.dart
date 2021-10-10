@@ -289,72 +289,87 @@ class SchoolScreen extends StatelessWidget {
                                   lastDate: AppCubit.get(context).createLastDate(),
                                   context: context,
                                   theme: ThemeData(
-                                    primaryColor: Colors.white,
+                                    primaryColor: Theme.of(context).scaffoldBackgroundColor
                                   ),
                                   styleDatePicker: MaterialRoundedDatePickerStyle(
                                     textStyleDayButton:
-                                    const TextStyle(fontSize: 36, color: Colors.white),
-                                    textStyleYearButton: const TextStyle(
+                                    TextStyle(
+                                        fontSize: 36,
+                                        color: Theme.of(context).textTheme.bodyText1!.color
+                                    ),
+                                    textStyleYearButton: TextStyle(
                                       fontSize: 52,
-                                      color: Colors.black,
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
                                     ),
-                                    textStyleDayHeader: const TextStyle(
+                                    textStyleDayHeader: TextStyle(
                                       fontSize: 24,
-                                      color: Colors.black,
+                                      color: Theme.of(context).textTheme.bodyText1!.color,
                                     ),
-                                    textStyleCurrentDayOnCalendar: const TextStyle(
+                                    textStyleCurrentDayOnCalendar: TextStyle(
                                         fontSize: 32,
-                                        color: Colors.black,
+                                        color: Theme.of(context).textTheme.bodyText1!.color,
                                         fontWeight: FontWeight.bold),
-                                    textStyleDayOnCalendar:
-                                    const TextStyle(fontSize: 28, color: Colors.black),
-                                    textStyleDayOnCalendarSelected: const TextStyle(
-                                        fontSize: 32,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                    textStyleDayOnCalendarDisabled: const TextStyle(
+                                    textStyleDayOnCalendar: TextStyle(
                                         fontSize: 28,
-                                        color: Colors.black),
-                                    textStyleMonthYearHeader: const TextStyle(
+                                        color: Theme.of(context).textTheme.bodyText1!.color
+                                    ),
+                                    textStyleDayOnCalendarSelected: TextStyle(
                                         fontSize: 32,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
+                                        color: Theme.of(context).scaffoldBackgroundColor,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                    textStyleDayOnCalendarDisabled: TextStyle(
+                                        fontSize: 28,
+                                        color: Colors.grey[500]
+                                    ),
+                                    textStyleMonthYearHeader: TextStyle(
+                                        fontSize: 32,
+                                        color: Theme.of(context).textTheme.bodyText1!.color,
+                                        fontWeight: FontWeight.bold
+                                    ),
                                     paddingDatePicker: const EdgeInsets.all(0),
                                     paddingMonthHeader: const EdgeInsets.all(32),
                                     paddingActionBar: const EdgeInsets.all(16),
                                     paddingDateYearHeader: const EdgeInsets.all(32),
                                     sizeArrow: 50,
-                                    colorArrowNext: Colors.black,
-                                    colorArrowPrevious: Colors.black,
+                                    colorArrowNext: Theme.of(context).textTheme.bodyText1!.color,
+                                    colorArrowPrevious: Theme.of(context).textTheme.bodyText1!.color,
                                     marginLeftArrowPrevious: 16,
                                     marginTopArrowPrevious: 16,
                                     marginTopArrowNext: 16,
                                     marginRightArrowNext: 32,
-                                    textStyleButtonAction:
-                                    const TextStyle(fontSize: 28, color: Colors.white),
-                                    textStyleButtonPositive: const TextStyle(
+                                    textStyleButtonAction: TextStyle(
                                         fontSize: 28,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
+                                        color: Theme.of(context).scaffoldBackgroundColor
+                                    ),
+                                    textStyleButtonPositive:TextStyle(
+                                        fontSize: 28,
+                                        color: Theme.of(context).textTheme.bodyText1!.color,
+                                        fontWeight: FontWeight.bold
+                                    ),
                                     textStyleButtonNegative: TextStyle(
                                         fontSize: 28,
-                                        color: Colors.black.withOpacity(0.5)),
+                                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5)),
                                     decorationDateSelected: BoxDecoration(
                                         color: defaultColor,
-                                        shape: BoxShape.circle),
-                                    backgroundPicker: Colors.white,
-                                    backgroundActionBar: Colors.white,
-                                    backgroundHeaderMonth: Colors.white,
+                                        shape: BoxShape.circle
+                                    ),
+                                    backgroundPicker:  Theme.of(context).scaffoldBackgroundColor,
+                                    backgroundActionBar: Theme.of(context).scaffoldBackgroundColor,
+                                    backgroundHeaderMonth: Theme.of(context).scaffoldBackgroundColor,
                                   ),
                                   styleYearPicker: MaterialRoundedYearPickerStyle(
                                     textStyleYear:
-                                    const TextStyle(fontSize: 40, color: Colors.black),
-                                    textStyleYearSelected: const TextStyle(
+                                    TextStyle(
+                                        fontSize: 40,
+                                        color: Theme.of(context).textTheme.bodyText1!.color
+                                    ),
+                                    textStyleYearSelected: TextStyle(
                                         fontSize: 56,
-                                        color: Colors.black,
+                                        color:  Theme.of(context).textTheme.bodyText1!.color,
                                         fontWeight: FontWeight.bold),
                                     heightYearRow: 100,
-                                    backgroundPicker: Colors.black,
+                                    backgroundPicker: Theme.of(context).scaffoldBackgroundColor,
                                   )).then((value) {
                                 day = AppCubit.get(context).dateToDay(date: value.toString());
                                 dateController.text = DateFormat("yyyy-MM-dd").format(value!);
@@ -383,7 +398,10 @@ class SchoolScreen extends StatelessWidget {
                         builder: (context) {
                           return Column(
                             children: [
-                              const Text('Times:'),
+                              Text(
+                                  'Times:',
+                                style:Theme.of(context).textTheme.bodyText1
+                              ),
                               ConditionalBuilder(
                                 condition: state is! AppGetBookingTimeLoadingState&&state is! AppCreateBookingTimeLoadingState,
                                 builder: (context) {
@@ -431,14 +449,24 @@ class SchoolScreen extends StatelessWidget {
                                                             color:Theme.of(context).textTheme.bodyText1!.color
                                                           ),
                                                         ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
                                                         Row(
                                                           children: [
                                                             Container(
-                                                              height: 50,
-                                                              width: 50,
+                                                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                                                              decoration: const BoxDecoration(
+                                                                  borderRadius: BorderRadiusDirectional.all(
+                                                                      Radius.circular(30)
+                                                                  )
+                                                              ),
+                                                              height: 100,
+                                                              width: 100,
                                                               child: const Image(
+                                                                  fit: BoxFit.cover,
                                                                   image: AssetImage(
-                                                                      'assets/images/empty_ball.png'
+                                                                      'assets/images/field.jpg'
                                                                   )
                                                               ),
                                                             ),
