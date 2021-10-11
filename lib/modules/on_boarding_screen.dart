@@ -14,19 +14,33 @@ class OnBoardingScreen extends StatelessWidget{
   @override
   List<BoardModel> boarding = [
     BoardModel(
-      image: 'assets/images/empty_ball.png',
-      title: 'Yala 7agz',
-      body: 'Your friend in reserving football matches',
+      images: defaultCarouselSliderAsset(
+          images: [
+            "assets/images/random_number_screen.jpeg",
+            "assets/images/alert_random_number.jpeg"
+          ]
+      ),
+      title: 'The Random Number',
+      body: 'This screen will appear before your 7agz so you have to enter the random number given by the admin at the school',
     ),
     BoardModel(
-      image: 'assets/images/empty_ball.png',
-      title: '7agz yala',
-      body: 'Your friend in discovering new schools',
+      images: defaultCarouselSliderAsset(
+          images: [
+            "assets/images/rating_screen.jpeg",
+            "assets/images/alert_rating.jpeg"
+          ]
+      ),
+      title: 'Rate your experience!',
+      body: 'After your 7agz, you can rate your experience',
     ),
     BoardModel(
-      image: 'assets/images/empty_ball.png',
-      title: '7agz yala 7agz',
-      body: 'Your friend in winning football tournaments',
+      images: Image.asset(
+        "assets/images/cup_and_arrow.jpg",
+        // width: double.infinity,
+        height: 200,
+      ),
+      title: 'Tournaments',
+      body: 'Tournaments will be available soon. Stay tuned!',
     ),
   ];
   void submit(context) {
@@ -44,63 +58,65 @@ class OnBoardingScreen extends StatelessWidget{
     });
   }
 
-  Widget buildBoarding(BoardModel model) => Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Container(
-        height: 300,
-        width: 300,
-        child: Image(
-          image: AssetImage('${model.image}'),
+  Widget buildBoarding(BoardModel model,BuildContext context) => Padding(
+    padding: const EdgeInsets.all(12.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        model.images,
+        const SizedBox(
+            height: 20
         ),
-      ),
-      SizedBox(
-          height: 20
-      ),
-      Text(
-        '${model.title}',
-        style: TextStyle(
-            color: defaultColor,
-            fontSize: 30,
-            fontWeight: FontWeight.bold
+        Text(
+          model.title,
+          style: TextStyle(
+              color: defaultColor,
+              fontSize: 30,
+              fontWeight: FontWeight.bold
+          ),
         ),
-      ),
-      SizedBox(
-          height: 20
-      ),
-      Text(
-        '${model.body}',
-      ),
+        const SizedBox(
+            height: 20
+        ),
+        Text(
+          model.body,
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            fontSize: 20
+          ),
+          textAlign: TextAlign.center,
+        ),
 
-    ],
+      ],
+    ),
   );
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          defaultTextButton(
-            text: 'Skip',
-            function: () {
-              submit(context);
-            } ,
-          ),
-
-        ],
+        // actions: [
+        //   defaultTextButton(
+        //     text: 'Skip',
+        //     function: () {
+        //       submit(context);
+        //     } ,
+        //   ),
+        // ],
       ),
       body: Column(
           children: [
             Expanded(
               child: PageView.builder(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 controller: boardingController,
-                itemBuilder: (context , index) => buildBoarding(boarding[index]),
+                itemBuilder: (context , index) => buildBoarding(boarding[index],context),
                 itemCount: boarding.length,
                 onPageChanged: (int index) {
-                  if (index == boarding.length - 1)
+                  if (index == boarding.length - 1) {
                     isLast = true;
-                  if (index != boarding.length - 1)
+                  }
+                  if (index != boarding.length - 1) {
                     isLast = false;
+                  }
                 },
               ),
             ),
@@ -110,7 +126,8 @@ class OnBoardingScreen extends StatelessWidget{
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      bottom: 30.0),
+                      bottom: 30.0
+                  ),
                   child: SmoothPageIndicator(
                       effect: WormEffect(
                         activeDotColor: defaultColor,
@@ -126,15 +143,16 @@ class OnBoardingScreen extends StatelessWidget{
       ),
       floatingActionButton: FloatingActionButton(
 
-          child: Icon(
+          child: const Icon(
               Icons.arrow_forward_ios_sharp
           ),
           backgroundColor: defaultColor,
           onPressed: (){
-            if (isLast)
+            if (isLast) {
               submit(context);
-            else
+            } else {
               boardingController.nextPage(duration: Duration(milliseconds: 750), curve: Curves.fastLinearToSlowEaseIn);
+            }
           }
       ),
     );
@@ -142,11 +160,11 @@ class OnBoardingScreen extends StatelessWidget{
 
 }
 class BoardModel {
-  final String image;
+  final Widget images;
   final String title;
   final String body;
   BoardModel({
-    required this.image ,
+    required this.images ,
     required this.title ,
     required this.body ,
   });

@@ -5,6 +5,7 @@ import 'package:yalla_hagz/modules/register/cubit/cubit.dart';
 import 'package:yalla_hagz/modules/register/register_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
 import 'package:yalla_hagz/shared/constants.dart';
+import 'package:yalla_hagz/shared/cubit/cubit.dart';
 
 enum MobileVerificationState {
   SHOW_MOBILE_FORM_STATE,
@@ -128,28 +129,28 @@ class _PhoneAuthenticationScreenState extends State<PhoneAuthenticationScreen> {
   getOtpFormWidget(context) {
     return Column(
       children: [
-        Spacer(),
+        const Spacer(),
         defaultFormField(
             context: context,
             prefix: Icons.verified_user_outlined,
           controller: otpController,
           text:"Enter OTP"
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         defaultTextButton(
           function: () async {
-            PhoneAuthCredential phoneAuthCredential =
-            PhoneAuthProvider.credential(
-                verificationId: verificationId, smsCode: otpController.text);
-
+            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+                verificationId: verificationId, smsCode: otpController.text
+            );
             signInWithPhoneAuthCredential(phoneAuthCredential);
+
           },
           color: defaultColor,
           text: 'VERIFY',
         ),
-        Spacer(),
+        const Spacer(),
       ],
     );
   }

@@ -188,9 +188,9 @@ class AppUpdateBookingTimeErrorState extends AppStates
 
 class CashState extends AppStates {}
 
-class vodaCashState extends AppStates {}
+class VodaCashState extends AppStates {}
 
-class walletState extends AppStates {}
+class WalletState extends AppStates {}
 
 //FriendsScreen:
 

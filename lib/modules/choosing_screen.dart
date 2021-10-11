@@ -499,7 +499,8 @@ class ChoosingScreen extends StatelessWidget {
                                                               ],
                                                             ).show();
                                                           },
-                                                          child: Text('Details',
+                                                          child: const Text(
+                                                              'Details',
                                                               style: TextStyle(
                                                                 color:Colors.white,
                                                               )),

@@ -50,24 +50,22 @@ class AppCubit extends Cubit<AppStates> {
       emit(AppGetUserSuccessState());
       // print(userModel);
       for(int i=0;i<userModel["mala3eb"].length;i++){
-        // print("in loop");
         if(compareDates(date1:userModel["mala3eb"][i]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==0){
-          // print("in first if");
-          // print(TimeOfDay.now().hour);
-          // print(TimeOfDay.now().hour>=event.data()!["mala3eb"][i]["to"]);
           mal3ab = i;
           if(TimeOfDay.now().hour>=userModel["mala3eb"][i]["to"]&&!userModel["mala3eb"][i]["isDone"]){
-            // print("in time if");
             userModel["mala3eb"][i]["isDone"] = true;
+            userModel["count"]--;
             updateUserData(data: {
-              "mala3eb": userModel["mala3eb"]
+              "mala3eb": userModel["mala3eb"],
+              "count":userModel["count"]
             });
           }
         }else if(compareDates(date1:userModel["mala3eb"][i]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==-1&&!userModel["mala3eb"][i]["isDone"]){
-          // print("in 2nd if");
           userModel["mala3eb"][i]["isDone"] = true;
+          userModel["count"]--;
           updateUserData(data: {
-            "mala3eb": userModel["mala3eb"]
+            "mala3eb": userModel["mala3eb"],
+            "count":userModel["count"]
           });
         }
       };
@@ -639,7 +637,7 @@ class AppCubit extends Cubit<AppStates> {
     isCash = false;
     vodaCash = false;
     creditCard = !creditCard;
-    emit(vodaCashState());
+    emit(VodaCashState());
   }
   bool isCash = false;
   void cashSelection(){
@@ -653,14 +651,14 @@ class AppCubit extends Cubit<AppStates> {
     isCash = false;
     creditCard = false;
     vodaCash = !vodaCash;
-    emit(vodaCashState());
+    emit(VodaCashState());
   }
   bool isWallet = false;
   void walletSelection(){
     isWallet = !isWallet;
-    emit(walletState());
-
+    emit(WalletState());
   }
+
   //FriendsScreen:
 
   void changeToMyFriends() {

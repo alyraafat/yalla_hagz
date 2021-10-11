@@ -67,7 +67,7 @@ class RegisterScreen extends StatelessWidget
                     children: [
                       Text(
                           'REGISTER',
-                          style: Theme.of(context).textTheme.headline4!.copyWith(color: Colors.black, fontSize: 40)
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 40)
                       ),
                       Text(
                           'Register & Enjoy',
@@ -100,6 +100,7 @@ class RegisterScreen extends StatelessWidget
                         height: 15.0,
                       ),
                       defaultFormField(
+                        keyboardType: TextInputType.emailAddress,
                         context: context,
                         controller: emailController,
                         validate: (value){

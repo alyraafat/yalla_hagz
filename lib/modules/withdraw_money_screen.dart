@@ -37,10 +37,14 @@ class WithdrawMoneyScreen extends StatelessWidget {
                       function: (){
                         cubit.userModel["balance"] -= cubit.userModel["mala3eb"][cubit.mal3ab]["fees"]*(cubit.userModel["mala3eb"][cubit.mal3ab]["to"]-cubit.userModel["mala3eb"][cubit.mal3ab]["from"]);
                         cubit.userModel["mala3eb"][cubit.mal3ab]["hasWithdrawn"] = true;
-                        cubit.userModel["mala3eb"][cubit.mal3ab]["isDone"] = true;
+                        if(!cubit.userModel["mala3eb"][cubit.mal3ab]["isDone"]) {
+                          cubit.userModel["mala3eb"][cubit.mal3ab]["isDone"] = true;
+                          cubit.userModel["count"]--;
+                        }
                         cubit.updateUserData(data: {
                           "balance":cubit.userModel["balance"],
-                          "mala3eb":cubit.userModel["mala3eb"]
+                          "mala3eb":cubit.userModel["mala3eb"],
+                          "count":cubit.userModel["count"]
                         });
                         navigateAndReplace(context, BottomNavScreen());
                       },

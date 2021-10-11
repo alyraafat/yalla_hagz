@@ -7,6 +7,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -39,7 +40,7 @@ Widget buildSchool(context,school) => Padding(
                 ),
                 height: 200,
                 width: double.infinity,
-                child: defaultCarouselSlider(images: school['fieldsImages']),
+                child: defaultCarouselSliderNetwork(images: school['fieldsImages']),
 
                 // child: Image(
                 //   fit: BoxFit.cover,
@@ -352,7 +353,7 @@ return RatingBar.builder(
 }
 
 
-Widget defaultCarouselSlider({
+Widget defaultCarouselSliderNetwork({
   required List<dynamic> images
 }) => Container(
   clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -366,7 +367,7 @@ Widget defaultCarouselSlider({
       return Container(
         width: double.infinity,
         height: 200,
-        margin: EdgeInsets.symmetric(vertical: 0),
+        margin: const EdgeInsets.symmetric(vertical: 0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -385,6 +386,65 @@ Widget defaultCarouselSlider({
               fit: BoxFit.cover,
             width: double.infinity,
             ),
+          fallback: (context)=>Center(child:CircularProgressIndicator(
+            color: defaultColor,
+          )),
+
+        ),
+      );
+    }).toList(),
+    options: CarouselOptions(
+      //height: 200,
+      viewportFraction: 1.0,
+      enlargeCenterPage: false,
+      initialPage: 0,
+      enableInfiniteScroll: true,
+      reverse: false,
+      autoPlay: true,
+      autoPlayInterval: const Duration(seconds: 3),
+      autoPlayAnimationDuration: const Duration(seconds: 1),
+      autoPlayCurve: Curves.fastOutSlowIn,
+      scrollDirection: Axis.horizontal,
+    ),
+
+  ),
+);
+
+Widget defaultCarouselSliderAsset({
+  required List<dynamic> images
+}) => Container(
+  clipBehavior: Clip.antiAliasWithSaveLayer,
+  decoration: const BoxDecoration(
+      borderRadius: BorderRadiusDirectional.all(
+          Radius.circular(30)
+      )
+  ),
+  child: CarouselSlider(
+    items: images.map((item) {
+      return Container(
+        width: double.infinity,
+        height: 200,
+        margin: const EdgeInsets.symmetric(vertical: 0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: defaultColor,
+              blurRadius: 3,
+              spreadRadius: 3,
+            ),
+          ],
+        ),
+        child: ConditionalBuilder(
+          condition: ServicesBinding.instance!.defaultBinaryMessenger.send('flutter/assets', utf8.encoder.convert(Uri(path: Uri.encodeFull(item)).path).buffer.asByteData())!=null,
+          builder: (context) => Image(
+            image: AssetImage(
+              '$item',
+            ),
+            fit: BoxFit.cover,
+            width: double.infinity,
+          ),
           fallback: (context)=>Center(child:CircularProgressIndicator(
             color: defaultColor,
           )),

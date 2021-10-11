@@ -373,6 +373,9 @@ class SchoolScreen extends StatelessWidget {
                                   )).then((value) {
                                 day = AppCubit.get(context).dateToDay(date: value.toString());
                                 dateController.text = DateFormat("yyyy-MM-dd").format(value!);
+                                choose = [];
+                                fromTime = [];
+                                count = 0;
                                 if(school["calendar$currentField"][day].length != 1) {
                                   AppCubit.get(context).checkDateInDataBase(
                                       date: dateController.text,
@@ -530,7 +533,7 @@ class SchoolScreen extends StatelessWidget {
                                           }else {
                                             bool flag = false;
                                             for(int i=0;i<AppCubit.get(context).booked.length;i++){
-                                              if(uId==AppCubit.get(context).booked[i]["userId"]){
+                                              if(uId==AppCubit.get(context).booked[i]["userId"]&&!AppCubit.get(context).booked[i]["isDone"]){
                                                 showToast(
                                                     text:"You already reserved in this school on ${dateController.text}",
                                                     state:ToastStates.WARNING

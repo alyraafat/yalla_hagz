@@ -27,6 +27,9 @@ class PaymentScreen extends StatelessWidget {
       listener: (context,state){},
       builder: (context,state){
         var fromWallet = choose.length*school["fees"]<cubit.userModel["balance"]?choose.length*school["fees"]:cubit.userModel["balance"];
+        if(fromWallet<0){
+          cubit.isWallet = true;
+        }
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -183,7 +186,9 @@ class PaymentScreen extends StatelessWidget {
                     if(!cubit.isCash&&!cubit.vodaCash&&!cubit.creditCard){
                       showToast(text:'Please choose a payment method from above',state:ToastStates.WARNING);
                     }else {
-                      cubit.walletSelection();
+                      if(fromWallet>=0) {
+                        cubit.walletSelection();
+                      }
                     }
                   },
                   child: Row(
@@ -383,7 +388,7 @@ class PaymentScreen extends StatelessWidget {
                                       "rating": 0,
                                       "randomNumber": randomNumber,
                                       "image": school["fieldsImages"][field - 1],
-                                      "payByWallet": fromWallet
+                                      "payByWallet": cubit.isWallet?fromWallet:0
                                     });
                                     if (cubit.isWallet) {
                                       cubit.userModel["balance"] -= fromWallet;

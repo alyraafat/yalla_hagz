@@ -34,10 +34,10 @@ class FirstScreen extends StatelessWidget {
                       condition: cubit.userModel["mala3eb"].length>0,
                       builder: (context) {
                         return ConditionalBuilder(
-                          condition: TimeOfDay.now().hour<(cubit.userModel["mala3eb"][cubit.mal3ab]["from"]-1)||(TimeOfDay.now().hour==(cubit.userModel["mala3eb"][cubit.mal3ab]["from"]-1)&&(TimeOfDay.now().minute)<55),
+                          condition: TimeOfDay.now().hour<(cubit.userModel["mala3eb"][cubit.mal3ab]["from"]-1)||(TimeOfDay.now().hour==(cubit.userModel["mala3eb"][cubit.mal3ab]["from"]-1)&&(TimeOfDay.now().minute)<50),
                           builder: (context) => BottomNavScreen(),
                           fallback: (context) =>ConditionalBuilder(
-                            condition: ((TimeOfDay.now().hour==(cubit.userModel["mala3eb"][cubit.mal3ab]["from"]-1)&&(TimeOfDay.now().minute)>=55)||(TimeOfDay.now().hour>=(cubit.userModel["mala3eb"][cubit.mal3ab]["from"])&&TimeOfDay.now().hour<(cubit.userModel["mala3eb"][cubit.mal3ab]["to"])))&&!cubit.userModel["mala3eb"][cubit.mal3ab]["isVerified"],
+                            condition: ((TimeOfDay.now().hour==(cubit.userModel["mala3eb"][cubit.mal3ab]["from"]-1)&&(TimeOfDay.now().minute)>=50)||(TimeOfDay.now().hour>=(cubit.userModel["mala3eb"][cubit.mal3ab]["from"])&&TimeOfDay.now().hour<=(cubit.userModel["mala3eb"][cubit.mal3ab]["to"])))&&!cubit.userModel["mala3eb"][cubit.mal3ab]["isVerified"],
                             builder: (context) => RandomNumberScreen(),
                             fallback: (context)=>ConditionalBuilder(
                               condition: cubit.userModel["mala3eb"][cubit.mal3ab]["isDone"],
