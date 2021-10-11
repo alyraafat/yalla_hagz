@@ -146,7 +146,7 @@ class ChoosingScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                'Total: ${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]*(userModel["mala3eb"][mala3ebLastIndex-index]["to"]-userModel["mala3eb"][mala3ebLastIndex-index]["from"])-userModel["mala3eb"][mala3ebLastIndex - index]["payByWallet"]} EGP',
+                                                'Total: ${userModel["mala3eb"][mala3ebLastIndex-index]["fees"]*((userModel["mala3eb"][mala3ebLastIndex-index]["to"]!=0?userModel["mala3eb"][mala3ebLastIndex-index]["to"]:24)-userModel["mala3eb"][mala3ebLastIndex-index]["from"])-userModel["mala3eb"][mala3ebLastIndex - index]["payByWallet"]} EGP',
                                                 style: TextStyle(
                                                     color: Theme.of(context).textTheme.bodyText1!.color
                                                 ),

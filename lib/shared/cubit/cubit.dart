@@ -48,11 +48,12 @@ class AppCubit extends Cubit<AppStates> {
         .listen((event) {
       userModel = event.data();
       emit(AppGetUserSuccessState());
-      // print(userModel);
       for(int i=0;i<userModel["mala3eb"].length;i++){
         if(compareDates(date1:userModel["mala3eb"][i]["date"],date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==0){
           mal3ab = i;
-          if(TimeOfDay.now().hour>=userModel["mala3eb"][i]["to"]&&!userModel["mala3eb"][i]["isDone"]){
+          // print(userModel["mala3eb"][i]["to"]);
+          // print("now:${TimeOfDay.now().hour}");
+          if(TimeOfDay.now().hour>=(userModel["mala3eb"][i]["to"]!=0?userModel["mala3eb"][i]["to"]:24)&&!userModel["mala3eb"][i]["isDone"]){
             userModel["mala3eb"][i]["isDone"] = true;
             userModel["count"]--;
             updateUserData(data: {
