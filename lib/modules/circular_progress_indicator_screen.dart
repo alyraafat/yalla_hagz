@@ -44,70 +44,95 @@ class _CircularProgressIndicatorScreenState extends State<CircularProgressIndica
     AppCubit cubit = AppCubit.get(context);
     return Scaffold(
         appBar: AppBar(),
-        body: Center(
-          child: Container(
-              alignment: Alignment.topCenter,
-              margin: const EdgeInsets.only(top: 20),
-              child: Column(
-                  children:[
-                    ConditionalBuilder(
-                      condition: value!=0,
+        body: Container(
+            alignment: Alignment.topCenter,
+            margin: const EdgeInsets.only(top: 20),
+            child: Column(
+                children:[
+                  ConditionalBuilder(
+                    condition: value!=0,
+                    builder: (context) {
+                      return ConditionalBuilder(
+                      condition: value>0&&value<1,
                       builder: (context) {
-                        return ConditionalBuilder(
-                        condition: value>0&&value<1,
-                        builder: (context) {
-                          return Container(
-                            margin: const EdgeInsets.all(20),
-                            child: CircularProgressIndicator(
-                              backgroundColor: Colors.grey,
-                              color: defaultColor,
-                              strokeWidth: 5,
-                              value: value
-                            ),
-                          );
-                        },
-                        fallback: (context)=>Container(
-                              margin: const EdgeInsets.all(20),
-                              child: ElevatedButton(
-                                child: const Text("Enjoy your 7agz"),
-                                style: ElevatedButton.styleFrom(
-                                    onPrimary: Colors.white,
-                                    primary: Colors.green
+                        return Center(
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(20),
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.grey,
+                                  color: defaultColor,
+                                  strokeWidth: 5,
+                                  value: value
                                 ),
-                                onPressed: ()
-                                {
-                                  if(x!=null){
-                                    if (userModel["userId"] != cubit.bookingTimeModel["userId"]) {
-                                      print("uId:$uId");
-                                      print(cubit.bookingTimeModel["userId"]);
-                                      showToast(
-                                          text: "Sorry, someone has booked this just before you",
-                                          state: ToastStates.ERROR);
-                                      userModel["mala3eb"].removeAt(x);
-                                      userModel["count"]--;
-                                      cubit.updateUserData(data: {
-                                        "mala3eb": userModel["mala3eb"],
-                                        "count": userModel["count"]
-                                      });
-                                    } else {
-                                      userModel["mala3eb"][x]["isChecked"] = true;
-                                      cubit.updateUserData(data: {
-                                        "mala3eb": userModel["mala3eb"]
-                                      });
-                                      showToast(
-                                          text: "You have successfully booked from:${formatTime(num: userModel["mala3eb"][x]["from"])} to:${formatTime(num: userModel["mala3eb"][x]["to"])}",
-                                          state: ToastStates.SUCCESS);
-                                    }
-                                  }
-                                  navigateAndFinish(context, BottomNavScreen());
-                                },
                               ),
-                            )
-
-
-                  );
+                              const SizedBox(height:10),
+                              Text(
+                                "Please wait for a few seconds...",
+                                style: Theme.of(context).textTheme.bodyText1,
+                              )
+                            ],
+                          ),
+                        );
                       },
-                      fallback: (BuildContext context) =>Container(
+                      fallback: (context)=>Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                  "Press the button below to make sure that your booking was done successfully",
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              const SizedBox(height:10),
+                              Container(
+                                    margin: const EdgeInsets.all(20),
+                                    child: ElevatedButton(
+                                      child: const Text("OK"),
+                                      style: ElevatedButton.styleFrom(
+                                          onPrimary: Colors.white,
+                                          primary: Colors.green
+                                      ),
+                                      onPressed: ()
+                                      {
+                                        if(x!=null){
+                                          if (userModel["userId"] != cubit.bookingTimeModel["userId"]) {
+                                            showToast(
+                                                text: "Sorry, someone has booked this just before you",
+                                                state: ToastStates.ERROR);
+                                            userModel["mala3eb"].removeAt(x);
+                                            userModel["count"]--;
+                                            cubit.updateUserData(data: {
+                                              "mala3eb": userModel["mala3eb"],
+                                              "count": userModel["count"]
+                                            });
+                                          } else {
+                                            userModel["mala3eb"][x]["isChecked"] = true;
+                                            cubit.updateUserData(data: {
+                                              "mala3eb": userModel["mala3eb"]
+                                            });
+                                            showToast(
+                                                text: "You have successfully booked from:${formatTime(num: userModel["mala3eb"][x]["from"])} to:${formatTime(num: userModel["mala3eb"][x]["to"])}",
+                                                state: ToastStates.SUCCESS);
+                                          }
+                                        }
+                                        navigateAndFinish(context, BottomNavScreen());
+                                      },
+                                    ),
+                                  ),
+                            ],
+                          ),
+                        ),
+                      )
+
+
+                );
+                    },
+                    fallback: (BuildContext context) =>Center(
+                      child: Container(
                         margin: const EdgeInsets.all(20),
                         child: ElevatedButton(
                           child: const Text("Proceed"),
@@ -135,10 +160,10 @@ class _CircularProgressIndicatorScreenState extends State<CircularProgressIndica
                           }
                         ),
                       ),
-                    )
-                  ]
-              )
-          ),
+                    ),
+                  )
+                ]
+            )
         )
     );
   }

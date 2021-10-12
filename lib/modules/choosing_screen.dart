@@ -208,7 +208,7 @@ class ChoosingScreen extends StatelessWidget {
                                                                           color:Colors.white,
                                                                         )),
                                                                     onPressed: (){
-                                                                      for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<userModel["mala3eb"][mala3ebLastIndex-index]["to"];i++){
+                                                                      for(int i=userModel["mala3eb"][mala3ebLastIndex-index]["from"];i<(userModel["mala3eb"][mala3ebLastIndex-index]["to"]==0?24:userModel["mala3eb"][mala3ebLastIndex-index]["to"]);i++){
                                                                         cubit.updateBookingTimeModel(
                                                                             cityId: userModel["mala3eb"][mala3ebLastIndex - index]["city"],
                                                                             schoolId: userModel["mala3eb"][mala3ebLastIndex - index]["schoolId"],

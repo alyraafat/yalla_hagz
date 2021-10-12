@@ -348,7 +348,7 @@ class PaymentScreen extends StatelessWidget {
                                     if (cubit.startTimes[choose[i]]["from"] < from) {
                                       from = cubit.startTimes[choose[i]]["from"];
                                     }
-                                    if (cubit.startTimes[choose[i]]["to"] > to) {
+                                    if ((cubit.startTimes[choose[i]]["to"]==0?24:cubit.startTimes[choose[i]]["to"]) > to) {
                                       to = cubit.startTimes[choose[i]]["to"];
                                     }
                                     cubit.updateBookingTimeModel(
