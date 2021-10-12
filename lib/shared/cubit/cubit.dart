@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -712,4 +713,21 @@ class AppCubit extends Cubit<AppStates> {
     emit(Mala3ebScreenLoadingState());
   }
 
+  // CircularProgressIndicator Screen
+  double value = 0;
+  void downloadData(){
+    Timer.periodic(
+        const Duration(seconds: 1),
+            (Timer timer) {
+              if (value < 1) {
+                value += 0.1;
+                emit(CircularProgressIndicatorValueChangeState());
+              } else {
+                timer.cancel();
+              }
+            }
+    );
+  }
 }
+
+

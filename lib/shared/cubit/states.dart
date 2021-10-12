@@ -238,3 +238,5 @@ class Mala3ebScreenChangeCityState extends AppStates {}
 
 class Mala3ebScreenLoadingState extends AppStates {}
 
+// CircularProgressIndicator Screen
+class CircularProgressIndicatorValueChangeState extends AppStates {}
