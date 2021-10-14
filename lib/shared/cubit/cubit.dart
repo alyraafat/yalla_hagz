@@ -498,7 +498,6 @@ class AppCubit extends Cubit<AppStates> {
         .get()
         .then((value) {
           bookingTimeModel = value.data()!;
-          print(bookingTimeModel);
           emit(AppGetOneBookingTimeSuccessState());
         }).catchError((error){
           print(error.toString());

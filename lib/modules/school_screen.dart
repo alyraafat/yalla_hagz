@@ -207,6 +207,9 @@ class SchoolScreen extends StatelessWidget {
                                         color: (currentField == index+1) ? defaultColor : Colors.grey[300],
                                         child: TextButton(
                                           onPressed: () {
+                                            choose = [];
+                                            fromTime = [];
+                                            count = 0;
                                             currentField = index+1;
                                             cubit.changeField();
                                             if(school["calendar$currentField"][day]!=null&&school["calendar$currentField"][day].length != 1) {

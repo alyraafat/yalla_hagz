@@ -307,7 +307,7 @@ class PaymentScreen extends StatelessWidget {
                                   if (cubit.booked[m]["isBooked"] && cubit.booked[m]["from"] == fromTime[z]) {
                                     showToast(
                                         text:
-                                        "Someone has just recently booked from: ${fromTime[z]} to: ${cubit.booked[m]["to"]}",
+                                        "Someone has just booked from: ${fromTime[z]} to: ${cubit.booked[m]["to"]}",
                                         state: ToastStates.ERROR
                                     );
                                     wasBooked = true;
