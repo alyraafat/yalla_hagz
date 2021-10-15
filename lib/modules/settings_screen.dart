@@ -65,17 +65,17 @@ class SettingsScreen extends StatelessWidget {
                             Icons.people,
                             color:Theme.of(context).appBarTheme.iconTheme!.color
                         ),
-                        SizedBox(width:10),
+                        const SizedBox(width:10),
                         Text(
                             'Account',
                             style: Theme.of(context).textTheme.bodyText1
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                             'Edit',
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
-                        SizedBox(width:10),
+                        const SizedBox(width:10),
                         Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 15,
@@ -102,7 +102,7 @@ class SettingsScreen extends StatelessWidget {
                   //     ],
                   //   ),
                   // ),
-                  SizedBox(height:20),
+                  const SizedBox(height:20),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15
@@ -114,12 +114,12 @@ class SettingsScreen extends StatelessWidget {
                                 Icons.star_border_outlined,
                                 color:Theme.of(context).appBarTheme.iconTheme!.color
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                                 'Rate the app',
                                 style: Theme.of(context).textTheme.bodyText1
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 15,
@@ -141,17 +141,17 @@ class SettingsScreen extends StatelessWidget {
                           Icons.brightness_4_outlined,
                           color:Theme.of(context).appBarTheme.iconTheme!.color
                         ),
-                        SizedBox(width:10),
+                        const SizedBox(width:10),
                         Text(
                             'Dark Mode',
                         style: Theme.of(context).textTheme.bodyText1
                         ),
-                        Spacer(),
+                        const Spacer(),
 
                       ],
                     ),
                   ),
-                  SizedBox(height:20),
+                  const SizedBox(height:20),
                   MaterialButton(
                     onPressed: (){
                       CacheHelper.saveData(key: "uId", value: "");
@@ -163,12 +163,12 @@ class SettingsScreen extends StatelessWidget {
                             Icons.logout_sharp,
                             color:Theme.of(context).appBarTheme.iconTheme!.color
                         ),
-                        SizedBox(width:10),
+                        const SizedBox(width:10),
                         Text(
                             'Sign Out',
                             style: Theme.of(context).textTheme.bodyText1
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 15,
@@ -182,7 +182,7 @@ class SettingsScreen extends StatelessWidget {
                     height: 1,
                     width: double.infinity,
                   ),
-                  SizedBox(height:20),
+                  const SizedBox(height:20),
                   Container(
                       width: double.infinity,
                       alignment: Alignment.center,

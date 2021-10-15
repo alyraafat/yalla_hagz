@@ -6,7 +6,7 @@ class UselessCubit extends Cubit<UselessStates> {
   UselessCubit() : super(UselessInitialState());
 
   static UselessCubit get(context) => BlocProvider.of(context);
-  bool isDark = false;
+  bool isDark = true;
   void changeAppMode({bool? fromShared}) {
     if (fromShared != null) {
       isDark = fromShared;

@@ -42,11 +42,11 @@ void main() async {
 
   if(onBoarding!=null&&onBoarding!=false)
   {
-  if (uId != ""&&uId!=null) {
-    startWidget = FirstScreen();
-  } else {
-    startWidget = LoginScreen();
-  }
+    if (uId != ""&&uId!=null) {
+      startWidget = FirstScreen();
+    } else {
+      startWidget = LoginScreen();
+    }
   }else{
     startWidget = OnBoardingScreen();
   }
