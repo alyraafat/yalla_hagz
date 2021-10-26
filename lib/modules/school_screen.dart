@@ -18,7 +18,7 @@ import 'payment_screen.dart';
 
 class SchoolScreen extends StatelessWidget {
   var school;
-  int currentField = 1000000;
+  int currentField = 1;
   var dateController = TextEditingController();
   bool dateIsEmpty = true;
   bool fieldIsEmpty = true;
@@ -166,10 +166,10 @@ class SchoolScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     Column(
                       children: [
-                        ConditionalBuilder(
-                          condition: currentField != 1000000 ,
-                          builder: (context) {
-                            return Column(
+                        // ConditionalBuilder(
+                        //   condition: currentField != 1000000 ,
+                        //   builder: (context) {
+                        Column(
                               children: [
                                 ConditionalBuilder(
                                   condition: ServicesBinding.instance!.defaultBinaryMessenger.send('flutter/assets', Utf8Codec().encoder.convert(Uri(path: Uri.encodeFull(school["fieldsImages"][currentField - 1])).path).buffer.asByteData())!=null,
@@ -239,41 +239,41 @@ class SchoolScreen extends StatelessWidget {
                                   ),
                                 ),
                               ],
-                            );
-                          },
-                          fallback: (context) {
-                            return Container(
-                              height: 50,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  return Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    color: Colors.grey[300],
-                                    child: TextButton(
-                                      onPressed: () {
-                                        currentField = index+1;
-                                        cubit.changeField();
-                                      },
-                                      child: Text(
-                                        'Field ${index+1}',
-                                        style: TextStyle(
-                                          color: defaultColor,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) => const SizedBox(width: 5,),
-                                itemCount: school["fields"],
-                              ),
-                            );
-                          },
+                            )
+                          //},
+                          // fallback: (context) {
+                          //   return Container(
+                          //     height: 50,
+                          //     child: ListView.separated(
+                          //       scrollDirection: Axis.horizontal,
+                          //       itemBuilder: (context, index) {
+                          //         return Card(
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(30),
+                          //           ),
+                          //           color: Colors.grey[300],
+                          //           child: TextButton(
+                          //             onPressed: () {
+                          //               currentField = index+1;
+                          //               cubit.changeField();
+                          //             },
+                          //             child: Text(
+                          //               'Field ${index+1}',
+                          //               style: TextStyle(
+                          //                 color: defaultColor,
+                          //                 fontSize: 14,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         );
+                          //       },
+                          //       separatorBuilder: (context, index) => const SizedBox(width: 5,),
+                          //       itemCount: school["fields"],
+                          //     ),
+                          //   );
+                          // },
 
-                        ),
+                        //),
                       ],
                     ),
 

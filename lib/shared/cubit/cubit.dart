@@ -475,7 +475,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   //Get one booking time model:
-  var bookingTimeModel = {};
+  var bookingTimeModel = [];
   void getOneBookingTimeModel({
     required String cityId,
     required String schoolId,
@@ -497,7 +497,7 @@ class AppCubit extends Cubit<AppStates> {
         .doc(from.toString())
         .get()
         .then((value) {
-          bookingTimeModel = value.data()!;
+          bookingTimeModel.add(value.data()!);
           emit(AppGetOneBookingTimeSuccessState());
         }).catchError((error){
           print(error.toString());
@@ -714,7 +714,17 @@ class AppCubit extends Cubit<AppStates> {
 
   // CircularProgressIndicator Screen
   double value = 0;
-  void downloadData(){
+  int x = 0;
+  void downloadData(var fromTime){
+    bookingTimeModel = [];
+    for(int i=0;i<fromTime.length;i++){
+      for(int j=0;j<booked.length;j++){
+        if(fromTime[i]==booked[j]["from"]){
+          bookingTimeModel.add(booked[j]);
+          break;
+        }
+      }
+    }
     Timer.periodic(
         const Duration(seconds: 1),
             (Timer timer) {

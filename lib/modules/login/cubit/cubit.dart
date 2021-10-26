@@ -51,7 +51,8 @@ class LoginCubit extends Cubit<LoginStates> {
     })
         .catchError((error)
     {
-      emit(LoginErrorState(error.toString()));
+      String err = adjustError(error.toString());
+      emit(LoginErrorState(err));
     });
   }
 

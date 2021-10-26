@@ -345,12 +345,12 @@ class PaymentScreen extends StatelessWidget {
                                     isDeposit = false;
                                   }
                                   for (int i = 0; i < choose.length; i++) {
-                                    if (cubit.startTimes[choose[i]]["from"] < from) {
-                                      from = cubit.startTimes[choose[i]]["from"];
-                                    }
-                                    if ((cubit.startTimes[choose[i]]["to"]==0?24:cubit.startTimes[choose[i]]["to"]) > to) {
-                                      to = cubit.startTimes[choose[i]]["to"];
-                                    }
+                                    // if (cubit.startTimes[choose[i]]["from"] < from) {
+                                    //   from = cubit.startTimes[choose[i]]["from"];
+                                    // }
+                                    // if ((cubit.startTimes[choose[i]]["to"]==0?24:cubit.startTimes[choose[i]]["to"]) > to) {
+                                    //   to = cubit.startTimes[choose[i]]["to"];
+                                    // }
                                     cubit.updateBookingTimeModel(
                                         cityId: cubit.currentCity,
                                         schoolId: school["schoolId"],
@@ -366,46 +366,46 @@ class PaymentScreen extends StatelessWidget {
                                           "isDeposit":isDeposit,
                                           "depositPaid":false,
                                           "bookingDate":DateFormat("yyyy-MM-dd").format(DateTime.now()),
-                                          "pay": choose.length*school["fees"]-(cubit.isWallet? fromWallet:0)
+                                          // "pay": choose.length*school["fees"]-(cubit.isWallet? fromWallet:0)
                                         }
                                       );
                                     }
-                                    cubit.userModel["mala3eb"].add({
-                                      "schoolId": school["schoolId"],
-                                      "from": from,
-                                      "to": to,
-                                      "schoolName": school["name"],
-                                      "fees": school["fees"],
-                                      "city": cubit.currentCity,
-                                      "date": date,
-                                      "field": field,
-                                      "location": school["mapLocation"],
-                                      "isDone": false,
-                                      "hasRated": false,
-                                      "isVerified": false,
-                                      "isChecked": false,
-                                      "hasWithdrawn": false,
-                                      "rating": 0,
-                                      "randomNumber": randomNumber,
-                                      "image": school["fieldsImages"][field - 1],
-                                      "payByWallet": cubit.isWallet?fromWallet:0
-                                    });
-                                    if (cubit.isWallet) {
-                                      cubit.userModel["balance"] -= fromWallet;
-                                    }
-                                    cubit.userModel["count"]++;
-                                    cubit.updateUserData(data: {
-                                      "mala3eb": cubit.userModel["mala3eb"],
-                                      "balance": cubit.userModel["balance"],
-                                      "count": cubit.userModel["count"]
-                                    });
+                                    // cubit.userModel["mala3eb"].add({
+                                    //   "schoolId": school["schoolId"],
+                                    //   "from": from,
+                                    //   "to": to,
+                                    //   "schoolName": school["name"],
+                                    //   "fees": school["fees"],
+                                    //   "city": cubit.currentCity,
+                                    //   "date": date,
+                                    //   "field": field,
+                                    //   "location": school["mapLocation"],
+                                    //   "isDone": false,
+                                    //   "hasRated": false,
+                                    //   "isVerified": false,
+                                    //   "isChecked": false,
+                                    //   "hasWithdrawn": false,
+                                    //   "rating": 0,
+                                    //   "randomNumber": randomNumber,
+                                    //   "image": school["fieldsImages"][field - 1],
+                                    //   "payByWallet": cubit.isWallet?fromWallet:0
+                                    // });
+                                    // if (cubit.isWallet) {
+                                    //   cubit.userModel["balance"] -= fromWallet;
+                                    // }
+                                    // cubit.userModel["count"]++;
+                                    // cubit.updateUserData(data: {
+                                    //   "mala3eb": cubit.userModel["mala3eb"],
+                                    //   "balance": cubit.userModel["balance"],
+                                    //   "count": cubit.userModel["count"]
+                                    // });
                                     if (count > school["policy"]) {
                                       showToast(
                                           text: "You have successfully booked but you need to pay a deposit in the next 24 hours,otherwise your 7agz will be cancelled",
                                           state: ToastStates.WARNING
                                       );
                                     }
-                                    navigateAndFinish(context, CircularProgressIndicatorScreen());
+                                  navigateAndFinish(context, CircularProgressIndicatorScreen(school,date,field,randomNumber,fromWallet,fromTime));
                                 }
                                 }
                             }
