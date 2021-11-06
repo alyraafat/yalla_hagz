@@ -219,8 +219,15 @@ class SchoolScreen extends StatelessWidget {
                                             fromTime = [];
                                             count = 0;
                                             currentField = index+1;
+                                            // print(cubit.fields);
                                             cubit.changeField();
-                                            if(school["calendar$currentField"][day]!=null&&school["calendar$currentField"][day].length != 1) {
+                                            cubit.addOneToDate(
+                                                context: context,
+                                                date: DateFormat("yyyy-MM-dd").format(DateTime.now()),
+                                                currentField: currentField,
+                                                school: school
+                                            );
+                                            if(school["calendar$currentField"][day]!=null&&school["calendar$currentField"][day].length != 1&&dateController.text.isNotEmpty) {
                                               AppCubit.get(context).checkDateInDataBase(
                                                   date: dateController.text,
                                                   cityId: AppCubit.get(context).currentCity,
@@ -528,10 +535,7 @@ class SchoolScreen extends StatelessWidget {
                       {
                         day = AppCubit.get(context).dateToDay(date: DateTime.parse(dateController.text).toString());
                         return ConditionalBuilder(
-                                condition: school["calendar$currentField"][day]
-                                            .length !=
-                                        1 &&
-                                    AppCubit.get(context).startTimes.isNotEmpty,
+                                condition: school["calendar$currentField"][day].length != 1 && AppCubit.get(context).startTimes.isNotEmpty,
                                 builder: (context) {
                                   return Column(
                                     children: [

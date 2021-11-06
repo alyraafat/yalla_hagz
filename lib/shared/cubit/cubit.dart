@@ -728,6 +728,7 @@ class AppCubit extends Cubit<AppStates> {
   }
   List<String> dates = [];
   String dateOfToday = "";
+  List<int> fields = [];
   List<bool> dayEmpty = [false,false,false,false,false,false,false];
   void addOneToDate({
     required String date,
@@ -735,7 +736,19 @@ class AppCubit extends Cubit<AppStates> {
     required int currentField,
     required BuildContext context,
   }){
-    if(date!=dateOfToday) {
+    bool searched = false;
+    for(int i=0;i<fields.length;i++){
+      if(currentField == fields[i]){
+        searched = true;
+      }
+    }
+    if(date!=dateOfToday||!searched) {
+      if(date!=dateOfToday){
+        fields = [];
+      }
+      if(!searched){
+        fields.add(currentField);
+      }
       dayEmptyFalse();
       dateOfToday = date;
       dates = [];
