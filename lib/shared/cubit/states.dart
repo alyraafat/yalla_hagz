@@ -222,6 +222,14 @@ class SchoolScreenChangeDateState extends AppStates {}
 
 class SchoolScreenChangeCardColorState extends AppStates {}
 
+class SchoolScreenChangeDaySelectedState extends AppStates {}
+
+class SchoolScreenDaySelectedFalseState extends AppStates {}
+
+class SchoolScreenDayEmptyFalseState extends AppStates {}
+
+class SchoolScreenChangeDayState extends AppStates {}
+
 
 
 //ChoosingScreenState:

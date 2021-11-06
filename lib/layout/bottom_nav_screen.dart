@@ -6,6 +6,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:yalla_hagz/modules/after_7agz_rate_screen.dart';
 import 'package:yalla_hagz/modules/my_profile_screen.dart';
 import 'package:yalla_hagz/shared/components.dart';
+import 'package:yalla_hagz/shared/constants.dart';
 import 'package:yalla_hagz/shared/cubit/cubit.dart';
 import 'package:yalla_hagz/shared/cubit/states.dart';
 
@@ -25,20 +26,27 @@ class BottomNavScreen extends StatelessWidget {
               elevation: 0,
               title: Text(
                 cubit.titles[cubit.currentIndex],
-                style: const TextStyle(
-                    color: Color(0xff388E3C),
+                style: TextStyle(
+                    color: defaultColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 30
                 ),
               ),
               actions: [
-                IconButton(
-                  icon: const Icon(
-                      Icons.date_range
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundColor: defaultColor,
+                    child: IconButton(
+                      icon: const Icon(
+                          Icons.people_outlined,
+                        color: Colors.white
+                      ),
+                      onPressed: () {
+                        navigateTo(context , MyProfileScreen());
+                      },
+                    ),
                   ),
-                  onPressed: () {
-                    navigateTo(context , MyProfileScreen());
-                  },
                 ),
               ],
             ),

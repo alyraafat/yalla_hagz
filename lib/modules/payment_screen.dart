@@ -405,6 +405,7 @@ class PaymentScreen extends StatelessWidget {
                                           state: ToastStates.WARNING
                                       );
                                     }
+                                  cubit.daySelectedFalse();
                                   navigateAndFinish(context, CircularProgressIndicatorScreen(school,date,field,randomNumber,fromWallet,fromTime));
                                 }
                                 }

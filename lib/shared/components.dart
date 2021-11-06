@@ -113,6 +113,7 @@ Widget buildSchool(context,school) => Padding(
       ],
     ),
     onTap: (){
+      AppCubit.get(context).daySelectedFalse();
       navigateTo(context, SchoolScreen(school));
     },
   ),

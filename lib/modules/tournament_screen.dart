@@ -106,126 +106,126 @@ class TournamentScreen extends StatelessWidget {
                                   Row(
                                     children: [
                                       Container(
-                                        color: defaultColor,
-                                        height: 35,
-                                        child: TextButton(
-                                          onPressed: () {
-                                            Alert(
-                                              context: context,
-                                              style: AlertStyle(
-                                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                                titleStyle: TextStyle(
-                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                          color: defaultColor,
+                                          height: 35,
+                                          child: TextButton(
+                                            onPressed: () {
+                                              Alert(
+                                                context: context,
+                                                style: AlertStyle(
+                                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                                  titleStyle: TextStyle(
+                                                    color: Theme.of(context).textTheme.bodyText1!.color,
+                                                  ),
+                                                  animationType: AnimationType.fromBottom,
                                                 ),
-                                                animationType: AnimationType.fromBottom,
-                                              ),
-                                              title: "${tournaments[index]["name"]}",
-                                              content: Container(
-                                                width: double.infinity,
-                                                child: Form(
-                                                  key: formKey,
-                                                  child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      const SizedBox(height:10),
-                                                      Padding(
-                                                        padding: const EdgeInsets.all(12.0),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                              'from: ${tournaments[index]["from"]} to: ${tournaments[index]["to"]}',
-                                                              maxLines: 1,
-                                                              style: TextStyle(
-                                                                overflow: TextOverflow.ellipsis,
-                                                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                                title: "${tournaments[index]["name"]}",
+                                                content: Container(
+                                                  width: double.infinity,
+                                                  child: Form(
+                                                    key: formKey,
+                                                    child: Column(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        const SizedBox(height:10),
+                                                        Padding(
+                                                          padding: const EdgeInsets.all(12.0),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                'from: ${tournaments[index]["from"]} to: ${tournaments[index]["to"]}',
+                                                                maxLines: 1,
+                                                                style: TextStyle(
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                                                ),
                                                               ),
-                                                            ),
-                                                            Text(
-                                                              'Awards: ${tournaments[index]["awards"]}',
-                                                              style: TextStyle(
-                                                                color: Theme.of(context).textTheme.bodyText1!.color,
+                                                              Text(
+                                                                'Awards: ${tournaments[index]["awards"]}',
+                                                                style: TextStyle(
+                                                                  color: Theme.of(context).textTheme.bodyText1!.color,
+                                                                ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                      defaultFormField(
-                                                          context: context,
-                                                          prefix: Icons.people_rounded,
-                                                        text: "Team name",
-                                                        validate: (value){
-                                                          if(value!.isEmpty){
-                                                            return "You must write your team name";
-                                                          }else{
-                                                            for(String team in tournaments[index]["participants"].keys){
-                                                              if(tournaments[index]["participants"][team]==AppCubit.get(context).userModel["userId"]){
-                                                                return "You have already applied";
+                                                        defaultFormField(
+                                                            context: context,
+                                                            prefix: Icons.people_rounded,
+                                                          text: "Team name",
+                                                          validate: (value){
+                                                            if(value!.isEmpty){
+                                                              return "You must write your team name";
+                                                            }else{
+                                                              for(String team in tournaments[index]["participants"].keys){
+                                                                if(tournaments[index]["participants"][team]==AppCubit.get(context).userModel["userId"]){
+                                                                  return "You have already applied";
+                                                                }
+                                                                if(team.toLowerCase()==value.toLowerCase()){
+                                                                  return "This name is already taken";
+                                                                }
                                                               }
-                                                              if(team.toLowerCase()==value.toLowerCase()){
-                                                                return "This name is already taken";
-                                                              }
+                                                              teamNameController.text = value;
+                                                              tournaments[index]["participants"][value] = AppCubit.get(context).userModel["userId"];
+                                                              tournaments[index]["currentParticipants"]++;
                                                             }
-                                                            teamNameController.text = value;
-                                                            tournaments[index]["participants"][value] = AppCubit.get(context).userModel["userId"];
-                                                            tournaments[index]["currentParticipants"]++;
                                                           }
-                                                        }
+                                                        ),
+                                                      const SizedBox(
+                                                        height: 10,
                                                       ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                      DialogButton(
-                                                        child:  const Text(
-                                                            'Apply',
-                                                            style: TextStyle(
-                                                              color:Colors.white,
-                                                            )),
-                                                        onPressed: () {
-                                                          if(formKey.currentState!.validate()){
-                                                            if(tournaments[index]["pointsEntry"]!=0){
-                                                              if(AppCubit.get(context).userModel["points"]>=tournaments[index]["pointsEntry"]){
-                                                                AppCubit.get(context).userModel["points"]-=tournaments[index]["pointsEntry"];
-                                                                AppCubit.get(context).updateTournamentsData(tournamentId: tournaments[index]["tournamentId"], data: {
-                                                                  "participants":tournaments[index]["participants"],
-                                                                  "currentParticipants":tournaments[index]["currentParticipants"]
-                                                                });
-                                                                AppCubit.get(context).userModel["tournamentIds"].add(tournaments[index]["tournamentId"]);
-                                                                AppCubit.get(context).userModel["teamNames"].add(teamNameController.text);
-                                                                AppCubit.get(context).updateUserData(data: {
-                                                                  "tournamentIds": AppCubit.get(context).userModel["tournamentIds"],
-                                                                  "teamNames": AppCubit.get(context).userModel["teamNames"],
-                                                                  "points": AppCubit.get(context).userModel["points"]
-                                                                });
-                                                                showToast(state: ToastStates.SUCCESS, text: 'Congratulations! You have entered the tournament.');
-                                                              }else {
-                                                                showToast(
-                                                                  text:"Your points are not enough to enter the tournament",
-                                                                  state: ToastStates.ERROR
-                                                                );
+                                                        DialogButton(
+                                                          child:  const Text(
+                                                              'Apply',
+                                                              style: TextStyle(
+                                                                color:Colors.white,
+                                                              )),
+                                                          onPressed: () {
+                                                            if(formKey.currentState!.validate()){
+                                                              if(tournaments[index]["pointsEntry"]!=0){
+                                                                if(AppCubit.get(context).userModel["points"]>=tournaments[index]["pointsEntry"]){
+                                                                  AppCubit.get(context).userModel["points"]-=tournaments[index]["pointsEntry"];
+                                                                  AppCubit.get(context).updateTournamentsData(tournamentId: tournaments[index]["tournamentId"], data: {
+                                                                    "participants":tournaments[index]["participants"],
+                                                                    "currentParticipants":tournaments[index]["currentParticipants"]
+                                                                  });
+                                                                  AppCubit.get(context).userModel["tournamentIds"].add(tournaments[index]["tournamentId"]);
+                                                                  AppCubit.get(context).userModel["teamNames"].add(teamNameController.text);
+                                                                  AppCubit.get(context).updateUserData(data: {
+                                                                    "tournamentIds": AppCubit.get(context).userModel["tournamentIds"],
+                                                                    "teamNames": AppCubit.get(context).userModel["teamNames"],
+                                                                    "points": AppCubit.get(context).userModel["points"]
+                                                                  });
+                                                                  showToast(state: ToastStates.SUCCESS, text: 'Congratulations! You have entered the tournament.');
+                                                                }else {
+                                                                  showToast(
+                                                                    text:"Your points are not enough to enter the tournament",
+                                                                    state: ToastStates.ERROR
+                                                                  );
+                                                                }
                                                               }
+                                                              Navigator.pop(context);
                                                             }
-                                                            Navigator.pop(context);
-                                                          }
-                                                        },
-                                                        width: 120,
-                                                        color: defaultColor,
-                                                      )
-                                                    ],
+                                                          },
+                                                          width: 120,
+                                                          color: defaultColor,
+                                                        )
+                                                      ],
 
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              buttons: []
-                                            ).show();
-                                          },
-                                          child: const Text(
-                                              'Details',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              )),
+                                                buttons: []
+                                              ).show();
+                                            },
+                                            child: const Text(
+                                                'Details',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                )),
+                                          ),
                                         ),
-                                      ),
                                       const SizedBox(
                                         width: 10,
                                       ),

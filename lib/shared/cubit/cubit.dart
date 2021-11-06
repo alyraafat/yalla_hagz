@@ -186,9 +186,10 @@ class AppCubit extends Cubit<AppStates> {
         .doc(cityId)
         .collection("schools")
         .orderBy("name")
-        .get()
-        .then((value) {
-          value.docs.forEach((element) {
+        .snapshots()
+        .listen((event) {
+          schools = [];
+          event.docs.forEach((element) {
             schools.add(element.data());
           });
           // for(int i=0;i<value.docs.length;i++){
@@ -199,10 +200,11 @@ class AppCubit extends Cubit<AppStates> {
           // }
 
           emit(AppGetSchoolsSuccessState());
-    }).catchError((error){
-      print(error.toString());
-      emit(AppGetSchoolsErrorState(error));
     });
+    //     .catchError((error){
+    //   print(error.toString());
+    //   emit(AppGetSchoolsErrorState(error));
+    // });
   }
 
   // Get One School
@@ -245,10 +247,10 @@ class AppCubit extends Cubit<AppStates> {
         .update(data)
         .then((value){
       emit(AppUpdateSchoolSuccessState());
-      getOneSchoolData(
-          cityId: cityId,
-          schoolId:schoolId
-      );
+      // getOneSchoolData(
+      //     cityId: cityId,
+      //     schoolId:schoolId
+      // );
     }).catchError((error){
       emit(AppUpdateSchoolErrorState(error));
     });
@@ -274,10 +276,10 @@ class AppCubit extends Cubit<AppStates> {
 
   }
   int days({
-    required int num,
+    required int month,
     required int year
   }){
-    switch(num){
+    switch(month){
       case 1:case 3:case 5:case 7:case 8:case 10:case 12: return 31;
       case 2: {
         if(year%4==0) return 29;
@@ -286,6 +288,7 @@ class AppCubit extends Cubit<AppStates> {
       default: return 30;
     }
   }
+
   bool diffBetweenDates({
     required String date1, // greater:1, smaller:-1,equal:0
     required String date2,
@@ -296,7 +299,7 @@ class AppCubit extends Cubit<AppStates> {
     else if(int.parse(d1[0])==int.parse(d2[0])&&int.parse(d1[1])==int.parse(d2[1])){
       if((int.parse(d2[2])-int.parse(d1[2]))==1){return true;}
     }else if(int.parse(d1[0])==int.parse(d2[0])&&(int.parse(d2[1])-int.parse(d1[1]))==1){
-      int days1 = days(num:int.parse(d1[1]),year:int.parse(d1[0]));
+      int days1 = days(month:int.parse(d1[1]),year:int.parse(d1[0]));
       if(int.parse(d1[2])==days1&&int.parse(d2[2])==1){return true;}
     }else if((int.parse(d2[0])-int.parse(d1[0]))==1&&int.parse(d2[1])==1&&int.parse(d1[1])==12&&int.parse(d2[2])==1&&int.parse(d1[2])==31){
       return true;
@@ -562,6 +565,13 @@ class AppCubit extends Cubit<AppStates> {
               booked.add(startTime.data());
             }
           });
+          for(int i=0;i<dates.length;i++){
+            if(date==dates[i]&&startTimes.isEmpty&&booked.isNotEmpty){
+              dayEmpty[i] = true;
+            }else if(date==dates[i]&&startTimes.isNotEmpty){
+              dayEmpty[i] = false;
+            }
+          }
           emit(AppGetBookingTimeSuccessState());
         });
   }
@@ -686,8 +696,107 @@ class AppCubit extends Cubit<AppStates> {
   void changeDate() {
     emit(SchoolScreenChangeDateState());
   }
+  void changeDay() {
+    emit(SchoolScreenChangeDayState());
+  }
   void changeCardColor() {
     emit(SchoolScreenChangeCardColorState());
+  }
+  List<bool> daySelected = [false,false,false,false,false,false,false];
+  void daySelectedFalse(){
+    for (int i = 0; i < daySelected.length; i++) {
+      daySelected[i] = false;
+    }
+    emit(SchoolScreenDaySelectedFalseState());
+  }
+  void changeDaySelected(int index){
+    if(daySelected[index]) {
+      daySelected[index] = false;
+    } else {
+      for (int i = 0; i < daySelected.length; i++) {
+        daySelected[i] = false;
+      }
+      daySelected[index] = !daySelected[index];
+    }
+    emit(SchoolScreenChangeDaySelectedState());
+  }
+  void dayEmptyFalse(){
+    for (int i = 0; i < dayEmpty.length; i++) {
+      dayEmpty[i] = false;
+    }
+    emit(SchoolScreenDayEmptyFalseState());
+  }
+  List<String> dates = [];
+  String dateOfToday = "";
+  List<bool> dayEmpty = [false,false,false,false,false,false,false];
+  void addOneToDate({
+    required String date,
+    required var school,
+    required int currentField,
+    required BuildContext context,
+  }){
+    if(date!=dateOfToday) {
+      dayEmptyFalse();
+      dateOfToday = date;
+      dates = [];
+      dates.add(date);
+      for (int i = 0; i < 6; i++) {
+        var weekday = dateToDay(date: DateTime.parse(dates[i]).toString());
+        if (school["calendar$currentField"][weekday].length != 1) {
+          AppCubit.get(context).checkDateInDataBase(
+              date: dates[i],
+              cityId: AppCubit.get(context).currentCity,
+              schoolId: school["schoolId"],
+              field: currentField.toString(),
+              fees: school["fees"],
+              intervals: school["calendar$currentField"][weekday]);
+        }else {
+          dayEmpty[i] = true;
+        }
+        var d = dates[i].split("-");
+        int day = int.parse(d[2]);
+        int month = int.parse(d[1]);
+        int year = int.parse(d[0]);
+        if (day == days(month: month, year: year)) {
+          if (month == 12) {
+            year++;
+            month = 1;
+            day = 1;
+          } else {
+            day = 1;
+            month++;
+          }
+        } else {
+          day++;
+        }
+        String nextDay = year.toString();
+        if (month < 10) {
+          nextDay += "-0$month";
+        } else {
+          nextDay += "-$month";
+        }
+        if (day < 10) {
+          nextDay += "-0$day";
+        } else {
+          nextDay += "-$day";
+        }
+        dates.add(nextDay);
+      }
+      var weekday = dateToDay(date: DateTime.parse(dates[6]).toString());
+      if (school["calendar$currentField"][weekday].length != 1) {
+        AppCubit.get(context).checkDateInDataBase(
+            date: dates[6],
+            cityId: AppCubit.get(context).currentCity,
+            schoolId: school["schoolId"],
+            field: currentField.toString(),
+            fees: school["fees"],
+            intervals: school["calendar$currentField"][weekday]
+        );
+      }else {
+        dayEmpty[6] = true;
+      }
+
+    }
   }
 
   //ChoosingScreen:

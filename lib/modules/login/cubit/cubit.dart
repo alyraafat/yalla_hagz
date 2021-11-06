@@ -15,7 +15,9 @@ class LoginCubit extends Cubit<LoginStates> {
     required String email
 
   }) {
-    FirebaseAuth.instance.sendPasswordResetEmail(email: email)
+    FirebaseAuth.instance.sendPasswordResetEmail(
+        email: email,
+    )
         .then((value) {
           showToast(text: 'Reset Email has been sent, Please check your inbox and spam', state: ToastStates.SUCCESS);
         }).catchError((error) {
