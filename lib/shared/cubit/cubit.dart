@@ -567,9 +567,9 @@ class AppCubit extends Cubit<AppStates> {
           });
           for(int i=0;i<dates.length;i++){
             if(date==dates[i]&&startTimes.isEmpty&&booked.isNotEmpty){
-              dayEmpty[i] = true;
+              dayEmpty[int.parse(field)-1][i] = true;
             }else if(date==dates[i]&&startTimes.isNotEmpty){
-              dayEmpty[i] = false;
+              dayEmpty[int.parse(field)-1][i] = false;
             }
           }
           emit(AppGetBookingTimeSuccessState());
@@ -722,14 +722,16 @@ class AppCubit extends Cubit<AppStates> {
   }
   void dayEmptyFalse(){
     for (int i = 0; i < dayEmpty.length; i++) {
-      dayEmpty[i] = false;
+      for (int j = 0; j < dayEmpty[i].length; j++) {
+        dayEmpty[i][j] = false;
+      }
     }
     emit(SchoolScreenDayEmptyFalseState());
   }
   List<String> dates = [];
   String dateOfToday = "";
   List<int> fields = [];
-  List<bool> dayEmpty = [false,false,false,false,false,false,false];
+  List<List<bool>> dayEmpty = [];
   void addOneToDate({
     required String date,
     required var school,
@@ -745,9 +747,11 @@ class AppCubit extends Cubit<AppStates> {
     if(date!=dateOfToday||!searched) {
       if(date!=dateOfToday){
         fields = [];
+        searched = false;
       }
       if(!searched){
         fields.add(currentField);
+        dayEmpty.add([false,false,false,false,false,false,false]);
       }
       dayEmptyFalse();
       dateOfToday = date;
@@ -764,7 +768,7 @@ class AppCubit extends Cubit<AppStates> {
               fees: school["fees"],
               intervals: school["calendar$currentField"][weekday]);
         }else {
-          dayEmpty[i] = true;
+          dayEmpty[fields.length-1][i] = true;
         }
         var d = dates[i].split("-");
         int day = int.parse(d[2]);
@@ -806,7 +810,7 @@ class AppCubit extends Cubit<AppStates> {
             intervals: school["calendar$currentField"][weekday]
         );
       }else {
-        dayEmpty[6] = true;
+        dayEmpty[fields.length-1][6] = true;
       }
 
     }

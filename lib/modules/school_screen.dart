@@ -346,7 +346,7 @@ class SchoolScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(30),
                           ),
                           elevation: 2,
-                          color: cubit.daySelected[index]?defaultColor:school["calendar$currentField"][day].length == 1||(cubit.dayEmpty[index])?Colors.red:Theme.of(context).scaffoldBackgroundColor,
+                          color: cubit.daySelected[index]?defaultColor:school["calendar$currentField"][day].length == 1||(cubit.dayEmpty[currentField-1][index])?Colors.red:Theme.of(context).scaffoldBackgroundColor,
                           child: Row(
                             children: [
                               Container(
@@ -388,7 +388,7 @@ class SchoolScreen extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        school["calendar$currentField"][day].length == 1||cubit.dayEmpty[index]?"No bookings are available":"Bookings are available",
+                                        school["calendar$currentField"][day].length == 1||cubit.dayEmpty[currentField-1][index]?"No bookings are available":"Bookings are available",
                                         style: TextStyle(
                                             color:Theme.of(context).textTheme.bodyText1!.color
                                         ),
