@@ -374,6 +374,7 @@ class AppCubit extends Cubit<AppStates> {
   var startTimes =[];
   var selected = [];
   var booked = [];
+  var done = [];
 
   void checkDateInDataBase({
     required String date,
@@ -532,6 +533,7 @@ class AppCubit extends Cubit<AppStates> {
           startTimes = [];
           selected = [];
           booked=[];
+          done = [];
           event.docs.forEach((startTime){
             if(compareDates(date1:date,date2:DateFormat("yyyy-MM-dd").format(DateTime.now()))==0){
               if(TimeOfDay.now().hour>=startTime.data()["from"]&&!startTime.data()["isDone"]){
@@ -563,16 +565,86 @@ class AppCubit extends Cubit<AppStates> {
               selected.add(false);
             }else if(startTime.data()["isBooked"]){
               booked.add(startTime.data());
+            }else {
+              done.add(startTime.data());
             }
           });
           for(int i=0;i<dates.length;i++){
-            if(date==dates[i]&&startTimes.isEmpty&&booked.isNotEmpty){
-              dayEmpty[int.parse(field)-1][i] = true;
+            if((date==dates[i]&&startTimes.isEmpty&&(booked.isNotEmpty||done.isNotEmpty))){
+              dayEmpty[searchForField(int.parse(field))][i] = true;
             }else if(date==dates[i]&&startTimes.isNotEmpty){
-              dayEmpty[int.parse(field)-1][i] = false;
+              dayEmpty[searchForField(int.parse(field))][i] = false;
             }
           }
           emit(AppGetBookingTimeSuccessState());
+        });
+  }
+
+  var startTimes2 =[];
+  var booked2 = [];
+  var done2 = [];
+  void getBookingTimeModelsUsingGet({
+    required String cityId,
+    required String schoolId,
+    required String date,
+    required String field,
+  }){
+    startTimes2 =[];
+    booked2 = [];
+    done2 = [];
+    emit(AppGetBookingTimeLoadingState());
+    FirebaseFirestore.instance
+        .collection("cities")
+        .doc(cityId)
+        .collection("schools")
+        .doc(schoolId)
+        .collection("fields")
+        .doc(field)
+        .collection("bookingDay")
+        .doc(date)
+        .collection("bookingTime")
+        .orderBy("from")
+        .get()
+        .then((value) {
+          value.docs.forEach((startTime) {
+            if (compareDates(date1: date,
+                date2: DateFormat("yyyy-MM-dd").format(DateTime.now())) == 0) {
+              if (TimeOfDay.now().hour >= startTime.data()["from"] && !startTime.data()["isDone"]) {
+                updateBookingTimeModel(
+                    cityId: cityId,
+                    schoolId: schoolId,
+                    date: date,
+                    field: field,
+                    from: startTime.data()["from"].toString(),
+                    data: {
+                      "isDone": true
+                    });
+              }
+            } else if (compareDates(date1: date, date2: DateFormat("yyyy-MM-dd").format(DateTime.now())) == -1) {
+              if (!startTime.data()["isDone"]) {
+                updateBookingTimeModel(
+                    cityId: cityId,
+                    schoolId: schoolId,
+                    date: date,
+                    field: field,
+                    from: startTime.data()["from"].toString(),
+                    data: {
+                      "isDone": true
+                    });
+              }
+            }
+            if (!startTime.data()["isBooked"] && !startTime.data()["isDone"]) {
+              startTimes2.add(startTime.data());
+            } else if (startTime.data()["isBooked"]) {
+              booked2.add(startTime.data());
+            } else {
+              done2.add(startTime.data());
+            }
+            emit(AppGetBookingTimeSuccessState());
+          });
+        }).catchError((error){
+          print(error.toString());
+          emit(AppGetBookingTimeErrorState(error.toString()));
         });
   }
 
@@ -728,6 +800,12 @@ class AppCubit extends Cubit<AppStates> {
     }
     emit(SchoolScreenDayEmptyFalseState());
   }
+  int searchForField(int field){
+    for(int i=0;i<fields.length;i++){
+      if(fields[i]==field) return i;
+    }
+    return -1;
+  }
   List<String> dates = [];
   String dateOfToday = "";
   List<int> fields = [];
@@ -841,16 +919,49 @@ class AppCubit extends Cubit<AppStates> {
   // CircularProgressIndicator Screen
   double value = 0;
   int x = 0;
-  void downloadData(var fromTime){
-    bookingTimeModel = [];
+  bool sure = false;
+  void changeSure() {
+    sure = true;
+    emit(CircularProgressIndicatorScreenChangeSureState());
+  }
+
+  void addingToBookingTimeModel({
+    required var fromTime,
+    required var date,
+    required int field,
+    required var school,
+  }){
     for(int i=0;i<fromTime.length;i++){
-      for(int j=0;j<booked.length;j++){
-        if(fromTime[i]==booked[j]["from"]){
-          bookingTimeModel.add(booked[j]);
-          break;
-        }
-      }
+      getOneBookingTimeModel(
+        date:date,
+        from: fromTime[i] ,
+        cityId: school['cityId'],
+        field: field.toString(),
+        schoolId:school["schoolId"]
+      );
     }
+  }
+  void downloadData(
+    // required var fromTime,
+    // required String date,
+    // required int field,
+    // required var school
+  ){
+    // bookingTimeModel = [];
+    // for(int i=0;i<fromTime.length;i++){
+    //   for(int j=0;j<booked.length;j++){
+    //     if(fromTime[i]==booked[j]["from"]){
+    //       bookingTimeModel.add(booked[j]);
+    //       break;
+    //     }
+    //   }
+    // }
+    // addingToBookingTimeModel(
+    //     field: field,
+    //     date: date,
+    //     fromTime: fromTime,
+    //     school: school
+    // );
     Timer.periodic(
         const Duration(seconds: 1),
             (Timer timer) {
@@ -862,6 +973,8 @@ class AppCubit extends Cubit<AppStates> {
               }
             }
     );
+
+
   }
 }
 

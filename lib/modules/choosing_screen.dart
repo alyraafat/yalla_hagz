@@ -232,7 +232,7 @@ class ChoosingScreen extends StatelessWidget {
                                                                       //   userModel["balance"]-= 0.5*userModel["mala3eb"][mala3ebLastIndex - index]["fees"]*(userModel["mala3eb"][mala3ebLastIndex - index]["to"]-userModel["mala3eb"][mala3ebLastIndex - index]["from"]);
                                                                       // }
                                                                       userModel["balance"]+=userModel["mala3eb"][mala3ebLastIndex - index]["payByWallet"];
-                                                                      userModel["count"]--;
+                                                                      userModel["count"]>0?userModel["count"]--:userModel["count"];
                                                                       userModel["mala3eb"].removeAt(mala3ebLastIndex-index);
                                                                       cubit.updateUserData(data: {
                                                                         "mala3eb":userModel["mala3eb"],

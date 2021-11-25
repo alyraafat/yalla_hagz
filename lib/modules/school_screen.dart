@@ -333,7 +333,8 @@ class SchoolScreen extends StatelessWidget {
                                           fees: school["fees"],
                                           intervals: school["calendar$currentField"][day]);
                                     }
-                                    AppCubit.get(context).changeDate();
+                                    cubit.changeDate();
+
                                   }else{
                                     day = "";
                                     dateController.text = "";
@@ -342,64 +343,64 @@ class SchoolScreen extends StatelessWidget {
                                   }
                                 },
                                 child: Card(
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                          ),
-                          elevation: 2,
-                          color: cubit.daySelected[index]?defaultColor:school["calendar$currentField"][day].length == 1||(cubit.dayEmpty[currentField-1][index])?Colors.red:Theme.of(context).scaffoldBackgroundColor,
-                          child: Row(
-                            children: [
-                              Container(
-                                clipBehavior:Clip.antiAliasWithSaveLayer,
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadiusDirectional.all(
-                                            Radius.circular(30)
-                                        )
-                                    ),
-                                    height: 100,
-                                    width: 100,
-                                    child: const Image(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/images/calender.jpg'
-                                        )
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  elevation: 2,
+                                  color: cubit.daySelected[index]?defaultColor:school["calendar$currentField"][day].length == 1||(cubit.dayEmpty[cubit.searchForField(currentField)][index])?Colors.red:Theme.of(context).scaffoldBackgroundColor,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        clipBehavior:Clip.antiAliasWithSaveLayer,
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadiusDirectional.all(
+                                                    Radius.circular(30)
+                                                )
+                                            ),
+                                            height: 100,
+                                            width: 100,
+                                            child: const Image(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                    'assets/images/calender.jpg'
+                                                )
+                                            ),
+                                          ),
+                                          const SizedBox(width:10),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children:[
+                                              Text(
+                                                day,
+                                                style: TextStyle(
+                                                  color:Theme.of(context).textTheme.bodyText1!.color
+                                                ),
+                                              ),
+                                              Text(
+                                                DateFormat.yMMMd().format(DateTime.parse(cubit.dates[index])),
+                                                style: TextStyle(
+                                                    color:Theme.of(context).textTheme.bodyText1!.color
+                                                ),
+                                              ),
+                                              Text(
+                                                "Field: $currentField",
+                                                style: TextStyle(
+                                                    color:Theme.of(context).textTheme.bodyText1!.color
+                                                ),
+                                              ),
+                                              Text(
+                                                school["calendar$currentField"][day].length == 1||cubit.dayEmpty[cubit.searchForField(currentField)][index]?"No bookings are available":"Bookings are available",
+                                                style: TextStyle(
+                                                    color:Theme.of(context).textTheme.bodyText1!.color
+                                                ),
+                                              ),
+                                            ]
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(width:10),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children:[
-                                      Text(
-                                        day,
-                                        style: TextStyle(
-                                          color:Theme.of(context).textTheme.bodyText1!.color
-                                        ),
-                                      ),
-                                      Text(
-                                        DateFormat.yMMMd().format(DateTime.parse(cubit.dates[index])),
-                                        style: TextStyle(
-                                            color:Theme.of(context).textTheme.bodyText1!.color
-                                        ),
-                                      ),
-                                      Text(
-                                        "Field: $currentField",
-                                        style: TextStyle(
-                                            color:Theme.of(context).textTheme.bodyText1!.color
-                                        ),
-                                      ),
-                                      Text(
-                                        school["calendar$currentField"][day].length == 1||cubit.dayEmpty[currentField-1][index]?"No bookings are available":"Bookings are available",
-                                        style: TextStyle(
-                                            color:Theme.of(context).textTheme.bodyText1!.color
-                                        ),
-                                      ),
-                                    ]
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
+                                );
                           },
                         separatorBuilder: (context,index)=>myDivider(),
                         itemCount: cubit.dates.length
@@ -539,8 +540,7 @@ class SchoolScreen extends StatelessWidget {
                                 builder: (context) {
                                   return Column(
                                     children: [
-                                      Text('Times:',
-                                          style: Theme.of(context).textTheme.bodyText1),
+                                      Text('Times:', style: Theme.of(context).textTheme.bodyText1),
                                       ConditionalBuilder(
                                           condition: state is! AppGetBookingTimeLoadingState && state is! AppCreateBookingTimeLoadingState,
                                           builder: (context) {
@@ -631,13 +631,10 @@ class SchoolScreen extends StatelessWidget {
                                                 separatorBuilder:
                                                     (context, index) =>
                                                         myDivider(),
-                                                itemCount: AppCubit.get(context)
-                                                    .startTimes
-                                                    .length);
+                                                itemCount: AppCubit.get(context).startTimes.length);
                                           },
                                           fallback: (context) => Center(
-                                                  child:
-                                                      CircularProgressIndicator(
+                                                  child: CircularProgressIndicator(
                                                 color: defaultColor,
                                               ))),
                                       const SizedBox(
@@ -650,42 +647,39 @@ class SchoolScreen extends StatelessWidget {
                                             builder: (context) {
                                               return Container(
                                                 width: double.infinity,
-                                                color: const Color(0xff388E3C),
+                                                color: defaultColor,
                                                 child: defaultTextButton(
                                                   color: Colors.white,
-                                                  backGroundColor:
-                                                      const Color(0xff388E3C),
+                                                  backGroundColor: defaultColor,
                                                   function: () {
-                                                    if (count > 3) {
-                                                      showToast(
-                                                          text:
-                                                              "You a have limit of 3 hours",
-                                                          state: ToastStates
-                                                              .WARNING);
-                                                    } else {
-                                                      bool flag = false;
-                                                      for (int i = 0;
-                                                          i <
-                                                              AppCubit.get(
-                                                                      context)
-                                                                  .booked
-                                                                  .length;
-                                                          i++) {
-                                                        if (uId ==
-                                                                AppCubit.get(
-                                                                            context)
-                                                                        .booked[i]
-                                                                    [
-                                                                    "userId"] &&
-                                                            !AppCubit.get(
-                                                                        context)
-                                                                    .booked[i]
-                                                                ["isDone"]) {
+                                                    choose.sort();
+                                                    bool isConsequent = true;
+                                                    for(int j=0;j<choose.length;j++){
+                                                      if(j!=choose.length-1){
+                                                        if(cubit.startTimes[choose[j]]["to"]!=cubit.startTimes[choose[j+1]]["from"]){
                                                           showToast(
-                                                              text:
-                                                                  "You already reserved in this school on ${dateController.text}",
-                                                              state: ToastStates
-                                                                  .WARNING);
+                                                              text: "The reservations are not consequent",
+                                                              state: ToastStates.ERROR
+                                                          );
+                                                          isConsequent = false;
+                                                          break;
+                                                        }
+                                                      }
+                                                    }
+                                                    if(isConsequent) {
+                                                      if (count > 3) {
+                                                        showToast(
+                                                          text: "You a have limit of 3 hours",
+                                                        state: ToastStates.WARNING
+                                                        );
+                                                      } else {
+                                                        bool flag = false;
+                                                        for (int i = 0; i < cubit.booked.length; i++) {
+                                                        if (uId == cubit.booked[i]["userId"] && !cubit.booked[i]["isDone"]) {
+                                                          showToast(
+                                                              text: "You already reserved in this school on ${dateController.text}",
+                                                              state: ToastStates.WARNING
+                                                          );
                                                           flag = true;
                                                           break;
                                                         }
@@ -696,14 +690,16 @@ class SchoolScreen extends StatelessWidget {
                                                             PaymentScreen(
                                                                 choose,
                                                                 school,
-                                                                dateController
-                                                                    .text,
+                                                                dateController.text,
                                                                 currentField,
                                                                 count,
-                                                                fromTime));
+                                                                fromTime
+                                                            )
+                                                        );
                                                       }
                                                     }
-                                                  },
+                                                  }
+                                                },
                                                   text: 'YALA',
                                                 ),
                                               );

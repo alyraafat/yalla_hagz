@@ -23,6 +23,12 @@ class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
+    cubit.getBookingTimeModelsUsingGet(
+        cityId: school["cityId"],
+        schoolId: school["schoolId"],
+        date: date,
+        field: field.toString()
+    );
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state){},
       builder: (context,state){
@@ -303,8 +309,8 @@ class PaymentScreen extends StatelessWidget {
                             if (cubit.userModel["balance"] >= -200) {
                               bool wasBooked = false;
                               for (int z = 0; z < fromTime.length; z++) {
-                                for (int m = 0; m < cubit.booked.length; m++) {
-                                  if (cubit.booked[m]["isBooked"] && cubit.booked[m]["from"] == fromTime[z]) {
+                                for (int m = 0; m < cubit.booked2.length; m++) {
+                                  if (cubit.booked2[m]["isBooked"] && cubit.booked2[m]["from"] == fromTime[z]) {
                                     showToast(
                                         text:
                                         "Someone has just booked from: ${fromTime[z]} to: ${cubit.booked[m]["to"]}",
@@ -321,55 +327,55 @@ class PaymentScreen extends StatelessWidget {
                                 for (int j = 1; j <= 6; j++) {
                                   randomNumber += "${random.nextInt(10)}";
                                 }
-                                int from = 10000000000000;
-                                int to = -1000000000000;
-                                choose.sort();
-                                bool isConsequent = true;
-                                for(int j=0;j<choose.length;j++){
-                                  if(j!=choose.length-1){
-                                    if(cubit.startTimes[choose[j]]["to"]!=cubit.startTimes[choose[j+1]]["from"]){
-                                      showToast(
-                                          text: "The reservations are not consequent",
-                                          state: ToastStates.ERROR
-                                      );
-                                      isConsequent = false;
-                                      break;
-                                    }
-                                  }
+                                // int from = 10000000000000;
+                                // int to = -1000000000000;
+                                // choose.sort();
+                                // bool isConsequent = true;
+                                // for(int j=0;j<choose.length;j++){
+                                //   if(j!=choose.length-1){
+                                //     if(cubit.startTimes[choose[j]]["to"]!=cubit.startTimes[choose[j+1]]["from"]){
+                                //       showToast(
+                                //           text: "The reservations are not consequent",
+                                //           state: ToastStates.ERROR
+                                //       );
+                                //       isConsequent = false;
+                                //       break;
+                                //     }
+                                //   }
+                                // }
+                                // if(isConsequent){
+                                bool isDeposit = false;
+                                if(count>=school["policy"]){
+                                  isDeposit = true;
+                                }else{
+                                  isDeposit = false;
                                 }
-                                if(isConsequent){
-                                  bool isDeposit = false;
-                                  if(count>=school["policy"]){
-                                    isDeposit = true;
-                                  }else{
-                                    isDeposit = false;
+                                for (int i = 0; i < choose.length; i++) {
+                                  // if (cubit.startTimes[choose[i]]["from"] < from) {
+                                  //   from = cubit.startTimes[choose[i]]["from"];
+                                  // }
+                                  // if ((cubit.startTimes[choose[i]]["to"]==0?24:cubit.startTimes[choose[i]]["to"]) > to) {
+                                  //   to = cubit.startTimes[choose[i]]["to"];
+                                  // }
+                                  cubit.updateBookingTimeModel(
+                                      cityId: cubit.currentCity,
+                                      schoolId: school["schoolId"],
+                                      date: date,
+                                      field: field.toString(),
+                                      from: cubit.startTimes[choose[i]]["from"].toString(),
+                                      data: {
+                                        "isBooked": true,
+                                        "userId": uId,
+                                        "userName": cubit.userModel["name"],
+                                        "userPhone": cubit.userModel["phone"],
+                                        "randomNumber": randomNumber,
+                                        "isDeposit":isDeposit,
+                                        "depositPaid":false,
+                                        "bookingDate":DateFormat("yyyy-MM-dd").format(DateTime.now()),
+                                        // "pay": choose.length*school["fees"]-(cubit.isWallet? fromWallet:0)
+                                      }
+                                    );
                                   }
-                                  for (int i = 0; i < choose.length; i++) {
-                                    // if (cubit.startTimes[choose[i]]["from"] < from) {
-                                    //   from = cubit.startTimes[choose[i]]["from"];
-                                    // }
-                                    // if ((cubit.startTimes[choose[i]]["to"]==0?24:cubit.startTimes[choose[i]]["to"]) > to) {
-                                    //   to = cubit.startTimes[choose[i]]["to"];
-                                    // }
-                                    cubit.updateBookingTimeModel(
-                                        cityId: cubit.currentCity,
-                                        schoolId: school["schoolId"],
-                                        date: date,
-                                        field: field.toString(),
-                                        from: cubit.startTimes[choose[i]]["from"].toString(),
-                                        data: {
-                                          "isBooked": true,
-                                          "userId": uId,
-                                          "userName": cubit.userModel["name"],
-                                          "userPhone": cubit.userModel["phone"],
-                                          "randomNumber": randomNumber,
-                                          "isDeposit":isDeposit,
-                                          "depositPaid":false,
-                                          "bookingDate":DateFormat("yyyy-MM-dd").format(DateTime.now()),
-                                          // "pay": choose.length*school["fees"]-(cubit.isWallet? fromWallet:0)
-                                        }
-                                      );
-                                    }
                                     // cubit.userModel["mala3eb"].add({
                                     //   "schoolId": school["schoolId"],
                                     //   "from": from,
@@ -399,15 +405,15 @@ class PaymentScreen extends StatelessWidget {
                                     //   "balance": cubit.userModel["balance"],
                                     //   "count": cubit.userModel["count"]
                                     // });
-                                    if (count > school["policy"]) {
-                                      showToast(
-                                          text: "You have successfully booked but you need to pay a deposit in the next 24 hours,otherwise your 7agz will be cancelled",
-                                          state: ToastStates.WARNING
-                                      );
-                                    }
+                                  if (count > school["policy"]) {
+                                    showToast(
+                                        text: "In case of successful booking, you need to pay a deposit in the next 24 hours,otherwise your 7agz will be cancelled",
+                                        state: ToastStates.WARNING
+                                    );
+                                  }
                                   cubit.daySelectedFalse();
                                   navigateAndFinish(context, CircularProgressIndicatorScreen(school,date,field,randomNumber,fromWallet,fromTime));
-                                }
+                                //}
                                 }
                             }
                             else {
