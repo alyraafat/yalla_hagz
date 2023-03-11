@@ -1,16 +1,3 @@
 # yalla_hagz
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+It is a mobile app where the user can book football courts online and the bookings appear in his profile screen. Moreover, the user can register for tournaments online and win prizes and gain more points which can be used to decrease the booking price or to redeem codes to gain money which is added to their wallet (Done by: Flutter and Firebase)
